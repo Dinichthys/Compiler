@@ -1,0 +1,46 @@
+{ TYPE: DOUBLE 
+	{ MAIN: main 
+		{}
+		{ OP: ; 
+			{ TYPE: DOUBLE 
+				{ OP: = 
+					{ OP: SUB 
+						{ NUM: 3.000 
+						}
+						{ NUM: 2.000 
+						}
+					}
+					{ VAR: 0 
+					}
+				}
+				{}
+			}
+			{ OP: ; 
+				{ USERFUNC: кукушка 
+					{ VAR: 0 
+					}
+					{}
+				}
+				{}
+			}
+		}
+	}
+	{ TYPE: DOUBLE 
+		{ USERFUNC: кукушка 
+			{ TYPE: DOUBLE 
+				{ VAR: 0 
+				}
+				{}
+			}
+			{ OP: ; 
+				{ OP: OUT 
+					{ VAR: 0 
+					}
+					{}
+				}
+				{}
+			}
+		}
+		{}
+	}
+}

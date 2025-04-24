@@ -1,0 +1,22 @@
+{ TYPE: DOUBLE 
+	{ MAIN: main 
+		{}
+		{ OP: ; 
+			{}
+			{ OP: ; 
+			}
+		}
+	}
+	{ TYPE: DOUBLE 
+		{ USERFUNC: кукушка 
+			{ TYPE: DOUBLE 
+				{ VAR: 0 
+				}
+				{}
+			}
+			{ OP: ; 
+			}
+		}
+		{}
+	}
+}
