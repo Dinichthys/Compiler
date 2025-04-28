@@ -34,6 +34,7 @@ static const char* const kLogNodeWord     = "log";
 static const char* const kForNodeWord     = "for";
 static const char* const kWhileNodeWord   = "while";
 static const char* const kIfNodeWord      = "if";
+static const char* const kElseNodeWord    = "else";
 
 static const char* const kAssignNodeWord  = "=";
 static const char* const kParOpenNodeWord  = "(";
@@ -49,6 +50,13 @@ static const char* const kOutNodeWord = "OUT";
 static const char* const kReturnNodeWord = "RET";
 
 static const char* const kDoubleNodeWord = "DOUBLE";
+
+static const char* const kMoreNodeWord      = "More";
+static const char* const kMoreOrEqNodeWord  = "MoreOrEq";
+static const char* const kLessNodeWord      = "Less";
+static const char* const kLessOrEqNodeWord  = "LessOrEq";
+static const char* const kEqualNodeWord     = "Equal";
+static const char* const kNEqualNodeWord    = "Not Equal";
 
 enum LangError WriteDataBase (const node_t* const root, FILE* const output_file);
 

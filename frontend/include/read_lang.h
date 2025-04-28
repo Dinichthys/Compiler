@@ -10,7 +10,7 @@
 static const size_t kProgramLen      = 10000;
 static const size_t kVarMaxNum       = 200;
 static const size_t kVarTablesMaxNum = 100;
-static const size_t kTokenNumber     = 33;
+static const size_t kTokenNumber     = 34;
 
 static const char kCommentSymbol = '#';
 static const char kEOF           = '\0';
@@ -42,6 +42,14 @@ __attribute_maybe_unused__ static const char* kNormalTextTerminal = "\033[0m";
         {                                               \
             return kDoneLang;                           \
         }
+
+#define TOKEN_OP_PATTERN {.type = TOKEN_TYPE, {.operation = tokens [*token_index].value.operation}, .parent = NULL, .left = NULL, .right = NULL}
+
+#define CHECK_NULL_PTR(root)                \
+    if (root == NULL)                       \
+    {                                       \
+        return SyntaxError (TOKEN_POSITION);\
+    }
 
 //------------------------------------------------------------------------------------------------------------
 
@@ -137,28 +145,29 @@ const token_pattern_t kTokenTypes [kTokenNumber] =
     [14] = {.token = {.type = kCycle,    {.operation = kWhile}, .line_pos = 0, .number_of_line = 0},                   .str_token = "чалиться"       },
 
     [15] = {.token = {.type = kCond,     {.operation = kIf}, .line_pos = 0, .number_of_line = 0},                      .str_token = "УДО"            },
+    [16] = {.token = {.type = kCond,     {.operation = kElse}, .line_pos = 0, .number_of_line = 0},                    .str_token = "дал_на_лапу"    },
 
-    [16] = {.token = {.type = kSym,      {.operation = kAssign}, .line_pos = 0, .number_of_line = 0},                  .str_token = "отжал"          },
-    [17] = {.token = {.type = kSym,      {.operation = kParenthesesBracketOpen}, .line_pos = 0, .number_of_line = 0},  .str_token = "заковали"       },
-    [18] = {.token = {.type = kSym,      {.operation = kParenthesesBracketClose}, .line_pos = 0, .number_of_line = 0}, .str_token = "в_браслеты"     },
-    [19] = {.token = {.type = kSym,      {.operation = kCurlyBracketOpen}, .line_pos = 0, .number_of_line = 0},        .str_token = "век"            },
-    [20] = {.token = {.type = kSym,      {.operation = kCurlyBracketClose}, .line_pos = 0, .number_of_line = 0},       .str_token = "воли_не_видать" },
-    [21] = {.token = {.type = kSym,      {.operation = kCommandEnd}, .line_pos = 0, .number_of_line = 0},              .str_token = "откинуться"     },
-    [22] = {.token = {.type = kSym,      {.operation = kComma}, .line_pos = 0, .number_of_line = 0},                   .str_token = "перо_под_ребро" },
+    [17] = {.token = {.type = kSym,      {.operation = kAssign}, .line_pos = 0, .number_of_line = 0},                  .str_token = "отжал"          },
+    [18] = {.token = {.type = kSym,      {.operation = kParenthesesBracketOpen}, .line_pos = 0, .number_of_line = 0},  .str_token = "заковали"       },
+    [19] = {.token = {.type = kSym,      {.operation = kParenthesesBracketClose}, .line_pos = 0, .number_of_line = 0}, .str_token = "в_браслеты"     },
+    [20] = {.token = {.type = kSym,      {.operation = kCurlyBracketOpen}, .line_pos = 0, .number_of_line = 0},        .str_token = "век"            },
+    [21] = {.token = {.type = kSym,      {.operation = kCurlyBracketClose}, .line_pos = 0, .number_of_line = 0},       .str_token = "воли_не_видать" },
+    [22] = {.token = {.type = kSym,      {.operation = kCommandEnd}, .line_pos = 0, .number_of_line = 0},              .str_token = "откинуться"     },
+    [23] = {.token = {.type = kSym,      {.operation = kComma}, .line_pos = 0, .number_of_line = 0},                   .str_token = "перо_под_ребро" },
 
-    [23] = {.token = {.type = kFunc,     {.operation = kIn}, .line_pos = 0, .number_of_line = 0},                      .str_token = "проставиться"   },
-    [24] = {.token = {.type = kFunc,     {.operation = kOut}, .line_pos = 0, .number_of_line = 0},                     .str_token = "покукарекай"    },
+    [24] = {.token = {.type = kFunc,     {.operation = kIn}, .line_pos = 0, .number_of_line = 0},                      .str_token = "проставиться"   },
+    [25] = {.token = {.type = kFunc,     {.operation = kOut}, .line_pos = 0, .number_of_line = 0},                     .str_token = "покукарекай"    },
 
-    [25] = {.token = {.type = kFunc,     {.operation = kReturn}, .line_pos = 0, .number_of_line = 0},                  .str_token = "АТАС_ШМОН"      },
+    [26] = {.token = {.type = kFunc,     {.operation = kReturn}, .line_pos = 0, .number_of_line = 0},                  .str_token = "АТАС_ШМОН"      },
 
-    [26] = {.token = {.type = kType,     {.operation = kDouble}, .line_pos = 0, .number_of_line = 0},                  .str_token = "фраер"          },
+    [27] = {.token = {.type = kType,     {.operation = kDouble}, .line_pos = 0, .number_of_line = 0},                  .str_token = "фраер"          },
 
-    [27] = {.token = {.type = kComp,     {.operation = kMore}, .line_pos = 0, .number_of_line = 0},                    .str_token = "блатнее"        },
-    [28] = {.token = {.type = kComp,     {.operation = kMoreOrEq}, .line_pos = 0, .number_of_line = 0},                .str_token = "больше_или_равно"},
-    [29] = {.token = {.type = kComp,     {.operation = kLess}, .line_pos = 0, .number_of_line = 0},                    .str_token = "опущенный"       },
-    [30] = {.token = {.type = kComp,     {.operation = kLessOrEq}, .line_pos = 0, .number_of_line = 0},                .str_token = "меньше_или_равно"},
-    [31] = {.token = {.type = kComp,     {.operation = kEqual}, .line_pos = 0, .number_of_line = 0},                   .str_token = "ровный_поц"     },
-    [32] = {.token = {.type = kComp,     {.operation = kNEqual}, .line_pos = 0, .number_of_line = 0},                  .str_token = "не_ровный_поц"  },
+    [28] = {.token = {.type = kComp,     {.operation = kMore}, .line_pos = 0, .number_of_line = 0},                    .str_token = "блатнее"        },
+    [29] = {.token = {.type = kComp,     {.operation = kMoreOrEq}, .line_pos = 0, .number_of_line = 0},                .str_token = "больше_или_равно"},
+    [30] = {.token = {.type = kComp,     {.operation = kLess}, .line_pos = 0, .number_of_line = 0},                    .str_token = "опущенный"       },
+    [31] = {.token = {.type = kComp,     {.operation = kLessOrEq}, .line_pos = 0, .number_of_line = 0},                .str_token = "меньше_или_равно"},
+    [32] = {.token = {.type = kComp,     {.operation = kEqual}, .line_pos = 0, .number_of_line = 0},                   .str_token = "ровный_поц"     },
+    [33] = {.token = {.type = kComp,     {.operation = kNEqual}, .line_pos = 0, .number_of_line = 0},                  .str_token = "не_ровный_поц"  },
 };
 
 #undef TOKEN_PATTERN

@@ -14,6 +14,7 @@ static const char* const kColorNodeArithm   = "#A0A0A0";
 static const char* const kColorNodeFunc     = "#A0A0F0";
 static const char* const kColorNodeCycle    = "#A0D0F0";
 static const char* const kColorNodeCond     = "#A0D0B0";
+static const char* const kColorNodeComp     = "#14A2B6";
 static const char* const kColorNodeSym      = "#D0D0D0";
 static const char* const kColorNodeType     = "#C0A0C0";
 static const char* const kColorNodeUserFunc = "#80F080";

@@ -42,6 +42,9 @@ enum LangError
     kMissValue                  = 26,
 
     kInvalidModeTypeLangError   = 27,
+
+    kInvalidPatternOfIf         = 28,
+    kInvalidPatternOfCycle      = 29,
 };
 
 enum NodeType
@@ -89,29 +92,33 @@ enum OpType
 
     kFor   = 13,
     kWhile = 14,
-    kIf    = 15,
 
-    kAssign                  = 16,
-    kParenthesesBracketOpen  = 17,
-    kParenthesesBracketClose = 18,
-    kCurlyBracketOpen        = 19,
-    kCurlyBracketClose       = 20,
-    kCommandEnd              = 21,
-    kComma                   = 22,
+    kIf   = 15,
+    kElse = 16,
 
-    kIn  = 23,
-    kOut = 24,
+    kAssign                  = 17,
+    kParenthesesBracketOpen  = 18,
+    kParenthesesBracketClose = 19,
+    kCurlyBracketOpen        = 20,
+    kCurlyBracketClose       = 21,
+    kCommandEnd              = 22,
+    kComma                   = 23,
 
-    kReturn = 25,
+    kIn  = 24,
+    kOut = 25,
 
-    kDouble = 26,
+    kReturn = 26,
 
-    kMore     = 27,
-    kMoreOrEq = 28,
-    kLess     = 29,
-    kLessOrEq = 30,
-    kEqual    = 31,
-    kNEqual   = 32,
+    kDouble = 27,
+
+    kMore     = 28,
+    kMoreOrEq = 29,
+    kLess     = 30,
+    kLessOrEq = 31,
+    kEqual    = 32,
+    kNEqual   = 33,
+
+    kUndefinedNode = 34,
 
     kInvalidFunc = -1,
 };
@@ -122,9 +129,9 @@ typedef struct node
 
     union value
     {
-        double      number;
-        long long   variable;
-        char        func_name [kWordLen];
+        double number;
+        char   variable [kWordLen];
+        char   func_name [kWordLen];
         enum OpType operation;
     } value;
 

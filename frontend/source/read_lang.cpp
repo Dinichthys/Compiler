@@ -34,6 +34,12 @@ static enum LangError GetFunctionCall (const token_t* const tokens, size_t* cons
                                        list_t* const list, variables_t* const variables);
 static enum LangError GetAssign       (const token_t* const tokens, size_t* const token_index, node_t** const node,
                                        list_t* const list, variables_t* const variables);
+static enum LangError GetCycle        (const token_t* const tokens, size_t* const token_index, node_t** const node,
+                                       list_t* const list, variables_t* const variables);
+static enum LangError GetIf           (const token_t* const tokens, size_t* const token_index, node_t** const node,
+                                       list_t* const list, variables_t* const variables);
+static enum LangError GetCond         (const token_t* const tokens, size_t* const token_index, node_t** const node,
+                                       list_t* const list, variables_t* const variables);
 static enum LangError GetAddSub       (const token_t* const tokens, size_t* const token_index, node_t** const node,
                                        list_t* const list, variables_t* const variables);
 static enum LangError GetMulDiv       (const token_t* const tokens, size_t* const token_index, node_t** const node,
@@ -85,8 +91,12 @@ static enum LangError ReadDataBase (const char* const input_file_name, node_t** 
     size_t token_index = 0;
 
     result = GetProgram (tokens, &token_index, root);
-
     FREE_AND_NULL (tokens);
+    if (result != kDoneLang)
+    {
+        return result;
+    }
+    ConnectTree (*root);
 
     return result;
 }
@@ -146,6 +156,8 @@ static enum LangError ParseTokens (token_t** const tokens, const char* const inp
             continue;
         }
 
+        offset += SkipSpace (input_buf + offset, &counter_nl, &line_pos);
+
         if ((isdigit (input_buf [offset])) || (input_buf [offset] == '-'))
         {
             double number = 0;
@@ -163,7 +175,7 @@ static enum LangError ParseTokens (token_t** const tokens, const char* const inp
             continue;
         }
 
-        LOG (kDebug, "Run time symbol = {%c}\n", input_buf [offset]);
+        LOG (kDebug, "Current symbol = {%c}\n", input_buf [offset]);
 
         char word [kWordLen] = "";
         sscanf (input_buf + offset, "%s", word);
@@ -279,11 +291,12 @@ static enum LangError GetProgram (const token_t* const tokens, size_t* const tok
 
         if (*root == NULL)
         {
-            *root = AddNode ({.type = TOKEN_TYPE, {.operation = tokens [*token_index].value.operation}, .parent = NULL, .left = NULL, .right = NULL});
+            *root = AddNode (TOKEN_OP_PATTERN);
+            CHECK_NULL_PTR (*root);
         }
         else
         {
-            **root = {.type = TOKEN_TYPE, {.operation = tokens [*token_index].value.operation}, .parent = NULL, .left = NULL, .right = NULL};
+            **root = TOKEN_OP_PATTERN;
         }
         SHIFT_TOKEN;
 
@@ -299,6 +312,7 @@ static enum LangError GetProgram (const token_t* const tokens, size_t* const tok
                 ListDtor (&list);
                 return result;
             }
+            ListPopFront (&list, &variables);
             continue;
         }
 
@@ -419,9 +433,11 @@ static enum LangError GetArgs (const token_t* const tokens, size_t* const token_
         root->type = TOKEN_TYPE;
         root->value.operation = tokens [*token_index].value.operation;
         SHIFT_TOKEN;
-        root->right = AddNode ({.type = kVar, {.variable = (long long) variables->var_num}, .parent = NULL, .left = NULL, .right = NULL});
+        root->right = AddNode ({.type = kVar, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL});
+        CHECK_NULL_PTR (root->right);
         strcpy (variables->var_table [variables->var_num++], tokens [*token_index].value.variable);
-        root = root->left = AddNode ({.type = kNewNode, .parent = root, .left = NULL, .right = NULL});
+        strcpy (root->right->value.variable, tokens [*token_index].value.variable);
+        root = root->left = AddNode ({.type = kNewNode, {.operation = kUndefinedNode}, .parent = root, .left = NULL, .right = NULL});
         SHIFT_TOKEN;
         if (!(CHECK_TOKEN_OP (kSym, kComma)) && !(CHECK_TOKEN_OP (kSym, kParenthesesBracketClose)))
         {
@@ -468,15 +484,26 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
             REMOVE_TOKEN;
             result = GetFunctionCall (tokens, token_index, &root, list, variables);
         }
-        else
+        else if (CHECK_TOKEN_OP (kSym, kAssign))
         {
             REMOVE_TOKEN;
             result = GetAssign (tokens, token_index, &root, list, variables);
+            REMOVE_TOKEN;
+        }
+        else
+        {
+            REMOVE_TOKEN
+            if (root != NULL)
+            {
+                TreeDtor (root);
+            }
+            return SyntaxError (TOKEN_POSITION);
         }
     }
     else if (TOKEN_TYPE == kType)
     {
-        root = AddNode ({.type = TOKEN_TYPE, {.operation = tokens [*token_index].value.operation}, .parent = NULL, .left = NULL, .right = NULL});
+        root = AddNode (TOKEN_OP_PATTERN);
+        CHECK_NULL_PTR (root);
         SHIFT_TOKEN;
         strcpy (variables->var_table [variables->var_num++], tokens [*token_index].value.variable);
         result = GetAssign (tokens, token_index, &(root->right), list, variables);
@@ -486,28 +513,62 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
     {
         GetNumFunc (tokens, token_index, &root, list, variables);
     }
+    else if (TOKEN_TYPE == kCycle)
+    {
+        root = AddNode (TOKEN_OP_PATTERN);
+        CHECK_NULL_PTR (root);
+        SHIFT_TOKEN;
+        ListPushFront (list, variables);
+        variables_t new_variables = {.var_num = 0, .var_table = {}};
+        result = GetCycle (tokens, token_index, &(root), list, &new_variables);
+        ListPopFront (list, &new_variables);
+    }
+    else if (TOKEN_TYPE == kCond)
+    {
+        root = AddNode (TOKEN_OP_PATTERN);
+        CHECK_NULL_PTR (root);
+        SHIFT_TOKEN;
+        ListPushFront (list, variables);
+        variables_t new_variables = {.var_num = 0, .var_table = {}};
+        result = GetIf (tokens, token_index, &(root), list, &new_variables);
+        CHECK_RESULT;
+        ListPopFront (list, &new_variables);
+    }
     else
     {
-        result = GetAssign (tokens, token_index, &root, list, variables);
-        REMOVE_TOKEN;
+        if (root != NULL)
+        {
+            TreeDtor (root);
+        }
+        return SyntaxError (TOKEN_POSITION);
+    }
+        fprintf (stderr, "rofl in command\n");
+    {
+        // result = GetAssign (tokens, token_index, &root, list, variables);
+        // REMOVE_TOKEN;
     }
     if (result != kDoneLang)
     {
-        TreeDtor (root);
+        if (root != NULL)
+        {
+            TreeDtor (root);
+        }
         return result;
     }
 
     if (*node == NULL)
     {
-        *node = AddNode ({.type = TOKEN_TYPE, {.operation = kCommandEnd}, .parent = NULL, .left = NULL, .right = NULL});
+        *node = AddNode ({.type = TOKEN_TYPE, {.operation = kCommandEnd}, .parent = NULL, .left = NULL, .right = root});
+        CHECK_NULL_PTR (*node);
     }
     else
     {
-        (**node) = {.type = TOKEN_TYPE, {.operation = kCommandEnd},  .parent = NULL, .left = NULL, .right = NULL};
+        (**node) = {.type = TOKEN_TYPE, {.operation = kCommandEnd},  .parent = NULL, .left = NULL, .right = root};
     }
 
     if (!(CHECK_TOKEN_OP (kSym, kCommandEnd)))
     {
+        fprintf (stderr, "rofl rofl rofl\n");
         SyntaxError (TOKEN_POSITION);
         return kInvalidCommand;
     }
@@ -557,6 +618,7 @@ static enum LangError GetFunctionCall (const token_t* const tokens, size_t* cons
             return kMissCommaFuncCall;
         }
         SHIFT_TOKEN;
+        first_arg = false;
 
         if (*root == NULL)
         {
@@ -582,14 +644,18 @@ static enum LangError GetFunctionCall (const token_t* const tokens, size_t* cons
                 continue;
             }
             REMOVE_TOKEN;
-            **root = {.type = TOKEN_TYPE,
-                      {.variable = FindVarInTable (tokens [*token_index].value.variable, *list, *variables)},  .parent = NULL, .left = NULL, .right = NULL};
-            if ((*root)->value.variable == LLONG_MAX)
+
+            long long index = FindVarInTable (tokens [*token_index].value.variable, *list, *variables);
+
+            **root = {.type = TOKEN_TYPE, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL};
+            if (index == LLONG_MAX)
             {
                 return kUndefinedVariable;
             }
+            strcpy ((*root)->value.variable, tokens [*token_index].value.variable);
             SHIFT_TOKEN;
         }
+        root = &((*root)->right);
     }
     SHIFT_TOKEN;
 
@@ -628,18 +694,24 @@ static enum LangError GetAssign (const token_t* const tokens, size_t* const toke
     if (*node == NULL)
     {
         *node = ADDNODE_SYM (kAssign);
+        CHECK_NULL_PTR (*node);
     }
 
     **node = {.type = kSym, {.operation = kAssign}, .parent = NULL, .left = NULL, .right = NULL};
 
-    (*node)->left = AddNode ({.type = tokens [*token_index].type,
-                              {.variable = FindVarInTable (tokens [*token_index].value.variable, *list, *variables)},
+    long long index = FindVarInTable (tokens [*token_index].value.variable, *list, *variables);
+
+    (*node)->left = AddNode ({.type = tokens [*token_index].type, {.operation = kUndefinedNode},
                               .parent = NULL, .left = NULL, .right = NULL});
-    if ((*node)->left->value.variable == LLONG_MAX)
+    CHECK_NULL_PTR ((*node)->left);
+    if (index == LLONG_MAX)
     {
         SyntaxError (TOKEN_POSITION);
         return kUndefinedVariable;
     }
+
+    strcpy ((*node)->left->value.variable, tokens [*token_index].value.variable);
+
     SHIFT_TOKEN;
     SHIFT_TOKEN;
 
@@ -648,6 +720,226 @@ static enum LangError GetAssign (const token_t* const tokens, size_t* const toke
     SHIFT_TOKEN;
 
     ConnectTree (*node);
+
+    return result;
+}
+
+static enum LangError GetCycle (const token_t* const tokens, size_t* const token_index, node_t** const node,
+                                list_t* const list, variables_t* const variables)
+{
+    ASSERT (token_index != NULL, "Invalid argument Index of the current token = %p\n", token_index);
+    ASSERT (tokens      != NULL, "Invalid argument tokens = %p\n",      tokens);
+    ASSERT (node        != NULL, "Invalid argument node = %p\n",        node);
+    ASSERT (list        != NULL, "Invalid argument node = %p\n",        list);
+    ASSERT (variables   != NULL, "Invalid argument variables = %p\n",   variables);
+
+    enum LangError result = kDoneLang;
+
+    LOG (kDebug, "Tokens' array      = %p\n"
+                 "Index of token     = %lu\n"
+                 "Node*              = %p\n"
+                 "Current token type = %d\n",
+                 tokens, *token_index, *node,
+                 tokens [*token_index].type);
+
+    node_t** root = &((*node)->right);
+
+    if (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketOpen)))
+    {
+        SyntaxError (TOKEN_POSITION);
+        return kInvalidPatternOfCycle;
+    }
+    SHIFT_TOKEN;
+
+    result = GetCond (tokens, token_index, root, list, variables);
+
+    if (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketClose)))
+    {
+        SyntaxError (TOKEN_POSITION);
+        return kInvalidPatternOfCycle;
+    }
+    SHIFT_TOKEN;
+
+    if (!(CHECK_TOKEN_OP (kSym, kCurlyBracketOpen)))
+    {
+        SyntaxError (TOKEN_POSITION);
+        return kInvalidPatternOfCycle;
+    }
+    SHIFT_TOKEN;
+
+    if ((*node)->left == NULL)
+    {
+        (*node)->left = TreeCtor ();
+    }
+
+    root = &((*node)->left);
+
+    while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
+    {
+        result = GetCommand (tokens, token_index, root, list, variables);
+        CHECK_RESULT;
+        root = &((*root)->left);
+    }
+    SHIFT_TOKEN;
+
+    return result;
+}
+
+static enum LangError GetIf (const token_t* const tokens, size_t* const token_index, node_t** const node,
+                             list_t* const list, variables_t* const variables)
+{
+    ASSERT (token_index != NULL, "Invalid argument Index of the current token = %p\n", token_index);
+    ASSERT (tokens      != NULL, "Invalid argument tokens = %p\n",      tokens);
+    ASSERT (node        != NULL, "Invalid argument node = %p\n",        node);
+    ASSERT (list        != NULL, "Invalid argument node = %p\n",        list);
+    ASSERT (variables   != NULL, "Invalid argument variables = %p\n",   variables);
+
+    enum LangError result = kDoneLang;
+
+    LOG (kDebug, "Tokens' array      = %p\n"
+                 "Index of token     = %lu\n"
+                 "Node*              = %p\n"
+                 "Current token type = %d\n",
+                 tokens, *token_index, *node,
+                 tokens [*token_index].type);
+
+    if (*node == NULL)
+    {
+        REMOVE_TOKEN;
+        *node = AddNode (TOKEN_OP_PATTERN);
+        SHIFT_TOKEN;
+    }
+    else
+    {
+        REMOVE_TOKEN;
+        **node = TOKEN_OP_PATTERN;
+        SHIFT_TOKEN;
+    }
+
+    node_t** root = &((*node)->right);
+
+    if (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketOpen)))
+    {
+        SyntaxError (TOKEN_POSITION);
+        return kInvalidPatternOfIf;
+    }
+    SHIFT_TOKEN;
+
+    result = GetCond (tokens, token_index, root, list, variables);
+    if (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketClose)))
+    {
+        SyntaxError (TOKEN_POSITION);
+        return kInvalidPatternOfIf;
+    }
+    SHIFT_TOKEN;
+
+    if (!(CHECK_TOKEN_OP (kSym, kCurlyBracketOpen)))
+    {
+        SyntaxError (TOKEN_POSITION);
+        return kInvalidPatternOfIf;
+    }
+    SHIFT_TOKEN;
+
+    if ((*node)->left == NULL)
+    {
+        (*node)->left = AddNode ({.type = kSym, {.operation = kElse}, .parent = NULL, .left = NULL, .right = NULL});
+    }
+    else
+    {
+        *((*node)->left) = {.type = kSym, {.operation = kElse}, .parent = NULL, .left = NULL, .right = NULL};
+    }
+
+    if ((*node)->left->left == NULL)
+    {
+        (*node)->left->left = TreeCtor ();
+    }
+
+    if ((*node)->left->right == NULL)
+    {
+        (*node)->left->right = TreeCtor ();
+    }
+
+    root = &((*node)->left->right);
+
+    int i = 0;
+    while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
+    {
+        result = GetCommand (tokens, token_index, root, list, variables);
+    fprintf (stderr, "roflim\n");
+        CHECK_RESULT;
+        root = &((*root)->left);
+        i++;
+        fprintf (stderr, "rofl %d\n", i);
+    }
+    fprintf (stderr, "outside rofl %d\n", i);
+    SHIFT_TOKEN;
+
+    if (!(CHECK_TOKEN_OP (kCond, kElse)))
+    {
+        TreeDtor ((*node)->left->left);
+        (*node)->left->left = NULL;
+        return result;
+    }
+    SHIFT_TOKEN;
+
+    root = &((*node)->left->left);
+
+    if (!(CHECK_TOKEN_OP (kSym, kCurlyBracketOpen)))
+    {
+        SyntaxError (TOKEN_POSITION);
+        return kInvalidPatternOfIf;
+    }
+    SHIFT_TOKEN;
+
+    while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
+    {
+        result = GetCommand (tokens, token_index, root, list, variables);
+        CHECK_RESULT;
+        root = &((*root)->left);
+    }
+    SHIFT_TOKEN;
+
+    return result;
+}
+
+static enum LangError GetCond (const token_t* const tokens, size_t* const token_index, node_t** const node,
+                               list_t* const list, variables_t* const variables)
+{
+    ASSERT (token_index != NULL, "Invalid argument Index of the current token = %p\n", token_index);
+    ASSERT (tokens      != NULL, "Invalid argument tokens = %p\n",      tokens);
+    ASSERT (node        != NULL, "Invalid argument node = %p\n",        node);
+    ASSERT (list        != NULL, "Invalid argument node = %p\n",        list);
+    ASSERT (variables   != NULL, "Invalid argument variables = %p\n",   variables);
+
+    enum LangError result = kDoneLang;
+
+    LOG (kDebug, "Tokens' array      = %p\n"
+                 "Index of token     = %lu\n"
+                 "Node*              = %p\n"
+                 "Current token type = %d\n",
+                 tokens, *token_index, *node,
+                 tokens [*token_index].type);
+    node_t** root = node;
+
+    if (*root == NULL)
+    {
+        *root = AddNode ({.type = kNewNode, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL});
+    }
+    else
+    {
+        **root = {.type = kNewNode, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL};
+    }
+
+    GetAddSub (tokens, token_index, &((*root)->left), list, variables);
+    if (TOKEN_TYPE != kComp)
+    {
+        return SyntaxError (TOKEN_POSITION);
+    }
+    node_t* tmp_node = (*root)->left;
+    **root = TOKEN_OP_PATTERN;
+    (*root)->left = tmp_node;
+    SHIFT_TOKEN;
+    GetAddSub (tokens, token_index, &((*root)->right), list, variables);
 
     return result;
 }
@@ -891,12 +1183,14 @@ static enum LangError GetNumFunc (const token_t* const tokens, size_t* const tok
         }
         REMOVE_TOKEN;
 
-        (*node)->value.variable = FindVarInTable (tokens [*token_index].value.variable, *list, *variables);
-        if ((*node)->value.variable == LLONG_MAX)
+        long long index = FindVarInTable (tokens [*token_index].value.variable, *list, *variables);
+        if (index == LLONG_MAX)
         {
             return kUndefinedVariable;
         }
+        strcpy ((*node)->value.variable, tokens [*token_index].value.variable);
         SHIFT_TOKEN;
+
         return kDoneLang;
     }
 
@@ -925,7 +1219,7 @@ static token_t IdentifyToken (char* const word)
         }
     }
 
-    return {.type = kInvalidNodeType, .line_pos = 0, .number_of_line = 0};
+    return {.type = kInvalidNodeType, {.operation = kInvalidFunc}, .line_pos = 0, .number_of_line = 0};
 }
 
 static long long FindVarInTable (const char* const var, list_t list, variables_t variables)
@@ -934,40 +1228,33 @@ static long long FindVarInTable (const char* const var, list_t list, variables_t
 
     LOG (kDebug, "Variable for finding = \"%s\"\n", var);
 
-    bool not_the_first_table = false;
-
-    if (variables.var_num == 0)
-    {
-        return LLONG_MAX;
-    }
-
-
     long long index = (long long) (variables.var_num - 1);
+
+    for (long long index_in_table = (long long) (variables.var_num - 1);
+            (variables.var_num != 0) && (index_in_table >= 0); index_in_table--, index--)
+    {
+        if (strcmp (var, variables.var_table [index_in_table]) == 0)
+        {
+            return index;
+        }
+    }
 
     size_t list_index = HeadIndex (&list);
 
-    while ((!not_the_first_table) || (list_index != 0))
+    variables_t variables_tmp = {.var_num = 0, .var_table = {}};
+
+    while (list_index != 0)
     {
-        for (long long index_in_table = (long long) (variables.var_num - 1);
-             (variables.var_num != 0) && (index_in_table >= 0); index_in_table--, index--)
+        ListElemValLoad (&list, list_index, &variables_tmp);
+        for (long long index_in_table = (long long) (variables_tmp.var_num - 1);
+             (variables_tmp.var_num != 0) && (index_in_table >= 0); index_in_table--, index--)
         {
-            if (strcmp (var, variables.var_table [index_in_table]) == 0)
+            if (strcmp (var, variables_tmp.var_table [index_in_table]) == 0)
             {
                 return index;
             }
         }
-        if (not_the_first_table)
-        {
-            ListPushAfterIndex (&list, &variables, list_index);
-        }
-        size_t old_index = list_index;
-        list_index = PrevIndex (&list, old_index);
-        if (list_index == 0)
-        {
-            break;
-        }
-        ListPopAfterIndex (&list, &variables, old_index);
-        not_the_first_table = true;
+        list_index = PrevIndex (&list, list_index);
     }
 
     return LLONG_MAX;

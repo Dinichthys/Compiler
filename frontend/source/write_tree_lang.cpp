@@ -54,7 +54,7 @@ static enum LangError PrintNode (const node_t* const node, FILE* const output_fi
     {
         PRINT_NODE (kMainFunc, EnumFuncToStr (node->value.operation), kMainKeyWord,     "%s");
         PRINT_NODE (kNum,      node->value.number,                    kNumKeyWord,      "%.3lf");
-        PRINT_NODE (kVar,      node->value.variable,                  kVarKeyWord,      "%lld");
+        PRINT_NODE (kVar,      node->value.variable,                  kVarKeyWord,      "%s");
         PRINT_NODE (kArithm,   EnumFuncToStr (node->value.operation), kOpKeyWord,       "%s");
         PRINT_NODE (kFunc,     EnumFuncToStr (node->value.operation), kOpKeyWord,       "%s");
         PRINT_NODE (kCycle,    EnumFuncToStr (node->value.operation), kCycleKeyWord,    "%s");

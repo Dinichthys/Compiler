@@ -85,19 +85,20 @@ static enum LangError ReadNode (node_t** const root, FILE* const input_file)
 
     if (strcmp (word, kVarKeyWord) == 0)
     {
-        long long var_num = 0;
-        if (fscanf (input_file, "%lld", &var_num) == 0)
+        char variable [kWordLen] = "";
+        if (fscanf (input_file, "%s", variable) == 0)
         {
             return kMissValue;
         }
         if (*root == NULL)
         {
-            *root = AddNode ({.type = kVar, {.variable = var_num}, .parent = NULL, .left = NULL, .right = NULL});
+            *root = AddNode ({.type = kVar, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL});
         }
         else
         {
-            **root = {.type = kVar, {.variable = var_num}, .parent = NULL, .left = NULL, .right = NULL};
+            **root = {.type = kVar, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL};
         }
+        strcpy((*root)->value.variable, variable);
         SkipSpaceSymbolsWithFirstSym (input_file);
         return kDoneLang;
     }
@@ -188,7 +189,7 @@ static node_t WordToNode (const char* const word)
 
     #undef CHECK_WORD
 
-    node_t ret_val = {.type = kUserFunc, .parent = NULL, .left = NULL, .right = NULL};
+    node_t ret_val = {.type = kUserFunc, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL};
 
     strcpy (ret_val.value.func_name, word);
 

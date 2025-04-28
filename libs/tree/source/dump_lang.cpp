@@ -113,11 +113,12 @@ static enum LangError PrintNodeInfoLang (node_t* const node, FILE* const dump_fi
     {
         PRINT_NODE (kMainFunc, kColorNodeMain,     EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kNum,      kColorNodeNum,      node->value.number,                    "%.3lf");
-        PRINT_NODE (kVar,      kColorNodeVar,      node->value.variable,                  "%lld"  );
+        PRINT_NODE (kVar,      kColorNodeVar,      node->value.variable,                  "%s"  );
         PRINT_NODE (kArithm,   kColorNodeArithm,   EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kFunc,     kColorNodeFunc,     EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kCycle,    kColorNodeCycle,    EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kCond,     kColorNodeCond,     EnumFuncToStr (node->value.operation), "%s"   );
+        PRINT_NODE (kComp,     kColorNodeComp,     EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kSym,      kColorNodeSym,      EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kType,     kColorNodeType,     EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kUserFunc, kColorNodeUserFunc, node->value.func_name,                 "%s"   );
@@ -219,6 +220,7 @@ const char* EnumFuncToStr (const enum OpType func)
         case kFor:   return kForNodeWord;
         case kWhile: return kWhileNodeWord;
         case kIf:    return kIfNodeWord;
+        case kElse:  return kElseNodeWord;
 
         case kAssign:                  return kAssignNodeWord;
         case kParenthesesBracketOpen:  return kParOpenNodeWord;
@@ -234,6 +236,13 @@ const char* EnumFuncToStr (const enum OpType func)
         case kReturn: return kReturnNodeWord;
 
         case kDouble: return kDoubleNodeWord;
+
+        case kMore:     return kMoreNodeWord;
+        case kMoreOrEq: return kMoreOrEqNodeWord;
+        case kLess:     return kLessNodeWord;
+        case kLessOrEq: return kLessOrEqNodeWord;
+        case kEqual:    return kEqualNodeWord;
+        case kNEqual:   return kNEqualNodeWord;
 
         case kInvalidFunc: return "Invalid function";
 
