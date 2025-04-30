@@ -64,6 +64,18 @@
              function, cnt_args, cnt_args);
 
 
+#define WRITE_LABEL(label_num, meaning)                                                                         \
+    fprintf (ir_file, "\nFIFT(label%lu)                          # " meaning "\n",                              \
+             label_num);
+
+#define WRITE_COND_JMP(label_num, tmp_num, meaning)                                                                      \
+    fprintf (ir_file, "\nENTER(label%lu, 88_tmp%lu)              # " meaning "\n",                              \
+             label_num, tmp_num);
+
+#define WRITE_JMP(label_num, meaning)                                                                           \
+    fprintf (ir_file, "\nENTER(label%lu)                         # " meaning "\n",                              \
+             label_num);
+
 //------------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------------------------
@@ -84,7 +96,7 @@ static enum LangError WriteCallUserFunc   (const node_t* const root, FILE* const
                                            size_t* const tmp_var_counter);
 
 static enum LangError WriteFuncs          (const node_t* const root, FILE* const ir_file,
-                                           size_t* const tmp_var_counter);
+                                           size_t const tmp_var_counter);
 
 static enum LangError WriteFuncPattern    (const node_t* const root, FILE* const ir_file,
                                            size_t* const tmp_var_counter);
@@ -93,13 +105,13 @@ static enum LangError WriteArgs           (const node_t* const root, FILE* const
                                            size_t* const tmp_var_counter, const size_t cnt_args);
 
 static enum LangError WriteCommand        (const node_t* const root, FILE* const ir_file,
-                                           size_t* const tmp_var_counter);
+                                           size_t* const tmp_var_counter, size_t* const label_counter);
 
 static enum LangError WriteIf             (const node_t* const root, FILE* const ir_file,
-                                           size_t* const tmp_var_counter);
+                                           size_t* const tmp_var_counter, size_t* const label_counter);
 
 static enum LangError WriteCycle          (const node_t* const root, FILE* const ir_file,
-                                           size_t* const tmp_var_counter);
+                                           size_t* const tmp_var_counter, size_t* const label_counter);
 
 enum LangError WriteIR (const node_t* const root, FILE* const ir_file)
 {
@@ -117,7 +129,7 @@ enum LangError WriteIR (const node_t* const root, FILE* const ir_file)
 
     fprintf (ir_file, kStartIR);
 
-    return WriteFuncs (root, ir_file, &tmp_var_counter);
+    return WriteFuncs (root, ir_file, tmp_var_counter);
 }
 
 static enum LangError WriteGlobalVars (const node_t* const root, FILE* const ir_file,
@@ -127,9 +139,9 @@ static enum LangError WriteGlobalVars (const node_t* const root, FILE* const ir_
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
                  root, ir_file, *tmp_var_counter);
 
     enum LangError result = kDoneLang;
@@ -155,9 +167,9 @@ static enum LangError WriteAssign (const node_t* const root, FILE* const ir_file
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
                  root, ir_file, *tmp_var_counter);
 
     enum LangError result = kDoneLang;
@@ -182,9 +194,9 @@ static enum LangError WriteExpression (const node_t* const root, FILE* const ir_
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
                  root, ir_file, *tmp_var_counter);
 
     enum LangError result = kDoneLang;
@@ -243,9 +255,9 @@ static enum LangError WriteCallFunc (const node_t* const root, FILE* const ir_fi
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
                  root, ir_file, *tmp_var_counter);
 
     enum LangError result = kDoneLang;
@@ -265,9 +277,9 @@ static enum LangError WriteCallUserFunc (const node_t* const root, FILE* const i
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
                  root, ir_file, *tmp_var_counter);
 
     enum LangError result = kDoneLang;
@@ -318,28 +330,24 @@ static enum LangError WriteCallUserFunc (const node_t* const root, FILE* const i
 }
 
 static enum LangError WriteFuncs (const node_t* const root, FILE* const ir_file,
-                                  size_t* const tmp_var_counter)
+                                  size_t const tmp_var_counter)
 {
-    ASSERT (root            != NULL, "Invalid argument root in WriteGlobalVars\n");
-    ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
-    ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
+    ASSERT (root    != NULL, "Invalid argument root in WriteGlobalVars\n");
+    ASSERT (ir_file != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
-                 root, ir_file, *tmp_var_counter);
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
+                 root, ir_file, tmp_var_counter);
 
     enum LangError result = kDoneLang;
 
-    if (CHECK_NODE_OP (root, kType, kDouble) && CHECK_NODE_OP (root->right, kMainFunc, kMain))
-    {
-        result = WriteFuncPattern (root->right, ir_file, tmp_var_counter);
-        CHECK_RESULT;
-    }
+    size_t scope_tmp_var_counter = tmp_var_counter;
 
-    if (CHECK_NODE_OP (root, kType, kDouble) && CHECK_NODE_TYPE (root->right, kUserFunc))
+    if (CHECK_NODE_OP (root, kType, kDouble)
+        && (CHECK_NODE_OP (root->right, kMainFunc, kMain) || CHECK_NODE_TYPE (root->right, kUserFunc)))
     {
-        result = WriteFuncPattern (root->right, ir_file, tmp_var_counter);
+        result = WriteFuncPattern (root->right, ir_file, &scope_tmp_var_counter);
         CHECK_RESULT;
     }
 
@@ -358,12 +366,14 @@ static enum LangError WriteFuncPattern (const node_t* const root, FILE* const ir
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
                  root, ir_file, *tmp_var_counter);
 
     enum LangError result = kDoneLang;
+
+    size_t label_counter = 0;
 
     if (root->type == kUserFunc)
     {
@@ -386,7 +396,7 @@ static enum LangError WriteFuncPattern (const node_t* const root, FILE* const ir
 
     if (root->left != NULL)
     {
-        return WriteCommand (root->left, ir_file, tmp_var_counter);
+        return WriteCommand (root->left, ir_file, tmp_var_counter, &label_counter);
     }
 
     return kDoneLang;
@@ -399,9 +409,9 @@ static enum LangError WriteArgs (const node_t* const root, FILE* const ir_file,
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
                  root, ir_file, *tmp_var_counter);
 
     const node_t* arg_node = root;
@@ -426,16 +436,18 @@ static enum LangError WriteArgs (const node_t* const root, FILE* const ir_file,
 }
 
 static enum LangError WriteCommand (const node_t* const root, FILE* const ir_file,
-                                    size_t* const tmp_var_counter)
+                                    size_t* const tmp_var_counter, size_t* const label_counter)
 {
     ASSERT (root            != NULL, "Invalid argument root in WriteGlobalVars\n");
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
+    ASSERT (label_counter   != NULL, "Invalid argument label_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
-                 root, ir_file, *tmp_var_counter);
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n"
+                 "Label counter = %lu\n",
+                 root, ir_file, *tmp_var_counter, *label_counter);
 
     enum LangError result = kDoneLang;
 
@@ -476,14 +488,14 @@ static enum LangError WriteCommand (const node_t* const root, FILE* const ir_fil
 
     if (CHECK_NODE_TYPE (root->right, kCond))
     {
-        result = WriteIf (root->right, ir_file, tmp_var_counter);
+        result = WriteIf (root->right, ir_file, tmp_var_counter, label_counter);
         CHECK_RESULT;
         done = true;
     }
 
     if (CHECK_NODE_TYPE (root->right, kCycle))
     {
-        result = WriteCycle (root->right, ir_file, tmp_var_counter);
+        result = WriteCycle (root->right, ir_file, tmp_var_counter, label_counter);
         CHECK_RESULT;
         done = true;
     }
@@ -498,71 +510,138 @@ static enum LangError WriteCommand (const node_t* const root, FILE* const ir_fil
         return kDoneLang;
     }
 
-    return WriteCommand (root->left, ir_file, tmp_var_counter);
+    return WriteCommand (root->left, ir_file, tmp_var_counter, label_counter);
 }
 
 static enum LangError WriteIf (const node_t* const root, FILE* const ir_file,
-                               size_t* const tmp_var_counter)
+                               size_t* const tmp_var_counter, size_t* const label_counter)
 {
     ASSERT (root            != NULL, "Invalid argument root in WriteGlobalVars\n");
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
+    ASSERT (label_counter   != NULL, "Invalid argument label_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
-                 root, ir_file, *tmp_var_counter);
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n"
+                 "Label counter = %lu\n",
+                 root, ir_file, *tmp_var_counter, *label_counter);
 
     enum LangError result = kDoneLang;
 
-    WRITE_FUNC (root->value.function.func_name, root->value.function.cnt_args);
+    size_t scope_tmp_var_counter = *tmp_var_counter;
 
-    if (root->right != NULL)
+    if (!(CHECK_NODE_OP (root, kCond, kIf) && CHECK_NODE_TYPE (root->right, kComp)
+          && CHECK_NODE_OP (root->left, kCond, kElse)))
     {
-        result = WriteArgs (root->right, ir_file, tmp_var_counter, root->value.function.cnt_args);
-        CHECK_RESULT;
+        return kInvalidPatternOfIf;
     }
 
-    if (root->left != NULL)
+    WRITE_LABEL ((*label_counter)++, "If: comparison");
+
+    result = WriteExpression (root->right, ir_file, &scope_tmp_var_counter);
+    CHECK_RESULT;
+
+    WRITE_COND_JMP (*label_counter, scope_tmp_var_counter - 1, "If: jump on \"then\" body");
+
+    WRITE_JMP (*label_counter + 1, "If: jump over \"then\" body");
+
+    WRITE_LABEL (*label_counter, "If: \"then\" body");
+    size_t then_body_end_label_num = *label_counter + 1;
+    *label_counter += 2;
+
+    result = WriteCommand (root->left->right, ir_file, &scope_tmp_var_counter, label_counter);
+    CHECK_RESULT;
+
+    if (root->left->left == NULL)
     {
-        return WriteCommand (root->left, ir_file, tmp_var_counter);
+        WRITE_LABEL (then_body_end_label_num, "If: \"then\" body end");
+        return kDoneLang;
     }
+
+    size_t else_body_end_label_num = *label_counter;
+    *label_counter += 1;
+
+    WRITE_JMP (else_body_end_label_num, "If: jump over \"else\" body");
+
+    WRITE_LABEL (then_body_end_label_num, "If: \"else\" body");
+
+    result = WriteCommand (root->left->left, ir_file, &scope_tmp_var_counter, label_counter);
+    CHECK_RESULT;
+
+    WRITE_LABEL (else_body_end_label_num, "If: \"else\" body end");
 
     return kDoneLang;
 }
 
 static enum LangError WriteCycle (const node_t* const root, FILE* const ir_file,
-                                  size_t* const tmp_var_counter)
+                                  size_t* const tmp_var_counter, size_t* const label_counter)
 {
     ASSERT (root            != NULL, "Invalid argument root in WriteGlobalVars\n");
     ASSERT (ir_file         != NULL, "Invalid argument ir_file in WriteGlobalVars\n");
     ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteGlobalVars\n");
+    ASSERT (label_counter   != NULL, "Invalid argument label_counter in WriteGlobalVars\n");
 
-    LOG (kDebug, "Root = %p\n"
-                 "File = %p\n"
-                 "TMP counter = %lu\n",
-                 root, ir_file, *tmp_var_counter);
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n"
+                 "Label counter = %lu\n",
+                 root, ir_file, *tmp_var_counter, *label_counter);
 
     enum LangError result = kDoneLang;
 
-    WRITE_FUNC (root->value.function.func_name, root->value.function.cnt_args);
+    size_t scope_tmp_var_counter = *tmp_var_counter;
 
-    if (root->right != NULL)
+    if (!(CHECK_NODE_OP (root, kCycle, kWhile) && CHECK_NODE_TYPE (root->right, kComp)))
     {
-        result = WriteArgs (root->right, ir_file, tmp_var_counter, root->value.function.cnt_args);
-        CHECK_RESULT;
+        return kInvalidPatternOfCycle;
     }
 
-    if (root->left != NULL)
-    {
-        return WriteCommand (root->left, ir_file, tmp_var_counter);
-    }
+    WRITE_LABEL ((*label_counter)++, "While: comparison");
+
+    result = WriteExpression (root->right, ir_file, &scope_tmp_var_counter);
+    CHECK_RESULT;
+
+    WRITE_COND_JMP (*label_counter, scope_tmp_var_counter - 1, "While: jump at cycle body");
+
+    WRITE_JMP (*label_counter + 1, "While: jump over cycle body");
+
+    WRITE_LABEL (*label_counter, "While: body");
+    size_t while_body_end_label_num = *label_counter + 1;
+    *label_counter += 2;
+
+    result = WriteCommand (root->left, ir_file, &scope_tmp_var_counter, label_counter);
+    CHECK_RESULT;
+
+    WRITE_LABEL (while_body_end_label_num, "While: end body");
 
     return kDoneLang;
 }
 
 //-----DSL----------------------------------------------------------------------------------------------------
 
+//-----CHECKING-----------------------------------------------------------------------------------------------
+
+#undef CHECK_NODE_OP
+#undef CHECK_NODE_TYPE
 #undef CHECK_RESULT
+
+//------------------------------------------------------------------------------------------------------------
+
+//-----WRITING------------------------------------------------------------------------------------------------
+
+#undef WRITE_ASSIGN_VAR
+#undef WRITE_ASSIGN_NUM
+#undef WRITE_ASSIGN_TMP
+#undef WRITE_ASSIGN_TMP_TO_VAR
+#undef WRITE_ASSIGN_RES
+#undef WRITE_ASSIGN
+#undef WRITE_CALL
+#undef WRITE_FUNC
+#undef WRITE_LABEL
+#undef WRITE_COND_JMP
+#undef WRITE_JMP
+
+//------------------------------------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------------------------------------

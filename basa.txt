@@ -12,15 +12,47 @@ GYPSI(88_tmp5, SUB, 88_tmp3, 88_tmp4)
 GYPSI(петух, TMP, 88_tmp5)              # result
 GYPSI(88_tmp6, NUM, 2.000000)             # num
 GYPSI(петух, TMP, 88_tmp6)              # result
-GYPSI(88_tmp7, VAR, петух)              # var
+
+FIFT(label0)                          # If: comparison
+GYPSI(88_tmp7, NUM, 1.000000)             # num
 GYPSI(88_tmp8, NUM, 2.000000)             # num
-GYPSI(88_tmp9, TMP, 88_tmp8)       # tmp
-GYPSI(88_tmp10, TMP, 88_tmp7)       # tmp
-CALL_PENIS(88_tmp11, func_кукушка_2, 2)
+GYPSI(88_tmp9, More, 88_tmp7, 88_tmp8)
+
+ENTER(label1, 88_tmp9)              # If: jump on "then" body
+
+ENTER(label2)                         # If: jump over "then" body
+
+FIFT(label1)                          # If: "then" body
+GYPSI(88_tmp10, NUM, 2.000000)             # num
+GYPSI(петух, TMP, 88_tmp10)              # result
+
+FIFT(label2)                          # If: "then" body end
+GYPSI(88_tmp7, NUM, 10.000000)             # num
+GYPSI(мужик, TMP, 88_tmp7)              # result
+
+FIFT(label3)                          # While: comparison
+GYPSI(88_tmp8, VAR, петух)              # var
+GYPSI(88_tmp9, NUM, 2.000000)             # num
+GYPSI(88_tmp10, Less, 88_tmp8, 88_tmp9)
+
+ENTER(label4, 88_tmp10)              # While: jump at cycle body
+
+ENTER(label5)                         # While: jump over cycle body
+
+FIFT(label4)                          # While: body
+GYPSI(88_tmp11, NUM, 50.000000)             # num
+GYPSI(мужик, TMP, 88_tmp11)              # result
+
+FIFT(label5)                          # While: end body
+GYPSI(88_tmp8, VAR, петух)              # var
+GYPSI(88_tmp9, NUM, 2.000000)             # num
+GYPSI(88_tmp10, TMP, 88_tmp9)       # tmp
+GYPSI(88_tmp11, TMP, 88_tmp8)       # tmp
+CALL_PENIS(88_tmp12, func_кукушка_2, 2)
 
 PENIS(func_кукушка_2, 2)
 
-GYPSI(рофлинка, TMP, 88_tmp10)              # tmp
-GYPSI(пацан, TMP, 88_tmp9)              # tmp
-GYPSI(88_tmp12, VAR, рофлинка)              # var
-CALL_PENIS(88_tmp13, func_OUT_1, 1)
+GYPSI(рофлинка, TMP, 88_tmp1)              # tmp
+GYPSI(пацан, TMP, 88_tmp0)              # tmp
+GYPSI(88_tmp3, VAR, рофлинка)              # var
+CALL_PENIS(88_tmp4, func_OUT_1, 1)

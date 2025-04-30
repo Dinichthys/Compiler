@@ -23,19 +23,59 @@
 					}
 				}
 				{ OP: ; 
-					{ USERFUNC: кукушка 
-						{ OP: COMMA 
-							{ VAR: петух 
+					{ COND: if 
+												{ COND: else 
+							{ OP: ; 
+								{ OP: = 
+									{ NUM: 2.000 
+									}
+									{ VAR: петух 
+									}
+								}
+								{}
 							}
-							{ OP: COMMA 
-								{ NUM: 2.000 
+							{}
+						}
+					}
+					{ OP: ; 
+						{ TYPE: DOUBLE 
+							{ OP: = 
+								{ NUM: 10.000 
+								}
+								{ VAR: мужик 
+								}
+							}
+							{}
+						}
+						{ OP: ; 
+							{ CYCLE: while 
+																{ OP: ; 
+									{ OP: = 
+										{ NUM: 50.000 
+										}
+										{ VAR: мужик 
+										}
+									}
+									{}
+								}
+							}
+							{ OP: ; 
+								{ USERFUNC: кукушка 
+									{ OP: COMMA 
+										{ VAR: петух 
+										}
+										{ OP: COMMA 
+											{ NUM: 2.000 
+											}
+											{}
+										}
+									}
+									{}
 								}
 								{}
 							}
 						}
-						{}
 					}
-					{}
 				}
 			}
 		}

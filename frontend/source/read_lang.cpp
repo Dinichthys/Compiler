@@ -877,11 +877,11 @@ static enum LangError GetIf (const token_t* const tokens, size_t* const token_in
 
     if ((*node)->left == NULL)
     {
-        (*node)->left = AddNode ({.type = kSym, {.operation = kElse}, .parent = NULL, .left = NULL, .right = NULL});
+        (*node)->left = AddNode ({.type = kCond, {.operation = kElse}, .parent = NULL, .left = NULL, .right = NULL});
     }
     else
     {
-        *((*node)->left) = {.type = kSym, {.operation = kElse}, .parent = NULL, .left = NULL, .right = NULL};
+        *((*node)->left) = {.type = kCond, {.operation = kElse}, .parent = NULL, .left = NULL, .right = NULL};
     }
 
     if ((*node)->left->left == NULL)

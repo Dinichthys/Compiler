@@ -103,6 +103,16 @@ const char* EnumErrorToStr (const enum LangError error)
 
         CASE (kInvalidModeTypeLangError);
 
+        CASE (kInvalidPatternOfIf);
+        CASE (kInvalidPatternOfCycle);
+
+        CASE (kCantWriteAssigning);
+        CASE (kCantCreateStackArgs);
+        CASE (kCantPushTMPVarCounter);
+        CASE (kCantPopTMPVarCounter);
+        CASE (kInvalidArgNum);
+        CASE (kNoCommandEnd);
+
         default:
             return "Invalid enum element";
     }
