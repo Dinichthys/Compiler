@@ -12,6 +12,7 @@ int    my_strcmp          (const char* const s1, const char* const s2);
 size_t skip_space_symbols (const char* const string);
 size_t size_of_file       (FILE* const input);
 void   my_fflush          (FILE* const input);
+char*  ReadFileToBuffer   (FILE* const file);
 
 #define FOPEN(file, name, mode)                                                     \
 {                                                                                   \

@@ -563,7 +563,7 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
         result = GetAssign (tokens, token_index, &(root->right), list, variables);
         REMOVE_TOKEN;
     }
-    else if (TOKEN_TYPE == kFunc)
+    else if ((TOKEN_TYPE == kFunc) || (TOKEN_TYPE == kRet))
     {
         GetNumFunc (tokens, token_index, &root, list, variables);
     }
@@ -1227,7 +1227,7 @@ static enum LangError GetNumFunc (const token_t* const tokens, size_t* const tok
         return kDoneLang;
     }
 
-    if ((*node)->type == kFunc)
+    if (((*node)->type == kFunc) || ((*node)->type == kRet))
     {
         (*node)->value.operation = tokens [*token_index].value.operation;
         SHIFT_TOKEN;

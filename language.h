@@ -75,6 +75,8 @@ enum NodeType
 
     kComp = 12,
 
+    kRet = 13,
+
     kInvalidNodeType = -1,
 };
 

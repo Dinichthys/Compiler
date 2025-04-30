@@ -1,21 +1,21 @@
-	GYPSI(88_tmp2, NUM, 3.000000)             # num to tmp
-	GYPSI(челик, TMP, 88_tmp2)              # result to variable
+	GYPSI(88_tmp2, NUM, 3.000000)            # num to tmp
+	GYPSI(0, TMP, 88_tmp2)              # result to variable "челик"
 CALL_PENIS(88_tmp0, func_main_0, 0)
 CALL_PENIS(88_tmp1, func_hlt_0, 0)
 
 
 PENIS(func_main_0, 0)
 
-	GYPSI(88_tmp3, NUM, 2.000000)             # num to tmp
-	GYPSI(88_tmp4, NUM, 3.000000)             # num to tmp
+	GYPSI(88_tmp3, NUM, 2.000000)            # num to tmp
+	GYPSI(88_tmp4, NUM, 3.000000)            # num to tmp
 	GYPSI(88_tmp5, SUB, 88_tmp3, 88_tmp4)
-	GYPSI(петух, TMP, 88_tmp5)              # result to variable
-	GYPSI(88_tmp6, NUM, 2.000000)             # num to tmp
-	GYPSI(петух, TMP, 88_tmp6)              # result to variable
+	GYPSI(0, TMP, 88_tmp5)              # result to variable "петух"
+	GYPSI(88_tmp6, NUM, 2.000000)            # num to tmp
+	GYPSI(0, TMP, 88_tmp6)              # result to variable "петух"
 
 FIFT(label0)                          # If: comparison
-	GYPSI(88_tmp7, NUM, 1.000000)             # num to tmp
-	GYPSI(88_tmp8, NUM, 2.000000)             # num to tmp
+	GYPSI(88_tmp7, NUM, 1.000000)            # num to tmp
+	GYPSI(88_tmp8, NUM, 2.000000)            # num to tmp
 	GYPSI(88_tmp9, More, 88_tmp7, 88_tmp8)
 
 ENTER(label1, 88_tmp9)              # If: jump on "then" body
@@ -23,16 +23,16 @@ ENTER(label1, 88_tmp9)              # If: jump on "then" body
 ENTER(label2)                         # If: jump over "then" body
 
 FIFT(label1)                          # If: "then" body
-	GYPSI(88_tmp10, NUM, 2.000000)             # num to tmp
-	GYPSI(петух, TMP, 88_tmp10)              # result to variable
+	GYPSI(88_tmp10, NUM, 2.000000)            # num to tmp
+	GYPSI(-1, TMP, 88_tmp10)              # result to variable "петух"
 
 FIFT(label2)                          # If: "then" body end
-	GYPSI(88_tmp7, NUM, 10.000000)             # num to tmp
-	GYPSI(мужик, TMP, 88_tmp7)              # result to variable
+	GYPSI(88_tmp7, NUM, 10.000000)            # num to tmp
+	GYPSI(1, TMP, 88_tmp7)              # result to variable "мужик"
 
 FIFT(label3)                          # While: comparison
-	GYPSI(88_tmp8, VAR, петух)              # var to tmp
-	GYPSI(88_tmp9, NUM, 2.000000)             # num to tmp
+	GYPSI(88_tmp8, VAR, -2)            # var "петух" to tmp
+	GYPSI(88_tmp9, NUM, 2.000000)            # num to tmp
 	GYPSI(88_tmp10, Less, 88_tmp8, 88_tmp9)
 
 ENTER(label4, 88_tmp10)              # While: jump at cycle body
@@ -40,22 +40,26 @@ ENTER(label4, 88_tmp10)              # While: jump at cycle body
 ENTER(label5)                         # While: jump over cycle body
 
 FIFT(label4)                          # While: body
-	GYPSI(88_tmp11, NUM, 50.000000)             # num to tmp
-	GYPSI(мужик, TMP, 88_tmp11)              # result to variable
+	GYPSI(88_tmp11, NUM, 50.000000)            # num to tmp
+	GYPSI(-1, TMP, 88_tmp11)              # result to variable "мужик"
 
 ENTER(label3)                         # While: jump back to comparison
 
 FIFT(label5)                          # While: end body
-	GYPSI(88_tmp8, VAR, петух)              # var to tmp
-	GYPSI(88_tmp9, NUM, 2.000000)             # num to tmp
+	GYPSI(88_tmp8, VAR, 0)            # var "петух" to tmp
+	GYPSI(88_tmp9, NUM, 2.000000)            # num to tmp
 	GYPSI(14_arg0, TMP, 88_tmp9)       # tmp to argument in function
 	GYPSI(14_arg1, TMP, 88_tmp8)       # tmp to argument in function
 CALL_PENIS(88_tmp10, func_кукушка_2, 2)
 
 PENIS(func_кукушка_2, 2)
 
-	GYPSI(рофлинка, ARG, 14_arg1)              # arg to variable
-	GYPSI(пацан, ARG, 14_arg0)              # arg to variable
-	GYPSI(88_tmp3, VAR, рофлинка)              # var to tmp
+	GYPSI(0, TMP, 14_arg1)            # arg to var "рофлинка"
+	GYPSI(1, TMP, 14_arg0)            # arg to var "пацан"
+	GYPSI(88_tmp3, VAR, 0)            # var "рофлинка" to tmp
 	GYPSI(14_arg0, TMP, 88_tmp3)       # result to argument in function
 CALL_PENIS(88_tmp4, func_OUT_1, 1)
+	GYPSI(88_tmp5, NUM, 2.000000)            # num to tmp
+
+KILL_PENIS(88_tmp5)
+

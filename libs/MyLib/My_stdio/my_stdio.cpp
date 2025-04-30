@@ -65,3 +65,25 @@ void my_fflush (FILE* const input)
     }
 }
 
+char* ReadFileToBuffer (FILE* const file)
+{
+    ASSERT (file != NULL, "Invalid argument file for ReadFileToBuffer\n");
+
+    size_t file_size = size_of_file (file);
+
+    char* buffer = (char*) calloc (file_size + 1, sizeof (char));
+    if (buffer == NULL)
+    {
+        return NULL;
+    }
+
+    if (fread (buffer, sizeof (char), file_size, file) != file_size)
+    {
+        free (buffer);
+        return NULL;
+    }
+
+    buffer [file_size] = '\0';
+
+    return buffer;
+}

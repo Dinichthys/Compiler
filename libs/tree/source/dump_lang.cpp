@@ -146,6 +146,7 @@ static enum LangError PrintNodeInfoLang (node_t* const node, FILE* const dump_fi
         PRINT_NODE (kSym,      kColorNodeSym,      EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kType,     kColorNodeType,     EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kUserFunc, kColorNodeUserFunc, node->value.function.func_name,        "%s"   );
+        PRINT_NODE (kRet,      kColorNodeRet,      EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kEndToken, kColorNodeEnd,      "end",                                 "%s"   );
 
         case kNewNode:

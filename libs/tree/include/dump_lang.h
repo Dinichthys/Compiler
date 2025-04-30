@@ -18,6 +18,7 @@ static const char* const kColorNodeComp     = "#14A2B6";
 static const char* const kColorNodeSym      = "#D0D0D0";
 static const char* const kColorNodeType     = "#C0A0C0";
 static const char* const kColorNodeUserFunc = "#80F080";
+static const char* const kColorNodeRet      = "#D3A694";
 static const char* const kColorNodeEnd      = "#A0A0A0";
 
 static const char* const kColorEdgeLeft   = "blue";

@@ -1,4 +1,5 @@
 #include "write_ir.h"
+#include "language.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,27 +31,30 @@
 
 //-----WRITING------------------------------------------------------------------------------------------------
 
-#define WRITE_ASSIGN_VAR(variable)                                                                              \
-    fprintf (ir_file, "\tGYPSI(88_tmp%lu, VAR, %s)              # var to tmp\n", *tmp_var_counter, variable);     \
+#define WRITE_ASSIGN_VAR(var_struct)                                                                            \
+    fprintf (ir_file, "\tGYPSI(88_tmp%lu, VAR, %lld)            # var \"%s\" to tmp\n",                          \
+             *tmp_var_counter, var_struct.index, var_struct.variable);                                          \
     (*tmp_var_counter)++;
 
 #define WRITE_ASSIGN_NUM(number)                                                                                \
-    fprintf (ir_file, "\tGYPSI(88_tmp%lu, NUM, %lf)             # num to tmp\n", *tmp_var_counter, number);       \
+    fprintf (ir_file, "\tGYPSI(88_tmp%lu, NUM, %lf)            # num to tmp\n", *tmp_var_counter, number);      \
     (*tmp_var_counter)++;
 
 #define WRITE_ASSIGN_TMP(number)                                                                                \
-    fprintf (ir_file, "\tGYPSI(88_tmp%lu, TMP, 88_tmp%lu)       # tmp to tmp\n", *tmp_var_counter, number);       \
+    fprintf (ir_file, "\tGYPSI(88_tmp%lu, TMP, 88_tmp%lu)      # tmp to tmp\n", *tmp_var_counter, number);      \
     (*tmp_var_counter)++;
 
-#define WRITE_ASSIGN_TMP_TO_VAR(var, number)                                                                    \
-    fprintf (ir_file, "\tGYPSI(%s, TMP, 88_tmp%lu)              # tmp to variable\n", var, number);
+#define WRITE_ASSIGN_TMP_TO_VAR(var_struct, tmp_index)                                                          \
+    fprintf (ir_file, "\tGYPSI(%lld, TMP, 88_tmp%lu)            # tmp to var \"%s\"\n",                          \
+             var_struct.index, tmp_index, var_struct.variable);
 
-#define WRITE_ASSIGN_ARG_TO_VAR(var, arg_index)                                                                 \
-    fprintf (ir_file, "\tGYPSI(%s, ARG, 14_arg%lu)              # arg to variable\n", var, arg_index);
+#define WRITE_ASSIGN_ARG_TO_VAR(var_struct, arg_index)                                                          \
+    fprintf (ir_file, "\tGYPSI(%lld, TMP, 14_arg%lu)            # arg to var \"%s\"\n",                          \
+             var_struct.index, arg_index, var_struct.variable);
 
-#define WRITE_ASSIGN_RES(variable)                                                                              \
-    fprintf (ir_file, "\tGYPSI(%s, TMP, 88_tmp%lu)              # result to variable\n",                          \
-             variable, *tmp_var_counter - 1);
+#define WRITE_ASSIGN_RES(var_struct)                                                                              \
+    fprintf (ir_file, "\tGYPSI(%lld, TMP, 88_tmp%lu)              # result to variable \"%s\"\n",                          \
+             var_struct.index, *tmp_var_counter - 1, var_struct.variable);
 
 #define WRITE_ASSIGN_RES_TO_ARG(arg_index)                                                                      \
     fprintf (ir_file, "\tGYPSI(14_arg%lu, TMP, 88_tmp%lu)       # result to argument in function\n",              \
@@ -75,13 +79,16 @@
     fprintf (ir_file, "\nPENIS(func_%s_%lu, %lu)\n\n",                                                          \
              function, cnt_args, cnt_args);
 
+#define WRITE_RET(ret_tmp_index)                                                                                \
+    fprintf (ir_file, "\nKILL_PENIS(88_tmp%lu)\n\n", ret_tmp_index);
+
 
 #define WRITE_LABEL(label_num, meaning)                                                                         \
     fprintf (ir_file, "\nFIFT(label%lu)                          # " meaning "\n",                              \
              label_num);
 
 
-#define WRITE_COND_JMP(label_num, tmp_num, meaning)                                                                      \
+#define WRITE_COND_JMP(label_num, tmp_num, meaning)                                                             \
     fprintf (ir_file, "\nENTER(label%lu, 88_tmp%lu)              # " meaning "\n",                              \
              label_num, tmp_num);
 
@@ -195,7 +202,7 @@ static enum LangError WriteAssign (const node_t* const root, FILE* const ir_file
     result = WriteExpression (root->right, ir_file, tmp_var_counter);
     CHECK_RESULT;
 
-    WRITE_ASSIGN_RES (root->left->value.variable.variable);
+    WRITE_ASSIGN_RES (root->left->value.variable);
 
     return result;
 }
@@ -242,7 +249,7 @@ static enum LangError WriteExpression (const node_t* const root, FILE* const ir_
 
     if (root->type == kVar)
     {
-        WRITE_ASSIGN_VAR (root->value.variable.variable);
+        WRITE_ASSIGN_VAR (root->value.variable);
         return kDoneLang;
     }
 
@@ -438,7 +445,7 @@ static enum LangError WriteArgs (const node_t* const root, FILE* const ir_file,
          (CHECK_NODE_OP (arg_node, kType, kDouble)) && (CHECK_NODE_TYPE (arg_node->right, kVar));
          arg_index++)
     {
-        WRITE_ASSIGN_ARG_TO_VAR (arg_node->right->value.variable.variable, cnt_args - arg_index - 1);
+        WRITE_ASSIGN_ARG_TO_VAR (arg_node->right->value.variable, cnt_args - arg_index - 1);
         arg_node = arg_node->left;
     }
 
@@ -491,6 +498,14 @@ static enum LangError WriteCommand (const node_t* const root, FILE* const ir_fil
     {
         result = WriteCallFunc (root->right, ir_file, tmp_var_counter);
         CHECK_RESULT;
+        done = true;
+    }
+
+    if (CHECK_NODE_OP (root->right, kRet, kReturn))
+    {
+        result = WriteExpression (root->right->right, ir_file, tmp_var_counter);
+        CHECK_RESULT;
+        WRITE_RET (*tmp_var_counter - 1);
         done = true;
     }
 
@@ -651,7 +666,10 @@ static enum LangError WriteCycle (const node_t* const root, FILE* const ir_file,
 #undef WRITE_ASSIGN_NUM
 #undef WRITE_ASSIGN_TMP
 #undef WRITE_ASSIGN_TMP_TO_VAR
+#undef WRITE_ASSIGN_ARG_TO_VAR
 #undef WRITE_ASSIGN_RES
+#undef WRITE_ASSIGN_RES_TO_ARG
+#undef WRITE_ASSIGN_TMP_TO_ARG
 #undef WRITE_ASSIGN
 
 #undef WRITE_CALL
