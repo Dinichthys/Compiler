@@ -58,6 +58,6 @@ static const char* const kLessOrEqNodeWord  = "LessOrEq";
 static const char* const kEqualNodeWord     = "Equal";
 static const char* const kNEqualNodeWord    = "Not Equal";
 
-enum LangError WriteDataBase (const node_t* const root, FILE* const output_file);
+enum LangError WriteDataBase (const node_t* const root);
 
 #endif // WRITE_TREE_LANG_H

@@ -45,6 +45,13 @@ enum LangError
 
     kInvalidPatternOfIf         = 28,
     kInvalidPatternOfCycle      = 29,
+
+    kCantWriteAssigning         = 30,
+    kCantCreateStackArgs        = 31,
+    kCantPushTMPVarCounter      = 32,
+    kCantPopTMPVarCounter       = 33,
+    kInvalidArgNum              = 34,
+    kNoCommandEnd               = 35,
 };
 
 enum NodeType
@@ -123,6 +130,18 @@ enum OpType
     kInvalidFunc = -1,
 };
 
+typedef struct func_node
+{
+    char   func_name [kWordLen];
+    size_t cnt_args;
+} func_node_t;
+
+typedef struct var_node
+{
+    char   variable [kWordLen];
+    long long index;
+} var_node_t;
+
 typedef struct node
 {
     enum NodeType type;
@@ -130,8 +149,8 @@ typedef struct node
     union value
     {
         double number;
-        char   variable [kWordLen];
-        char   func_name [kWordLen];
+        var_node_t    variable;
+        func_node_t   function;
         enum OpType operation;
     } value;
 
@@ -146,6 +165,7 @@ typedef struct node
 #include "connect_tree_lang.h"
 #include "read_lang.h"
 #include "write_tree_lang.h"
+#include "write_ir.h"
 #include "read_tree_lang.h"
 #include "backend_lang.h"
 

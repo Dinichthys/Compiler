@@ -4,14 +4,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "My_lib/Assert/my_assert.h"
+#include "MyLib/Assert/my_assert.h"
 
 static enum LangError PrintNode (const node_t* const root, FILE* const output_file, const size_t depth);
 
-enum LangError WriteDataBase (const node_t* const root, FILE* const output_file)
+enum LangError WriteDataBase (const node_t* const root)
 {
     ASSERT (root         != NULL, "Invalid argument root = %p\n", root);
-    ASSERT (output_file  != NULL, "Invalid argument output_file = %p\n", output_file);
+
+    FILE* const output_file = fopen ("DataBase/DataBase.tree", "w");
+    if (output_file == NULL)
+    {
+        return kCantOpenDataBase;
+    }
 
     return PrintNode (root, output_file, 0);
 }
@@ -54,14 +59,14 @@ static enum LangError PrintNode (const node_t* const node, FILE* const output_fi
     {
         PRINT_NODE (kMainFunc, EnumFuncToStr (node->value.operation), kMainKeyWord,     "%s");
         PRINT_NODE (kNum,      node->value.number,                    kNumKeyWord,      "%.3lf");
-        PRINT_NODE (kVar,      node->value.variable,                  kVarKeyWord,      "%s");
+        PRINT_NODE (kVar,      node->value.variable.variable,         kVarKeyWord,      "%s");
         PRINT_NODE (kArithm,   EnumFuncToStr (node->value.operation), kOpKeyWord,       "%s");
         PRINT_NODE (kFunc,     EnumFuncToStr (node->value.operation), kOpKeyWord,       "%s");
         PRINT_NODE (kCycle,    EnumFuncToStr (node->value.operation), kCycleKeyWord,    "%s");
         PRINT_NODE (kCond,     EnumFuncToStr (node->value.operation), kCondKeyWord,     "%s");
         PRINT_NODE (kSym,      EnumFuncToStr (node->value.operation), kOpKeyWord,       "%s");
         PRINT_NODE (kType,     EnumFuncToStr (node->value.operation), kTypeKeyWord,     "%s");
-        PRINT_NODE (kUserFunc, node->value.func_name,                 kUserFuncKeyWord, "%s");
+        PRINT_NODE (kUserFunc, node->value.function.func_name,        kUserFuncKeyWord, "%s");
 
         case kEndToken:
             return kDoneLang;

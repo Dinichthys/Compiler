@@ -41,8 +41,12 @@ int main (const int argc, char* argv[])
     result = DumpLang (root);
     ERROR_HANDLER (result);
 
-    result = WriteDataBase (root, set.stream_out);
+    result = WriteDataBase (root);
     ERROR_HANDLER (result);
+
+    result = WriteIR (root, set.stream_out);
+    ERROR_HANDLER (result);
+
 
     TreeDtor (root);
 

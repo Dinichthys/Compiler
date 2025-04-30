@@ -3,6 +3,10 @@ add_executable (frontend
 
     source/read_lang.cpp
     source/write_tree_lang.cpp
+    source/write_ir.cpp
+
+    include/Stack/stack.cpp
+    include/Stack/hash.cpp
 )
 
 target_link_libraries(frontend

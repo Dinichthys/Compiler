@@ -11,6 +11,12 @@ static enum LangError ReadNode           (node_t** const root, FILE* const input
 static void SkipSpaceSymbolsWithFirstSym (FILE* const input_file);
 static node_t         WordToNode         (const char* const word);
 
+#define CHECK_RESULT            \
+    if (result != kDoneLang)    \
+    {                           \
+        return result;          \
+    }
+
 enum LangError ReadDataBase (node_t** const root, FILE* const input_file)
 {
     ASSERT (root       != NULL, "Invalid argument root = %p\n", root);
@@ -98,7 +104,7 @@ static enum LangError ReadNode (node_t** const root, FILE* const input_file)
         {
             **root = {.type = kVar, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL};
         }
-        strcpy((*root)->value.variable, variable);
+        strcpy((*root)->value.variable.variable, variable);
         SkipSpaceSymbolsWithFirstSym (input_file);
         return kDoneLang;
     }
@@ -191,7 +197,7 @@ static node_t WordToNode (const char* const word)
 
     node_t ret_val = {.type = kUserFunc, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL};
 
-    strcpy (ret_val.value.func_name, word);
+    strcpy (ret_val.value.function.func_name, word);
 
     return ret_val;
 }

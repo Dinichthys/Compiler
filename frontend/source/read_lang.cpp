@@ -10,11 +10,46 @@ static const char* sFileName = NULL;
 #include <math.h>
 #include <limits.h>
 
-#include "My_lib/Assert/my_assert.h"
-#include "My_lib/Logger/logging.h"
-#include "My_lib/My_stdio/my_stdio.h"
-#include "My_lib/helpful.h"
+#include "MyLib/Assert/my_assert.h"
+#include "MyLib/Logger/logging.h"
+#include "MyLib/My_stdio/my_stdio.h"
+#include "MyLib/helpful.h"
 #include "list.h"
+
+//-----DSL----------------------------------------------------------------------------------------------------
+
+#define TOKEN_POSITION tokens [*token_index].number_of_line, tokens[*token_index].line_pos
+
+#define SHIFT_TOKEN (*token_index)++;
+
+#define REMOVE_TOKEN (*token_index)--;
+
+#define CHECK_RESULT                \
+        if (result != kDoneLang)    \
+        {                           \
+            return result;          \
+        }
+
+#define CHECK_TOKEN_OP(token_type, op_type)\
+    ((tokens [*token_index].type == token_type) && (tokens [*token_index].value.operation == op_type))
+
+#define TOKEN_TYPE tokens [*token_index].type
+
+#define CHECK_END                                       \
+        if (tokens [*token_index].type == kEndToken)    \
+        {                                               \
+            return kDoneLang;                           \
+        }
+
+#define TOKEN_OP_PATTERN {.type = TOKEN_TYPE, {.operation = tokens [*token_index].value.operation}, .parent = NULL, .left = NULL, .right = NULL}
+
+#define CHECK_NULL_PTR(root)                \
+    if (root == NULL)                       \
+    {                                       \
+        return SyntaxError (TOKEN_POSITION);\
+    }
+
+//------------------------------------------------------------------------------------------------------------
 
 static enum LangError ReadDataBase        (const char* const input_file_name, node_t** const root);
 static enum LangError ReadBufferFromFile (char** const  input_buf, const char* const input_file_name);
@@ -360,6 +395,7 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
     if (*node == NULL)
     {
         *node = TreeCtor ();
+        CHECK_NULL_PTR (*node);
     }
 
     if (TOKEN_TYPE == kMainFunc)
@@ -369,7 +405,7 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
     else
     {
         (*node)->type = kUserFunc;
-        strcpy ((*node)->value.func_name, tokens [*token_index].value.variable);
+        strcpy ((*node)->value.function.func_name, tokens [*token_index].value.variable);
     }
     SHIFT_TOKEN;
 
@@ -382,7 +418,7 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
 
     while (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketClose)))
     {
-        result = GetArgs (tokens, token_index, &((*node)->right), &variables);
+        result = GetArgs (tokens, token_index, node, &variables);
         CHECK_RESULT;
     }
     SHIFT_TOKEN;
@@ -417,15 +453,18 @@ static enum LangError GetArgs (const token_t* const tokens, size_t* const token_
     ASSERT (token_index != NULL, "Invalid argument Index of the current token = %p\n", token_index);
     ASSERT (tokens      != NULL, "Invalid argument tokens = %p\n",      tokens);
     ASSERT (node        != NULL, "Invalid argument node = %p\n",        node);
+    ASSERT (*node       != NULL, "Invalid argument *node = %p\n",       *node);
     ASSERT (variables   != NULL, "Invalid argument variables = %p\n",   variables);
 
-    if (*node == NULL)
+    if ((*node)->right == NULL)
     {
-        *node = TreeCtor ();
+        (*node)->right = TreeCtor ();
     }
-    node_t* root = *node;
+    node_t* root = (*node)->right;
 
     bool done = false;
+
+    size_t count_args = 0;
 
     while (TOKEN_TYPE == kType)
     {
@@ -433,18 +472,33 @@ static enum LangError GetArgs (const token_t* const tokens, size_t* const token_
         root->type = TOKEN_TYPE;
         root->value.operation = tokens [*token_index].value.operation;
         SHIFT_TOKEN;
+
         root->right = AddNode ({.type = kVar, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL});
         CHECK_NULL_PTR (root->right);
+
         strcpy (variables->var_table [variables->var_num++], tokens [*token_index].value.variable);
-        strcpy (root->right->value.variable, tokens [*token_index].value.variable);
+        strcpy (root->right->value.variable.variable, tokens [*token_index].value.variable);
+        root->right->value.variable.index = variables->var_num - 1;
+
         root = root->left = AddNode ({.type = kNewNode, {.operation = kUndefinedNode}, .parent = root, .left = NULL, .right = NULL});
+        CHECK_NULL_PTR (root);
         SHIFT_TOKEN;
+
         if (!(CHECK_TOKEN_OP (kSym, kComma)) && !(CHECK_TOKEN_OP (kSym, kParenthesesBracketClose)))
         {
             SyntaxError (TOKEN_POSITION);
             return kMissCommaInArgs;
         }
+
+        if (CHECK_TOKEN_OP (kSym, kComma))
+        {
+            SHIFT_TOKEN;
+        }
+
+        count_args++;
     }
+
+    (*node)->value.function.cnt_args = count_args;
 
     if (done)
     {
@@ -542,11 +596,7 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
         }
         return SyntaxError (TOKEN_POSITION);
     }
-        fprintf (stderr, "rofl in command\n");
-    {
-        // result = GetAssign (tokens, token_index, &root, list, variables);
-        // REMOVE_TOKEN;
-    }
+
     if (result != kDoneLang)
     {
         if (root != NULL)
@@ -568,7 +618,6 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
 
     if (!(CHECK_TOKEN_OP (kSym, kCommandEnd)))
     {
-        fprintf (stderr, "rofl rofl rofl\n");
         SyntaxError (TOKEN_POSITION);
         return kInvalidCommand;
     }
@@ -599,7 +648,7 @@ static enum LangError GetFunctionCall (const token_t* const tokens, size_t* cons
     }
 
     (*node)->type = kUserFunc;
-    strcpy ((*node)->value.func_name, tokens [*token_index].value.variable);
+    strcpy ((*node)->value.function.func_name, tokens [*token_index].value.variable);
     SHIFT_TOKEN;
 
     if (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketOpen)))
@@ -611,53 +660,38 @@ static enum LangError GetFunctionCall (const token_t* const tokens, size_t* cons
 
     bool first_arg = true;
 
+    size_t count_args = 0;
+
     while (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketClose)))
     {
         if (!(first_arg) && !(CHECK_TOKEN_OP (kSym, kComma)))
         {
             return kMissCommaFuncCall;
         }
-        SHIFT_TOKEN;
+
         first_arg = false;
 
         if (*root == NULL)
         {
             *root = TreeCtor ();
-        }
-
-        if (TOKEN_TYPE == kNum)
-        {
-            **root = {.type = TOKEN_TYPE, {.number = tokens [*token_index].value.number},  .parent = NULL, .left = NULL, .right = NULL};
-            SHIFT_TOKEN;
-            root = &((*root)->right);
-            continue;
-        }
-        else if (TOKEN_TYPE == kVar)
-        {
-            SHIFT_TOKEN;
-            if (CHECK_TOKEN_OP (kSym, kParenthesesBracketOpen))
+            if (*root == NULL)
             {
-                REMOVE_TOKEN;
-                result = GetFunctionCall (tokens, token_index, root, list, variables);
-                CHECK_RESULT;
-                root = &((*root)->right);
-                continue;
+                return kCantCreateNode;
             }
-            REMOVE_TOKEN;
-
-            long long index = FindVarInTable (tokens [*token_index].value.variable, *list, *variables);
-
-            **root = {.type = TOKEN_TYPE, {.operation = kUndefinedNode}, .parent = NULL, .left = NULL, .right = NULL};
-            if (index == LLONG_MAX)
-            {
-                return kUndefinedVariable;
-            }
-            strcpy ((*root)->value.variable, tokens [*token_index].value.variable);
-            SHIFT_TOKEN;
         }
-        root = &((*root)->right);
+
+        **root = {.type = kSym, {.operation = kComma},  .parent = NULL, .left = NULL, .right = NULL};
+        SHIFT_TOKEN;
+
+        result = GetAddSub (tokens, token_index, &((*root)->right), list, variables);
+        CHECK_RESULT;
+
+        root = &((*root)->left);
+        count_args++;
     }
     SHIFT_TOKEN;
+
+    (*node)->value.function.cnt_args = count_args;
 
     return kDoneLang;
 }
@@ -710,7 +744,8 @@ static enum LangError GetAssign (const token_t* const tokens, size_t* const toke
         return kUndefinedVariable;
     }
 
-    strcpy ((*node)->left->value.variable, tokens [*token_index].value.variable);
+    strcpy ((*node)->left->value.variable.variable, tokens [*token_index].value.variable);
+    (*node)->left->value.variable.index = index;
 
     SHIFT_TOKEN;
     SHIFT_TOKEN;
@@ -865,13 +900,10 @@ static enum LangError GetIf (const token_t* const tokens, size_t* const token_in
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
         result = GetCommand (tokens, token_index, root, list, variables);
-    fprintf (stderr, "roflim\n");
         CHECK_RESULT;
         root = &((*root)->left);
         i++;
-        fprintf (stderr, "rofl %d\n", i);
     }
-    fprintf (stderr, "outside rofl %d\n", i);
     SHIFT_TOKEN;
 
     if (!(CHECK_TOKEN_OP (kCond, kElse)))
@@ -1188,7 +1220,8 @@ static enum LangError GetNumFunc (const token_t* const tokens, size_t* const tok
         {
             return kUndefinedVariable;
         }
-        strcpy ((*node)->value.variable, tokens [*token_index].value.variable);
+        strcpy ((*node)->value.variable.variable, tokens [*token_index].value.variable);
+        (*node)->value.variable.index = index;
         SHIFT_TOKEN;
 
         return kDoneLang;
@@ -1322,3 +1355,17 @@ static enum LangError SyntaxError (const size_t number_nl, const size_t line_pos
 
     return kSyntaxError;
 }
+
+//-----DSL----------------------------------------------------------------------------------------------------
+
+#undef TOKEN_POSITION
+#undef SHIFT_TOKEN
+#undef REMOVE_TOKEN
+#undef CHECK_RESULT
+#undef CHECK_TOKEN_OP
+#undef TOKEN_TYPE
+#undef CHECK_END
+#undef TOKEN_OP_PATTERN
+#undef CHECK_NULL_PTR
+
+//------------------------------------------------------------------------------------------------------------

@@ -132,7 +132,7 @@ static enum LangError PrintVar (const node_t* const root, FILE* const output_fil
     ASSERT (root        != NULL, "Invalid argument root = %p\n", root);
     ASSERT (output_file != NULL, "Invalid argument output_file = %p\n", output_file);
 
-    fprintf (output_file, "push [bx+%s]\n", root->value.variable);
+    fprintf (output_file, "push [bx+%lld]\n", root->value.variable.index);
 
     return kDoneLang;
 }
@@ -172,7 +172,7 @@ static enum LangError PrintSym (const node_t* const root, FILE* const output_fil
     if (root->value.operation == kAssign)
     {
         PrintNode (root->right, output_file);
-        fprintf (output_file, "pop [bx+%s]\n", root->left->value.variable);
+        fprintf (output_file, "pop [bx+%lld]\n", root->left->value.variable.index);
     }
 
     if (root->value.operation == kCommandEnd)
@@ -202,7 +202,7 @@ static enum LangError PrintUserFuncCall (const node_t* const root, FILE* const o
     fprintf (output_file, "call %s:\n"
                           "push bx\n"
                           "pop cx\n"
-                          "pop bx\n", root->value.func_name);
+                          "pop bx\n", root->value.function.func_name);
 
     return kDoneLang;
 }
@@ -212,14 +212,14 @@ static enum LangError PrintArgs (const node_t* const root, FILE* const output_fi
     ASSERT (root        != NULL, "Invalid argument root = %p\n", root);
     ASSERT (output_file != NULL, "Invalid argument output_file = %p\n", output_file);
 
-    fprintf (output_file, "push [dx+%s]\n"
+    fprintf (output_file, "push [dx+%lld]\n"
                           "push bx\n"
                           "push cx\n"
                           "add\n"
                           "pop ex\n"
                           "pop [ex]\n"
                           "push cx+1\n"
-                          "pop cx\n", root->value.variable);
+                          "pop cx\n", root->value.variable.index);
 
     if (root->right != NULL)
     {
@@ -269,7 +269,7 @@ static enum LangError PrintUserFuncPattern (const node_t* const root, FILE* cons
     ASSERT (root        != NULL, "Invalid argument root = %p\n", root);
     ASSERT (output_file != NULL, "Invalid argument output_file = %p\n", output_file);
 
-    fprintf (output_file, "\n%s:\n", root->value.func_name);
+    fprintf (output_file, "\n%s:\n", root->value.function.func_name);
 
     PrintDefinition (root->right, output_file);
 

@@ -80,6 +80,8 @@ static enum LangError PrintNodeInfoLang (node_t* const node, FILE* const dump_fi
     ASSERT (node      != NULL, "Invalid argument node = %p\n", node);
     ASSERT (dump_file != NULL, "Invalid argument dump_file = %p\n", dump_file);
 
+#ifndef NDEBUG
+
 //-------------------------------------------------------------------
     #define PRINT_NODE(type, color_node, data, specifier)           \
         case type:                                                  \
@@ -87,7 +89,7 @@ static enum LangError PrintNodeInfoLang (node_t* const node, FILE* const dump_fi
             fprintf (dump_file, "\t\"node%p\"\n\t[\n"               \
                                 "\t\tlabel = \""                    \
                                 "{ <parent> parent = %p |\n"        \
-                                "\t\tnode = %p |"                      \
+                                "\t\tnode = %p |"                   \
                                 " <f0> " specifier " |"             \
                                 "{ <f1> left = %p |"                \
                                 " <f2> right = %p } }\"\n"          \
@@ -105,6 +107,28 @@ static enum LangError PrintNodeInfoLang (node_t* const node, FILE* const dump_fi
         }
 //-------------------------------------------------------------------
 
+#else // NDEBUG
+
+//-------------------------------------------------------------------
+    #define PRINT_NODE(type, color_node, data, specifier)           \
+        case type:                                                  \
+        {                                                           \
+            fprintf (dump_file, "\t\"node%p\"\n\t[\n"               \
+                                "\t\tlabel = \""                    \
+                                "{ <f0> " specifier " }\""          \
+                                "\t\tshape = \"record\"\n"          \
+                                "\t\tstyle = \"filled\"\n"          \
+                                "\t\tfillcolor = \"%s\"\n"          \
+                                "\t\tcolor = \"%s\"\n"              \
+                                "\t];\n\n",                         \
+                                (void*) node, data,                 \
+                                color_node, color_node);            \
+            return kDoneLang;                                       \
+        }
+//-------------------------------------------------------------------
+
+#endif // NDEBUG
+
     LOG (kDebug, "Function got arguments:\n"
                  "| node = %p | dump_file = %p |\n",
                  node, dump_file);
@@ -113,7 +137,7 @@ static enum LangError PrintNodeInfoLang (node_t* const node, FILE* const dump_fi
     {
         PRINT_NODE (kMainFunc, kColorNodeMain,     EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kNum,      kColorNodeNum,      node->value.number,                    "%.3lf");
-        PRINT_NODE (kVar,      kColorNodeVar,      node->value.variable,                  "%s"  );
+        PRINT_NODE (kVar,      kColorNodeVar,      node->value.variable.variable,         "%s"  );
         PRINT_NODE (kArithm,   kColorNodeArithm,   EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kFunc,     kColorNodeFunc,     EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kCycle,    kColorNodeCycle,    EnumFuncToStr (node->value.operation), "%s"   );
@@ -121,7 +145,7 @@ static enum LangError PrintNodeInfoLang (node_t* const node, FILE* const dump_fi
         PRINT_NODE (kComp,     kColorNodeComp,     EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kSym,      kColorNodeSym,      EnumFuncToStr (node->value.operation), "%s"   );
         PRINT_NODE (kType,     kColorNodeType,     EnumFuncToStr (node->value.operation), "%s"   );
-        PRINT_NODE (kUserFunc, kColorNodeUserFunc, node->value.func_name,                 "%s"   );
+        PRINT_NODE (kUserFunc, kColorNodeUserFunc, node->value.function.func_name,        "%s"   );
         PRINT_NODE (kEndToken, kColorNodeEnd,      "end",                                 "%s"   );
 
         case kNewNode:
@@ -170,6 +194,8 @@ static enum LangError PrintEdgesTreeLang (node_t* const root, FILE* const dump_f
                  "| root = %p | dump_file = %p |\n",
                  root, dump_file);
 
+#ifndef NDEBUG
+
     if (root->left != NULL)
     {
         fprintf (dump_file, "\t\"node%p\":f1 -> \"node%p\""
@@ -192,6 +218,33 @@ static enum LangError PrintEdgesTreeLang (node_t* const root, FILE* const dump_f
                             "[color = \"black\", color = \"%s\"];\n\n",
                             (void*) root, (void*) root->parent, kColorEdgeParent);
     }
+
+#else // NDEBUG
+
+    if (root->left != NULL)
+    {
+        fprintf (dump_file, "\t\"node%p\" -> \"node%p\""
+                            "[color = \"black\", color = \"%s\"];\n\n",
+                            (void*) root, (void*) root->left, kColorEdgeLeft);
+        PrintEdgesTreeLang (root->left, dump_file);
+    }
+
+    if (root->right != NULL)
+    {
+        fprintf (dump_file, "\t\"node%p\" -> \"node%p\""
+                            "[color = \"black\", color = \"%s\"];\n\n",
+                            (void*) root, (void*) root->right, kColorEdgeRight);
+        PrintEdgesTreeLang (root->right, dump_file);
+    }
+
+    if (root->parent != NULL)
+    {
+        fprintf (dump_file, "\t\"node%p\" -> \"node%p\" "
+                            "[color = \"black\", color = \"%s\"];\n\n",
+                            (void*) root, (void*) root->parent, kColorEdgeParent);
+    }
+
+#endif //NDEBUG
 
     return kDoneLang;
 }

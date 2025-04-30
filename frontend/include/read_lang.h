@@ -18,41 +18,6 @@ static const char kEOF           = '\0';
 __attribute_maybe_unused__ static const char* kRedTextTerminal    = "\033[1;31m";
 __attribute_maybe_unused__ static const char* kNormalTextTerminal = "\033[0m";
 
-//-----DSL----------------------------------------------------------------------------------------------------
-
-#define TOKEN_POSITION tokens [*token_index].number_of_line, tokens[*token_index].line_pos
-
-#define SHIFT_TOKEN (*token_index)++;
-
-#define REMOVE_TOKEN (*token_index)--;
-
-#define CHECK_RESULT                \
-        if (result != kDoneLang)    \
-        {                           \
-            return result;          \
-        }
-
-#define CHECK_TOKEN_OP(token_type, op_type)\
-    ((tokens [*token_index].type == token_type) && (tokens [*token_index].value.operation == op_type))
-
-#define TOKEN_TYPE tokens [*token_index].type
-
-#define CHECK_END                                       \
-        if (tokens [*token_index].type == kEndToken)    \
-        {                                               \
-            return kDoneLang;                           \
-        }
-
-#define TOKEN_OP_PATTERN {.type = TOKEN_TYPE, {.operation = tokens [*token_index].value.operation}, .parent = NULL, .left = NULL, .right = NULL}
-
-#define CHECK_NULL_PTR(root)                \
-    if (root == NULL)                       \
-    {                                       \
-        return SyntaxError (TOKEN_POSITION);\
-    }
-
-//------------------------------------------------------------------------------------------------------------
-
 typedef struct variables
 {
     size_t var_num;
