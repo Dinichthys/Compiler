@@ -31,25 +31,37 @@
 //-----WRITING------------------------------------------------------------------------------------------------
 
 #define WRITE_ASSIGN_VAR(variable)                                                                              \
-    fprintf (ir_file, "GYPSI(88_tmp%lu, VAR, %s)              # var\n", *tmp_var_counter, variable);            \
+    fprintf (ir_file, "\tGYPSI(88_tmp%lu, VAR, %s)              # var to tmp\n", *tmp_var_counter, variable);     \
     (*tmp_var_counter)++;
 
 #define WRITE_ASSIGN_NUM(number)                                                                                \
-    fprintf (ir_file, "GYPSI(88_tmp%lu, NUM, %lf)             # num\n", *tmp_var_counter, number);              \
+    fprintf (ir_file, "\tGYPSI(88_tmp%lu, NUM, %lf)             # num to tmp\n", *tmp_var_counter, number);       \
     (*tmp_var_counter)++;
 
 #define WRITE_ASSIGN_TMP(number)                                                                                \
-    fprintf (ir_file, "GYPSI(88_tmp%lu, TMP, 88_tmp%lu)       # tmp\n", *tmp_var_counter, number);              \
+    fprintf (ir_file, "\tGYPSI(88_tmp%lu, TMP, 88_tmp%lu)       # tmp to tmp\n", *tmp_var_counter, number);       \
     (*tmp_var_counter)++;
 
 #define WRITE_ASSIGN_TMP_TO_VAR(var, number)                                                                    \
-    fprintf (ir_file, "GYPSI(%s, TMP, 88_tmp%lu)              # tmp\n", var, number);
+    fprintf (ir_file, "\tGYPSI(%s, TMP, 88_tmp%lu)              # tmp to variable\n", var, number);
+
+#define WRITE_ASSIGN_ARG_TO_VAR(var, arg_index)                                                                 \
+    fprintf (ir_file, "\tGYPSI(%s, ARG, 14_arg%lu)              # arg to variable\n", var, arg_index);
 
 #define WRITE_ASSIGN_RES(variable)                                                                              \
-    fprintf (ir_file, "GYPSI(%s, TMP, 88_tmp%lu)              # result\n", variable, *tmp_var_counter - 1);
+    fprintf (ir_file, "\tGYPSI(%s, TMP, 88_tmp%lu)              # result to variable\n",                          \
+             variable, *tmp_var_counter - 1);
+
+#define WRITE_ASSIGN_RES_TO_ARG(arg_index)                                                                      \
+    fprintf (ir_file, "\tGYPSI(14_arg%lu, TMP, 88_tmp%lu)       # result to argument in function\n",              \
+             arg_index, *tmp_var_counter - 1);
+
+#define WRITE_ASSIGN_TMP_TO_ARG(arg_index, tmp_index)                                                           \
+    fprintf (ir_file, "\tGYPSI(14_arg%lu, TMP, 88_tmp%lu)       # tmp to argument in function\n",                 \
+             arg_index, tmp_index);
 
 #define WRITE_ASSIGN(operation, operand1, operand2)                                                             \
-    fprintf (ir_file, "GYPSI(88_tmp%lu, %s, 88_tmp%lu, 88_tmp%lu)\n",                                           \
+    fprintf (ir_file, "\tGYPSI(88_tmp%lu, %s, 88_tmp%lu, 88_tmp%lu)\n",                                           \
              *tmp_var_counter, operation, operand1, operand2);                                                  \
     (*tmp_var_counter)++;
 
@@ -67,6 +79,7 @@
 #define WRITE_LABEL(label_num, meaning)                                                                         \
     fprintf (ir_file, "\nFIFT(label%lu)                          # " meaning "\n",                              \
              label_num);
+
 
 #define WRITE_COND_JMP(label_num, tmp_num, meaning)                                                                      \
     fprintf (ir_file, "\nENTER(label%lu, 88_tmp%lu)              # " meaning "\n",                              \
@@ -265,6 +278,8 @@ static enum LangError WriteCallFunc (const node_t* const root, FILE* const ir_fi
     result = WriteExpression (root->right, ir_file, tmp_var_counter);
     CHECK_RESULT;
 
+    WRITE_ASSIGN_RES_TO_ARG (0LU);
+
     WRITE_CALL (EnumFuncToStr(root->value.operation), 1LU);
 
     return result;
@@ -319,7 +334,7 @@ static enum LangError WriteCallUserFunc (const node_t* const root, FILE* const i
             STACK_DTOR_SHORT (stk_args);
             return kCantPopTMPVarCounter;
         }
-        WRITE_ASSIGN_TMP (tmp_arg_index);
+        WRITE_ASSIGN_TMP_TO_ARG (arg_index, tmp_arg_index);
     }
 
     WRITE_CALL (root->value.function.func_name, count_args);
@@ -423,7 +438,7 @@ static enum LangError WriteArgs (const node_t* const root, FILE* const ir_file,
          (CHECK_NODE_OP (arg_node, kType, kDouble)) && (CHECK_NODE_TYPE (arg_node->right, kVar));
          arg_index++)
     {
-        WRITE_ASSIGN_TMP_TO_VAR (arg_node->right->value.variable.variable, *tmp_var_counter - arg_index - 2);
+        WRITE_ASSIGN_ARG_TO_VAR (arg_node->right->value.variable.variable, cnt_args - arg_index - 1);
         arg_node = arg_node->left;
     }
 
@@ -607,11 +622,13 @@ static enum LangError WriteCycle (const node_t* const root, FILE* const ir_file,
     WRITE_JMP (*label_counter + 1, "While: jump over cycle body");
 
     WRITE_LABEL (*label_counter, "While: body");
-    size_t while_body_end_label_num = *label_counter + 1;
+    const size_t while_body_end_label_num = *label_counter + 1;
     *label_counter += 2;
 
     result = WriteCommand (root->left, ir_file, &scope_tmp_var_counter, label_counter);
     CHECK_RESULT;
+
+    WRITE_JMP (while_body_end_label_num - 2, "While: jump back to comparison");
 
     WRITE_LABEL (while_body_end_label_num, "While: end body");
 
@@ -636,9 +653,12 @@ static enum LangError WriteCycle (const node_t* const root, FILE* const ir_file,
 #undef WRITE_ASSIGN_TMP_TO_VAR
 #undef WRITE_ASSIGN_RES
 #undef WRITE_ASSIGN
+
 #undef WRITE_CALL
 #undef WRITE_FUNC
+
 #undef WRITE_LABEL
+
 #undef WRITE_COND_JMP
 #undef WRITE_JMP
 
