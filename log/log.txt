@@ -1,0 +1,4143 @@
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:251 (ReadBufferFromFile) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+File with name "Program.to" and pointer [0x515000000800] was opened
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:259 (ReadBufferFromFile) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Size of file = 1144
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:273 (ReadBufferFromFile) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer = 0x7b946be00030
+Size of file = 1144
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:282 (ReadBufferFromFile) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+File with pointer [0x515000000800] was closed
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 0
+Position in line    = 1
+Number of new lines = 1
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "фраер"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 11
+Position in line    = 12
+Number of new lines = 1
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "Блатной"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 14
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 26
+Position in line    = 27
+Number of new lines = 1
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "заковали"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 16
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 43
+Position in line    = 44
+Number of new lines = 1
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "в_браслеты"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 19
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 63
+Position in line    = 1
+Number of new lines = 2
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "век"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 74
+Position in line    = 5
+Number of new lines = 3
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "фраер"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 85
+Position in line    = 16
+Number of new lines = 3
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 96
+Position in line    = 27
+Number of new lines = 3
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "отжал"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 107
+Position in line    = 38
+Number of new lines = 3
+Run time symbol     = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 107
+Run time symbol = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 109
+Position in line    = 40
+Number of new lines = 3
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "вырезал"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 14
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 124
+Position in line    = 55
+Number of new lines = 3
+Run time symbol     = {3}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 124
+Run time symbol = {3}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 126
+Position in line    = 57
+Number of new lines = 3
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 151
+Position in line    = 5
+Number of new lines = 4
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 162
+Position in line    = 16
+Number of new lines = 4
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "отжал"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 173
+Position in line    = 27
+Number of new lines = 4
+Run time symbol     = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 173
+Run time symbol = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 175
+Position in line    = 29
+Number of new lines = 4
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 201
+Position in line    = 5
+Number of new lines = 6
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "УДО"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 208
+Position in line    = 12
+Number of new lines = 6
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "заковали"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 16
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 225
+Position in line    = 29
+Number of new lines = 6
+Run time symbol     = {1}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 225
+Run time symbol = {1}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 227
+Position in line    = 31
+Number of new lines = 6
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "блатнее"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 14
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 242
+Position in line    = 46
+Number of new lines = 6
+Run time symbol     = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 242
+Run time symbol = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 244
+Position in line    = 48
+Number of new lines = 6
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "в_браслеты"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 19
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 268
+Position in line    = 5
+Number of new lines = 7
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "век"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 283
+Position in line    = 9
+Number of new lines = 8
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 294
+Position in line    = 20
+Number of new lines = 8
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "отжал"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 305
+Position in line    = 31
+Number of new lines = 8
+Run time symbol     = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 305
+Run time symbol = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 307
+Position in line    = 33
+Number of new lines = 8
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 332
+Position in line    = 5
+Number of new lines = 9
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "воли_не_видать"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 26
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 363
+Position in line    = 5
+Number of new lines = 10
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 389
+Position in line    = 5
+Number of new lines = 12
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "фраер"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 400
+Position in line    = 16
+Number of new lines = 12
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "мужик"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 411
+Position in line    = 27
+Number of new lines = 12
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "отжал"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 422
+Position in line    = 38
+Number of new lines = 12
+Run time symbol     = {1}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 422
+Run time symbol = {1}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 425
+Position in line    = 41
+Number of new lines = 12
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 450
+Position in line    = 5
+Number of new lines = 13
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "чалиться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 16
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 467
+Position in line    = 22
+Number of new lines = 13
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "заковали"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 16
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 484
+Position in line    = 39
+Number of new lines = 13
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 495
+Position in line    = 50
+Number of new lines = 13
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "опущенный"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 18
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 514
+Position in line    = 69
+Number of new lines = 13
+Run time symbol     = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 514
+Run time symbol = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 516
+Position in line    = 71
+Number of new lines = 13
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "в_браслеты"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 19
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 540
+Position in line    = 5
+Number of new lines = 14
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "век"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 555
+Position in line    = 9
+Number of new lines = 15
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "мужик"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 566
+Position in line    = 20
+Number of new lines = 15
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "отжал"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 577
+Position in line    = 31
+Number of new lines = 15
+Run time symbol     = {5}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 577
+Run time symbol = {5}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 580
+Position in line    = 34
+Number of new lines = 15
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 605
+Position in line    = 5
+Number of new lines = 16
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "воли_не_видать"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 26
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 636
+Position in line    = 5
+Number of new lines = 17
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 662
+Position in line    = 5
+Number of new lines = 19
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "кукушка"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 14
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 677
+Position in line    = 20
+Number of new lines = 19
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "заковали"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 16
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 694
+Position in line    = 37
+Number of new lines = 19
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 705
+Position in line    = 48
+Number of new lines = 19
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "перо_под_ребро"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 26
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 732
+Position in line    = 75
+Number of new lines = 19
+Run time symbol     = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 732
+Run time symbol = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 734
+Position in line    = 77
+Number of new lines = 19
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "в_браслеты"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 19
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 754
+Position in line    = 97
+Number of new lines = 19
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 775
+Position in line    = 1
+Number of new lines = 20
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "воли_не_видать"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 26
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 803
+Position in line    = 1
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "фраер"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 814
+Position in line    = 12
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "кукушка"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 14
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 829
+Position in line    = 27
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "заковали"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 16
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 846
+Position in line    = 44
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "фраер"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 857
+Position in line    = 55
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "рофлинка"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 16
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 874
+Position in line    = 72
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "перо_под_ребро"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 26
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 901
+Position in line    = 99
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "фраер"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 912
+Position in line    = 110
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "пацан"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 923
+Position in line    = 121
+Number of new lines = 22
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "в_браслеты"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 19
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 943
+Position in line    = 1
+Number of new lines = 23
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "век"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 954
+Position in line    = 5
+Number of new lines = 24
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "покукарекай"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 22
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 977
+Position in line    = 28
+Number of new lines = 24
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "рофлинка"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 16
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 994
+Position in line    = 45
+Number of new lines = 24
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1019
+Position in line    = 5
+Number of new lines = 25
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "АТАС_ШМОН"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 17
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1037
+Position in line    = 23
+Number of new lines = 25
+Run time symbol     = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 1037
+Run time symbol = {2}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1039
+Position in line    = 25
+Number of new lines = 25
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1060
+Position in line    = 1
+Number of new lines = 26
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "воли_не_видать"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 26
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1088
+Position in line    = 1
+Number of new lines = 28
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "фраер"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1099
+Position in line    = 12
+Number of new lines = 28
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "челик"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1110
+Position in line    = 23
+Number of new lines = 28
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "отжал"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1121
+Position in line    = 34
+Number of new lines = 28
+Run time symbol     = {3}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1301 (SkipNumber) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer    = 0x519000000080
+Offset          = 1121
+Run time symbol = {3}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:168 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Input buffer        = 0x519000000080
+Offset              = 1123
+Position in line    = 36
+Number of new lines = 28
+Run time symbol     = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:213 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Current symbol = {�}
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1245 (IdentifyToken) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Word = "откинуться"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:220 (ParseTokens) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Length of the word = 20
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_construction.cpp:17 (ListCtor) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Constructor of the list got argument:
+| list = 0x7b946c300020 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_push.cpp:58 (ListPushFront) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Push after head of the list got argument:
+| list = 0x7b946c300020 | element = 135877400462032 |
+| Head = 0 | Tail = 0 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_push.cpp:16 (ListPushAfterIndex) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Push after index of the list got argument:
+| list = 0x7b946c300020 | element = 0x7b946c3002d0 | index = 0 |
+| Next = 0 | Previous = 0 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:384 (GetFunctionPattern) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 1
+Node*              = (nil)
+Current token type = 1
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 5
+Node*              = 0x5110000002c0
+Current token type = 9
+Current token val  = 1124105072
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:708 (GetAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 6
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 8
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 8
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 8
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 8
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 8
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 10
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 10
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 10
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 10
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 12
+Node*              = (nil)
+Current token type = 3
+Current token val  = 1124105072
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:708 (GetAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 12
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 14
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 14
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 14
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 14
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 14
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 16
+Node*              = (nil)
+Current token type = 7
+Current token val  = 1124105072
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_push.cpp:58 (ListPushFront) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Push after head of the list got argument:
+| list = 0x7b946c300020 | element = 135877400526928 |
+| Head = 1 | Tail = 1 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_push.cpp:16 (ListPushAfterIndex) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Push after index of the list got argument:
+| list = 0x7b946c300020 | element = 0x7b946c310050 | index = 1 |
+| Next = 0 | Previous = 0 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:834 (GetIf) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 17
+Node*              = 0x511000001080
+Current token type = 8
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:948 (GetCond) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 18
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 18
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 18
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 18
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 18
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 18
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 20
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 20
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 20
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 20
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 20
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 23
+Node*              = 0x511000001800
+Current token type = 3
+Current token val  = 1124021248
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:708 (GetAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 23
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 25
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 25
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 25
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 25
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 25
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_pop.cpp:75 (ListPopFront) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Pop front of the list got argument:
+| list = 0x7b946c300020 | element = 0x7fff43011ef0 |
+| Head = 2 | Tail = 1 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_pop.cpp:16 (ListPopAfterIndex) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Pop of index of the list got argument:
+| list = 0x7b946c300020 | element = 0x7fff43011ef0 | index = 2 |
+| Next = 0 | Previous = 1 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 29
+Node*              = (nil)
+Current token type = 9
+Current token val  = 1124105072
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:708 (GetAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 30
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "мужик"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 32
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 32
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 32
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 32
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 32
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 34
+Node*              = (nil)
+Current token type = 6
+Current token val  = 1124105072
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_push.cpp:58 (ListPushFront) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Push after head of the list got argument:
+| list = 0x7b946c300020 | element = 135877400526928 |
+| Head = 1 | Tail = 1 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_push.cpp:16 (ListPushAfterIndex) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Push after index of the list got argument:
+| list = 0x7b946c300020 | element = 0x7b946c310050 | index = 1 |
+| Next = 0 | Previous = 0 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:773 (GetCycle) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 35
+Node*              = 0x511000002480
+Current token type = 8
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:948 (GetCond) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 36
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 36
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 36
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 36
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 36
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 36
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1208 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable in expression = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 38
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 38
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 38
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 38
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 38
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 41
+Node*              = 0x511000002980
+Current token type = 3
+Current token val  = 1124022464
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:708 (GetAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 41
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "мужик"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 43
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 43
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 43
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 43
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 43
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_pop.cpp:75 (ListPopFront) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Pop front of the list got argument:
+| list = 0x7b946c300020 | element = 0x7fff430081a0 |
+| Head = 2 | Tail = 1 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_pop.cpp:16 (ListPopAfterIndex) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Pop of index of the list got argument:
+| list = 0x7b946c300020 | element = 0x7fff430081a0 | index = 2 |
+| Next = 0 | Previous = 1 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 47
+Node*              = (nil)
+Current token type = 3
+Current token val  = 1124105072
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 49
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 49
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 49
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 49
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 49
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1208 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable in expression = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "петух"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 51
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 51
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 51
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 51
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 51
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_pop.cpp:75 (ListPopFront) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Pop front of the list got argument:
+| list = 0x7b946c300020 | element = 0x7b946c3002d0 |
+| Head = 1 | Tail = 1 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_pop.cpp:16 (ListPopAfterIndex) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Pop of index of the list got argument:
+| list = 0x7b946c300020 | element = 0x7b946c3002d0 | index = 1 |
+| Next = 0 | Previous = 0 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_push.cpp:58 (ListPushFront) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Push after head of the list got argument:
+| list = 0x7b946c300020 | element = 135877400462032 |
+| Head = 0 | Tail = 0 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_push.cpp:16 (ListPushAfterIndex) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Push after index of the list got argument:
+| list = 0x7b946c300020 | element = 0x7b946c3002d0 | index = 0 |
+| Next = 0 | Previous = 0 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:384 (GetFunctionPattern) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 56
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 65
+Node*              = 0x511000004000
+Current token type = 4
+Current token val  = 1124105072
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 65
+Node*              = (nil)
+Current token type = 4
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 66
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 66
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1208 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable in expression = "рофлинка"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "рофлинка"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:521 (GetCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 68
+Node*              = (nil)
+Current token type = 13
+Current token val  = 1124105072
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 68
+Node*              = (nil)
+Current token type = 13
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 69
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 69
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_pop.cpp:75 (ListPopFront) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Pop front of the list got argument:
+| list = 0x7b946c300020 | element = 0x7b946c3002d0 |
+| Head = 1 | Tail = 1 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_pop.cpp:16 (ListPopAfterIndex) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Pop of index of the list got argument:
+| list = 0x7b946c300020 | element = 0x7b946c3002d0 | index = 1 |
+| Next = 0 | Previous = 0 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "челик"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:708 (GetAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 73
+Node*              = (nil)
+Current token type = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1262 (FindVarInTable) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Variable for finding = "челик"
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:990 (GetAddSub) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 75
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1040 (GetMulDiv) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 75
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1097 (GetPow) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 75
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1147 (GetBrace) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 75
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/read_lang.cpp:1186 (GetNumFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Tokens' array      = 0x7b946f0f1800
+Index of token     = 75
+Node*              = (nil)
+Current token type = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/List/source/list_construction.cpp:61 (ListDtor) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Destructor of the list got argument:
+| list = 0x7b946c300020 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:18 (DumpLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000040 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:25 (DumpLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+File with name "log/Dump.html" and pointer [0x515000001480] was opened
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:37 (DumpLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+File with name "log/Dump.dot" and pointer [0x515000001700] was opened
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000040 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000040 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003740 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003740 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004780 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000004780 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000048c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000048c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004a00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000004a00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004b40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000004b40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003880 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003880 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004000 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000004000 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004640 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000004640 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000043c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000043c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004500 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000004500 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004140 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000004140 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004280 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000004280 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000039c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000039c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003c40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003c40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003d80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003d80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003b00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003b00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000180 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000180 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000002c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000002c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000f40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000f40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001d00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001d00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002340 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002340 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002e80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002e80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003600 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003600 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002fc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002fc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003100 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003100 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003380 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003380 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000034c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000034c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003240 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000003240 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002480 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002480 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002980 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002980 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002ac0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002ac0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002c00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002c00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002d40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002d40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000025c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000025c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002700 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002700 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002840 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002840 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001e40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001e40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001f80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001f80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000020c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000020c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002200 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000002200 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001080 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001080 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001580 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001580 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001800 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001800 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001940 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001940 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001a80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001a80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001bc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001bc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000011c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000011c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001300 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001300 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001440 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000001440 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000b80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000b80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000cc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000cc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000e00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000e00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000400 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000400 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000540 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000540 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000680 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000680 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000900 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000900 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000007c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x5110000007c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:170 (PrintTreeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000a40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:132 (PrintNodeInfoLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| node = 0x511000000a40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000040 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003740 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004780 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000048c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004a00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004b40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003880 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004000 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004640 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000043c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004500 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004140 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000004280 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000039c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003c40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003d80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003b00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000180 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000002c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000f40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001d00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002340 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002e80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003600 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002fc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003100 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003380 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000034c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000003240 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002480 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002980 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002ac0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002c00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002d40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000025c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002700 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002840 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001e40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001f80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000020c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000002200 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001080 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001580 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001800 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001940 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001a80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001bc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000011c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001300 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000001440 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000b80 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000cc0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000e00 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000400 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000540 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000680 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000900 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x5110000007c0 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:194 (PrintEdgesTreeLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Function got arguments:
+| root = 0x511000000a40 | dump_file = 0x515000001700 |
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:57 (DumpLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+File with pointer [0x515000001700] was closed
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/libs/tree/source/dump_lang.cpp:73 (DumpLang) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+File with pointer [0x515000001480] was closed
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:141 (WriteIR) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root = 0x511000000040
+File = 0x515000000300
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:162 (WriteGlobalVars) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000040
+File          = 0x515000000300
+TMP counter   = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:162 (WriteGlobalVars) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000003740
+File          = 0x515000000300
+TMP counter   = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:162 (WriteGlobalVars) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000004780
+File          = 0x515000000300
+TMP counter   = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:190 (WriteAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x5110000048c0
+File          = 0x515000000300
+TMP counter   = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000004b40
+File          = 0x515000000300
+TMP counter   = 2
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:360 (WriteFuncs) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000040
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:391 (WriteFuncPattern) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000180
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x5110000002c0
+File          = 0x515000000300
+TMP counter   = 3
+Label counter = 0
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:190 (WriteAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000540
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000900
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x5110000007c0
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000a40
+File          = 0x515000000300
+TMP counter   = 4
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000f40
+File          = 0x515000000300
+TMP counter   = 6
+Label counter = 0
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:190 (WriteAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000b80
+File          = 0x515000000300
+TMP counter   = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000000e00
+File          = 0x515000000300
+TMP counter   = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000001d00
+File          = 0x515000000300
+TMP counter   = 7
+Label counter = 0
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:554 (WriteIf) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000001080
+File          = 0x515000000300
+TMP counter   = 7
+Label counter = 0
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x5110000011c0
+File          = 0x515000000300
+TMP counter   = 7
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000001300
+File          = 0x515000000300
+TMP counter   = 7
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000001440
+File          = 0x515000000300
+TMP counter   = 8
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000001800
+File          = 0x515000000300
+TMP counter   = 10
+Label counter = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:190 (WriteAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000001940
+File          = 0x515000000300
+TMP counter   = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000001bc0
+File          = 0x515000000300
+TMP counter   = 10
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002340
+File          = 0x515000000300
+TMP counter   = 7
+Label counter = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:190 (WriteAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000001f80
+File          = 0x515000000300
+TMP counter   = 7
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002200
+File          = 0x515000000300
+TMP counter   = 7
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002e80
+File          = 0x515000000300
+TMP counter   = 8
+Label counter = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:615 (WriteCycle) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002480
+File          = 0x515000000300
+TMP counter   = 8
+Label counter = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x5110000025c0
+File          = 0x515000000300
+TMP counter   = 8
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002700
+File          = 0x515000000300
+TMP counter   = 8
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002840
+File          = 0x515000000300
+TMP counter   = 9
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002980
+File          = 0x515000000300
+TMP counter   = 11
+Label counter = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:190 (WriteAssign) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002ac0
+File          = 0x515000000300
+TMP counter   = 11
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002d40
+File          = 0x515000000300
+TMP counter   = 11
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000003600
+File          = 0x515000000300
+TMP counter   = 8
+Label counter = 6
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:302 (WriteCallUserFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000002fc0
+File          = 0x515000000300
+TMP counter   = 8
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000003240
+File          = 0x515000000300
+TMP counter   = 8
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x5110000034c0
+File          = 0x515000000300
+TMP counter   = 9
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:360 (WriteFuncs) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000003740
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:391 (WriteFuncPattern) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000003880
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:434 (WriteArgs) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x5110000039c0
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000004000
+File          = 0x515000000300
+TMP counter   = 3
+Label counter = 0
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:278 (WriteCallFunc) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000004140
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000004280
+File          = 0x515000000300
+TMP counter   = 3
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:468 (WriteCommand) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000004640
+File          = 0x515000000300
+TMP counter   = 5
+Label counter = 0
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:217 (WriteExpression) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000004500
+File          = 0x515000000300
+TMP counter   = 5
+
+
+[DEBUG] 
+/home/dinichthys/Codiruiy/Compiler/frontend/source/write_ir.cpp:360 (WriteFuncs) 7 sec 11 min 23 hours 30 days 4 month 2025 year
+Root          = 0x511000004780
+File          = 0x515000000300
+TMP counter   = 3
+
+
