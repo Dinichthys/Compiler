@@ -1,3 +1,7 @@
 [submodule "libs/List"]
 	path = libs/List
 	url = https://github.com/Dinichthys/List
+
+[submodule "SPU"]
+    path = SPU
+    url = https://github.com/Dinichthys/SPU/tree/Compiler
