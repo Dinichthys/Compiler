@@ -2,10 +2,6 @@
 	path = libs/List
 	url = https://github.com/Dinichthys/List
 
-[submodule "PYAM_IR"]
-    path = libs/PYAM_IR
-    url = https://github.com/kzueirf12345/PYAM_IR
-
 [submodule "SPU"]
 	path = SPU
 	url = https://github.com/Dinichthys/SPU
