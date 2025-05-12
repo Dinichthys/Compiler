@@ -1,9 +1,10 @@
-#ifndef DUMP_LANG_H
+#if !(defined(DUMP_LANG_H))
 #define DUMP_LANG_H
 
 #include <stdlib.h>
 
 #include "language.h"
+#include "struct_lang.h"
 
 static const size_t kCommandTerminalDumpLen   = 200;
 
@@ -24,6 +25,9 @@ static const char* const kColorNodeEnd      = "#A0A0A0";
 static const char* const kColorEdgeLeft   = "blue";
 static const char* const kColorEdgeRight  = "orange";
 static const char* const kColorEdgeParent = "black";
+
+static const char* const kDumpFileNameDot  = "log/Dump.dot";
+static const char* const kDumpFileNameHtml = "log/Dump.html";
 
 enum LangError DumpLang   (node_t* const root);
 const char* EnumFuncToStr (const enum OpType func);

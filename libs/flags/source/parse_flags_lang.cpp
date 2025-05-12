@@ -43,7 +43,7 @@ void ParseFlags (const int argc, char* const argv[], settings_of_program_t* cons
                 {
                     mode = -1;
                     set->stop_program = true;
-                    fprintf (stderr, "There is no files with name %s\n", optarg); // FIXME выводи опцию и perror
+                    fprintf (stderr, "There is no files with name %s\n", optarg);
                 }
                 set->input_file_name = optarg;
                 count_iterate++;

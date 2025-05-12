@@ -1,4 +1,4 @@
-#ifndef HELPFUL_H
+#if !(defined(HELPFUL_H))
 #define HELPFUL_H
 
 #define CLOSE_AND_NULL(file)                            \

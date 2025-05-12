@@ -1,6 +1,10 @@
 #include "language.h"
 #include "parse_flags_lang.h"
 #include "parse_mode_lang.h"
+#include "read_lang.h"
+#include "dump_lang.h"
+#include "write_tree_lang.h"
+#include "write_ir.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -35,7 +39,7 @@ int main (const int argc, char* argv[])
 
     enum LangError result = kDoneLang;
 
-    result = ReadProgram (&set, &root);
+    result = ReadProgram (set.input_file_name, &root);
     ERROR_HANDLER (result);
 
     result = DumpLang (root);
@@ -46,7 +50,6 @@ int main (const int argc, char* argv[])
 
     result = WriteIR (root, set.stream_out);
     ERROR_HANDLER (result);
-
 
     TreeDtor (root);
 

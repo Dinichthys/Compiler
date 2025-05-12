@@ -1,5 +1,8 @@
 #include "dump_lang.h"
 
+#include "struct_lang.h"
+#include "write_tree_lang.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -22,7 +25,7 @@ enum LangError DumpLang (node_t* const root)
     static size_t counter_dump = 0;
 
     FILE* html_dump_file = NULL;
-    FOPEN (html_dump_file, "log/Dump.html", "a");
+    FOPEN (html_dump_file, kDumpFileNameHtml, "a");
     if (html_dump_file == NULL)
     {
         return kCantDumpLang;
@@ -60,7 +63,7 @@ enum LangError DumpLang (node_t* const root)
 
     char command [kCommandTerminalDumpLen] = "";
 
-    sprintf (command, "dot -Tsvg log/Dump.dot -o log/Dump_%lu_.svg\n", counter_dump);
+    sprintf (command, "dot -Tsvg %s -o log/Dump_%lu_.svg\n", kDumpFileNameDot, counter_dump);
 
     if (system (command) == -1)
     {
@@ -80,7 +83,7 @@ static enum LangError PrintNodeInfoLang (node_t* const node, FILE* const dump_fi
     ASSERT (node      != NULL, "Invalid argument node = %p\n", node);
     ASSERT (dump_file != NULL, "Invalid argument dump_file = %p\n", dump_file);
 
-#ifndef NDEBUG
+#if (!(defined(NDEBUG)) && (defined(DEBUG)))
 
 //-------------------------------------------------------------------
     #define PRINT_NODE(type, color_node, data, specifier)           \
@@ -195,7 +198,7 @@ static enum LangError PrintEdgesTreeLang (node_t* const root, FILE* const dump_f
                  "| root = %p | dump_file = %p |\n",
                  root, dump_file);
 
-#ifndef NDEBUG
+#if (!(defined(NDEBUG)) && (defined(DEBUG)))
 
     if (root->left != NULL)
     {

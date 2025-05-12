@@ -1,10 +1,10 @@
-#ifndef LOGGING_H
+#if !(defined(LOGGING_H))
 #define LOGGING_H
 
 #include <stdio.h>
 #include <time.h>
 
-#ifndef NDEBUG
+#if (!(defined(NDEBUG)) && (defined(DEBUG)))
 #define LOG(level, ...)                                                                                  \
     do                                                                                                   \
     {                                                                                                    \

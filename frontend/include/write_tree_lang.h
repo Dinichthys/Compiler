@@ -1,9 +1,10 @@
-#ifndef WRITE_TREE_LANG_H
+#if !(defined(WRITE_TREE_LANG_H))
 #define WRITE_TREE_LANG_H
 
-#include <stdio.h>
-
 #include "language.h"
+#include "struct_lang.h"
+
+static const char* const kDataBaseTreeFileName = "DataBase/DataBase.tree";
 
 static const char* const kMainKeyWord     = "MAIN:";
 static const char* const kNumKeyWord      = "NUM:";
@@ -11,6 +12,7 @@ static const char* const kVarKeyWord      = "VAR:";
 static const char* const kOpKeyWord       = "OP:";
 static const char* const kCycleKeyWord    = "CYCLE:";
 static const char* const kCondKeyWord     = "COND:";
+static const char* const kCompKeyWord     = "COMP:";
 static const char* const kTypeKeyWord     = "TYPE:";
 static const char* const kUserFuncKeyWord = "USERFUNC:";
 

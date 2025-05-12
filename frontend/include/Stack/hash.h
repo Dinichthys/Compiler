@@ -1,4 +1,4 @@
-#ifndef HASH_H
+#if !(defined(HASH_H))
 #define HASH_H
 
 #include <stdlib.h>

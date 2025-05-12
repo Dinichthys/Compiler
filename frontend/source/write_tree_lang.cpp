@@ -1,5 +1,8 @@
 #include "write_tree_lang.h"
+
 #include "language.h"
+#include "struct_lang.h"
+#include "dump_lang.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,9 +13,9 @@ static enum LangError PrintNode (const node_t* const root, FILE* const output_fi
 
 enum LangError WriteDataBase (const node_t* const root)
 {
-    ASSERT (root         != NULL, "Invalid argument root = %p\n", root);
+    ASSERT (root != NULL, "Invalid argument root = %p\n", root);
 
-    FILE* const output_file = fopen ("DataBase/DataBase.tree", "w");
+    FILE* const output_file = fopen (kDataBaseTreeFileName, "w");
     if (output_file == NULL)
     {
         return kCantOpenDataBase;
@@ -48,7 +51,7 @@ static enum LangError PrintNode (const node_t* const node, FILE* const output_fi
             }                                                               \
             for (size_t counter = 0; counter < depth; counter++)            \
             {                                                               \
-                fprintf (output_file, "\t");                                \
+                fputc ('\t', output_file);                                  \
             }                                                               \
             fprintf (output_file, "}\n");                                   \
             return kDoneLang;                                               \
@@ -64,6 +67,7 @@ static enum LangError PrintNode (const node_t* const node, FILE* const output_fi
         PRINT_NODE (kFunc,     EnumFuncToStr (node->value.operation), kOpKeyWord,       "%s");
         PRINT_NODE (kCycle,    EnumFuncToStr (node->value.operation), kCycleKeyWord,    "%s");
         PRINT_NODE (kCond,     EnumFuncToStr (node->value.operation), kCondKeyWord,     "%s");
+        PRINT_NODE (kComp,     EnumFuncToStr (node->value.operation), kCompKeyWord,     "%s");
         PRINT_NODE (kSym,      EnumFuncToStr (node->value.operation), kOpKeyWord,       "%s");
         PRINT_NODE (kType,     EnumFuncToStr (node->value.operation), kTypeKeyWord,     "%s");
         PRINT_NODE (kUserFunc, node->value.function.func_name,        kUserFuncKeyWord, "%s");

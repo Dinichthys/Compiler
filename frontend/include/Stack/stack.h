@@ -1,12 +1,9 @@
-#ifndef STACK_H
+#if !(defined(STACK_H))
 #define STACK_H
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-//struct stack;
-//typedef struct stack stack_t;
 
 typedef size_t stack_elem;
 typedef size_t stack_t;

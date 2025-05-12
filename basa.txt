@@ -1,65 +1,49 @@
-	GYPSI(88_tmp2, NUM, 3.000000)            # num to tmp
-	GYPSI(0, TMP, 88_tmp2)              # result to variable "челик"
-CALL_PENIS(88_tmp0, func_main_0, 0)
-CALL_PENIS(88_tmp1, func_hlt_0, 0)
+	Gnoming(88_tmp2, 3)
+	Gnoming(32_var0, 88_tmp2)	# Put result to the variable
+RingRing(88_tmp1, main, 0)	# call main
+	Gnoming(14_arg0, 88_tmp1)
+	Bobb(88_tmp0, hlt, 1)	# System function call: "hlt"
 
+Gyat(main, 0)	# implement main
+	Gnoming(88_tmp3, 2)
+	Gnoming(88_tmp4, 3)
+	Digging(88_tmp5, 2, 88_tmp3, 88_tmp4)	# IR_OP_TYPE_SUB
+	Gnoming(32_var0, 88_tmp4)	# Put result to the variable
+	Gnoming(88_tmp5, 2)
+	Gnoming(32_var0, 88_tmp5)	# Put result to the variable
+	Viperr(label0)	# If: comparison
+	Gnoming(88_tmp6, 1)
+	Gnoming(88_tmp7, 2)
+	Digging(88_tmp8, 10, 88_tmp6, 88_tmp7)	# IR_OP_TYPE_GREAT
+	Frog(label1, 88_tmp7)	# If: jump on "then" body
+	Frog(label2, 1)	# If: jump over "then" body
+	Viperr(label1)	# If: "then" body
+	Gnoming(88_tmp8, 2)
+	Gnoming(32_var-1, 88_tmp8)	# Put result to the variable
+	Viperr(label2)	# If: "then" body end
+	Gnoming(88_tmp6, 10)
+	Gnoming(32_var1, 88_tmp6)	# Put result to the variable
+	Viperr(label3)	# While: comparison
+	Gnoming(88_tmp7, 32_var-2)	 # петух
+	Gnoming(88_tmp8, 2)
+	Digging(88_tmp9, 8, 88_tmp7, 88_tmp8)	# IR_OP_TYPE_LESS
+	Frog(label4, 88_tmp8)	# While: jump at cycle body
+	Frog(label5, 1)	# While: jump over cycle body
+	Viperr(label4)	# While: body
+	Gnoming(88_tmp9, 50)
+	Gnoming(32_var-1, 88_tmp9)	# Put result to the variable
+	Frog(label3, 1)	# While: jump back to comparison
+	Viperr(label5)	# While: end body
+	Gnoming(88_tmp7, 32_var0)	 # петух
+	Gnoming(88_tmp8, 2)
+	Gnoming(14_arg0, 88_tmp8)
+	Gnoming(14_arg1, 88_tmp7)
+	RingRing(88_tmp9, func_1_2, 2)	# кукушка
 
-PENIS(func_main_0, 0)
-
-	GYPSI(88_tmp3, NUM, 2.000000)            # num to tmp
-	GYPSI(88_tmp4, NUM, 3.000000)            # num to tmp
-	GYPSI(88_tmp5, SUB, 88_tmp3, 88_tmp4)
-	GYPSI(0, TMP, 88_tmp5)              # result to variable "петух"
-	GYPSI(88_tmp6, NUM, 2.000000)            # num to tmp
-	GYPSI(0, TMP, 88_tmp6)              # result to variable "петух"
-
-FIFT(label0)                          # If: comparison
-	GYPSI(88_tmp7, NUM, 1.000000)            # num to tmp
-	GYPSI(88_tmp8, NUM, 2.000000)            # num to tmp
-	GYPSI(88_tmp9, More, 88_tmp7, 88_tmp8)
-
-ENTER(label1, 88_tmp9)              # If: jump on "then" body
-
-ENTER(label2)                         # If: jump over "then" body
-
-FIFT(label1)                          # If: "then" body
-	GYPSI(88_tmp10, NUM, 2.000000)            # num to tmp
-	GYPSI(-1, TMP, 88_tmp10)              # result to variable "петух"
-
-FIFT(label2)                          # If: "then" body end
-	GYPSI(88_tmp7, NUM, 10.000000)            # num to tmp
-	GYPSI(1, TMP, 88_tmp7)              # result to variable "мужик"
-
-FIFT(label3)                          # While: comparison
-	GYPSI(88_tmp8, VAR, -2)            # var "петух" to tmp
-	GYPSI(88_tmp9, NUM, 2.000000)            # num to tmp
-	GYPSI(88_tmp10, Less, 88_tmp8, 88_tmp9)
-
-ENTER(label4, 88_tmp10)              # While: jump at cycle body
-
-ENTER(label5)                         # While: jump over cycle body
-
-FIFT(label4)                          # While: body
-	GYPSI(88_tmp11, NUM, 50.000000)            # num to tmp
-	GYPSI(-1, TMP, 88_tmp11)              # result to variable "мужик"
-
-ENTER(label3)                         # While: jump back to comparison
-
-FIFT(label5)                          # While: end body
-	GYPSI(88_tmp8, VAR, 0)            # var "петух" to tmp
-	GYPSI(88_tmp9, NUM, 2.000000)            # num to tmp
-	GYPSI(14_arg0, TMP, 88_tmp9)       # tmp to argument in function
-	GYPSI(14_arg1, TMP, 88_tmp8)       # tmp to argument in function
-CALL_PENIS(88_tmp10, func_кукушка_2, 2)
-
-PENIS(func_кукушка_2, 2)
-
-	GYPSI(0, TMP, 14_arg1)            # arg to var "рофлинка"
-	GYPSI(1, TMP, 14_arg0)            # arg to var "пацан"
-	GYPSI(88_tmp3, VAR, 0)            # var "рофлинка" to tmp
-	GYPSI(14_arg0, TMP, 88_tmp3)       # result to argument in function
-CALL_PENIS(88_tmp4, func_OUT_1, 1)
-	GYPSI(88_tmp5, NUM, 2.000000)            # num to tmp
-
-KILL_PENIS(88_tmp5)
-
+Gyat(func_1_2, 2)	# кукушка
+	Gnoming(32_var0, 14_arg1)
+	Gnoming(32_var1, 14_arg0)
+	Gnoming(88_tmp3, 32_var0)	 # рофлинка
+	Bobb(88_tmp5, out, 4)	# System function call: "out"
+	Gnoming(88_tmp5, 2)
+	Cherepovec(88_tmp5)

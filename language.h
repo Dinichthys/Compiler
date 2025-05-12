@@ -1,8 +1,7 @@
-#ifndef LANGUAGE_H
+#if !(defined(LANGUAGE_H))
 #define LANGUAGE_H
 
 #include <stdlib.h>
-
 
 static const double kAccuracy   = 0.001;
 static const size_t kWordLen    = 200;
@@ -27,57 +26,36 @@ enum LangError
     kInvalidAssigning           = 13,
     kInvalidCommand             = 14,
     kInvalidPatternOfFunc       = 15,
-    kMissTypeInGlobal           = 16,
-    kCantCreateListOfTables     = 17,
-    kTooManyVar                 = 18,
-    kInvalidTokenType           = 19,
-    kUndefinedVariable          = 20,
-    kMissCommaFuncCall          = 21,
-    kMissCommaInArgs            = 22,
+    kDoubleFuncDefinition       = 16,
+    kMissTypeInGlobal           = 17,
+    kCantCreateListOfTables     = 18,
+    kTooManyVar                 = 19,
+    kInvalidTokenType           = 20,
+    kUndefinedVariable          = 21,
+    kMissCommaFuncCall          = 22,
+    kMissCommaInArgs            = 23,
 
-    kCantDumpLang               = 23,
-    kInvalidNodeTypeLangError   = 24,
+    kCantDumpLang               = 24,
+    kInvalidNodeTypeLangError   = 25,
 
-    kInvalidPrefixDataBase      = 25,
-    kMissValue                  = 26,
+    kInvalidPrefixDataBase      = 26,
+    kMissValue                  = 27,
 
-    kInvalidModeTypeLangError   = 27,
+    kInvalidModeTypeLangError   = 28,
 
-    kInvalidPatternOfIf         = 28,
-    kInvalidPatternOfCycle      = 29,
+    kInvalidPatternOfIf         = 29,
+    kInvalidPatternOfCycle      = 30,
 
-    kCantWriteAssigning         = 30,
-    kCantCreateStackArgs        = 31,
-    kCantPushTMPVarCounter      = 32,
-    kCantPopTMPVarCounter       = 33,
-    kInvalidArgNum              = 34,
-    kNoCommandEnd               = 35,
-};
+    kCantWriteAssigning         = 31,
+    kCantCreateStackArgs        = 32,
+    kCantPushTMPVarCounter      = 33,
+    kCantPopTMPVarCounter       = 34,
+    kInvalidArgNum              = 35,
+    kNoCommandEnd               = 36,
 
-enum NodeType
-{
-    kNewNode = 0,
-
-    kMainFunc = 1,
-
-    kNum    = 2,
-    kVar    = 3,
-    kFunc   = 4,
-    kArithm = 5,
-    kCycle  = 6,
-    kCond   = 7,
-    kSym    = 8,
-    kType   = 9,
-
-    kUserFunc = 10,
-
-    kEndToken = 11,
-
-    kComp = 12,
-
-    kRet = 13,
-
-    kInvalidNodeType = -1,
+    kNoBracketsIR               = 37,
+    kInvalidSyscall             = 38,
+    kInvalidOperation           = 39,
 };
 
 enum OpType
@@ -131,44 +109,5 @@ enum OpType
 
     kInvalidFunc = -1,
 };
-
-typedef struct func_node
-{
-    char   func_name [kWordLen];
-    size_t cnt_args;
-} func_node_t;
-
-typedef struct var_node
-{
-    char   variable [kWordLen];
-    long long index;
-} var_node_t;
-
-typedef struct node
-{
-    enum NodeType type;
-
-    union value
-    {
-        double number;
-        var_node_t    variable;
-        func_node_t   function;
-        enum OpType operation;
-    } value;
-
-    struct node* parent;
-
-    struct node* left;
-    struct node* right;
-} node_t;
-
-#include "struct_lang.h"
-#include "dump_lang.h"
-#include "connect_tree_lang.h"
-#include "read_lang.h"
-#include "write_tree_lang.h"
-#include "write_ir.h"
-#include "read_tree_lang.h"
-#include "backend_lang.h"
 
 #endif // LANGUAGE_H

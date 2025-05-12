@@ -1,4 +1,4 @@
-#ifndef STRUCT_LANG_H
+#if !(defined(STRUCT_LANG_H))
 #define STRUCT_LANG_H
 
 #include "language.h"
@@ -24,6 +24,63 @@
     root->left = *node;                                                     \
     (*node)->parent = root;                                                 \
     *node = root;
+
+enum NodeType
+{
+    kNewNode = 0,
+
+    kMainFunc = 1,
+
+    kNum    = 2,
+    kVar    = 3,
+    kFunc   = 4,
+    kArithm = 5,
+    kCycle  = 6,
+    kCond   = 7,
+    kSym    = 8,
+    kType   = 9,
+
+    kUserFunc = 10,
+
+    kEndToken = 11,
+
+    kComp = 12,
+
+    kRet = 13,
+
+    kInvalidNodeType = -1,
+};
+
+typedef struct func_node
+{
+    char   func_name [kWordLen];
+    size_t func_num;
+    size_t cnt_args;
+} func_node_t;
+
+typedef struct var_node
+{
+    char   variable [kWordLen];
+    long long index;
+} var_node_t;
+
+typedef struct node
+{
+    enum NodeType type;
+
+    union value
+    {
+        double number;
+        var_node_t    variable;
+        func_node_t   function;
+        enum OpType operation;
+    } value;
+
+    struct node* parent;
+
+    struct node* left;
+    struct node* right;
+} node_t;
 
 node_t*        TreeCtor (void);
 enum LangError TreeDtor (node_t* const root);

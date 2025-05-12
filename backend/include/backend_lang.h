@@ -1,4 +1,4 @@
-#ifndef BACKEND_LANG_H
+#if !(defined(BACKEND_LANG_H))
 #define BACKEND_LANG_H
 
 #include "language.h"

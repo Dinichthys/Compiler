@@ -1,4 +1,4 @@
-#ifndef MY_STDIO_H
+#if !(defined(MY_STDIO_H))
 #define MY_STDIO_H
 
 #include <stdio.h>

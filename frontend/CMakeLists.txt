@@ -4,6 +4,8 @@ add_executable (frontend
     source/read_lang.cpp
     source/write_tree_lang.cpp
     source/write_ir.cpp
+    source/lexer.cpp
+    source/parser.cpp
 
     include/Stack/stack.cpp
     include/Stack/hash.cpp
@@ -11,6 +13,7 @@ add_executable (frontend
 
 target_link_libraries(frontend
     all_libs
+    pyam_ir
 )
 
 target_include_directories (frontend

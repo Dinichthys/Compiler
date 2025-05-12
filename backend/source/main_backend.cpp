@@ -35,13 +35,13 @@ int main (const int argc, char* argv[])
 
     enum LangError result = kDoneLang;
 
-    result = ReadDataBase (&root, set.stream_in);
+    // result = ReadDataBase (&root, set.stream_in);
     ERROR_HANDLER (result);
 
-    result = DumpLang (root);
+    // result = DumpLang (root);
     ERROR_HANDLER (result);
 
-    result = GenerateAsm (root, set.stream_out);
+    // result = GenerateAsm (root, set.stream_out);
     ERROR_HANDLER (result);
 
     TreeDtor (root);

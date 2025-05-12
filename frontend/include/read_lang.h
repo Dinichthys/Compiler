@@ -1,4 +1,4 @@
-#ifndef READ_LANG_H
+#if !(defined(READ_LANG_H))
 #define READ_LANG_H
 
 #include <stdio.h>
@@ -6,9 +6,11 @@
 
 #include "language.h"
 #include "parse_flags_lang.h"
+#include "struct_lang.h"
 
 static const size_t kProgramLen      = 10000;
 static const size_t kVarMaxNum       = 200;
+static const size_t kFuncMaxNum      = 200;
 static const size_t kVarTablesMaxNum = 100;
 static const size_t kTokenNumber     = 34;
 
@@ -21,8 +23,14 @@ __attribute_maybe_unused__ static const char* kNormalTextTerminal = "\033[0m";
 typedef struct variables
 {
     size_t var_num;
-    char var_table [kVarMaxNum] [kWordLen];
+    char   var_table [kVarMaxNum] [kWordLen];
 }variables_t;
+
+typedef struct funcs
+{
+    size_t      func_num;
+    func_node_t func_table [kFuncMaxNum];
+}funcs_t;
 
 typedef struct token
 {
@@ -137,6 +145,6 @@ const token_pattern_t kTokenTypes [kTokenNumber] =
 
 #undef TOKEN_PATTERN
 
-enum LangError ReadProgram (settings_of_program_t* const set, node_t** const root);
+enum LangError ReadProgram (const char* const input_file_name, node_t** const root);
 
 #endif // READ_LANG_H

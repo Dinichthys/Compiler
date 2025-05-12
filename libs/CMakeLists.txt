@@ -1,3 +1,5 @@
+add_subdirectory (PYAM_IR)
+
 add_library (all_libs
     STATIC
 
@@ -17,6 +19,10 @@ add_library (all_libs
     tree/source/connect_tree_lang.cpp
     tree/source/dump_lang.cpp
     tree/source/struct_lang.cpp
+)
+
+target_link_libraries(all_libs
+    pyam_ir
 )
 
 target_include_directories(all_libs

@@ -2,6 +2,8 @@
 #include "flags/include/parse_flags_lang.h"
 #include "flags/include/parse_mode_lang.h"
 
+#include "struct_lang.h"
+
 #include "My_lib/Assert/my_assert.h"
 #include "My_lib/Logger/logging.h"
 

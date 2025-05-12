@@ -1,4 +1,4 @@
-#ifndef READ_TREE_LANG_H
+#if !(defined(READ_TREE_LANG_H))
 #define READ_TREE_LANG_H
 
 #include <stdio.h>
