@@ -4,7 +4,8 @@
 
 [submodule "SPU"]
     path = SPU
-    url = https://github.com/Dinichthys/SPU/tree/Compiler
+    url = https://github.com/Dinichthys/SPU
+    branch = Compiler
 
 [submodule "PYAM_IR"]
     path = libs/PYAM_IR
