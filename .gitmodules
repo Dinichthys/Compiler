@@ -6,3 +6,7 @@
 	path = SPU
 	url = https://github.com/Dinichthys/SPU
 	branch = Compiler
+
+[submodule "libs/PYAM_IR"]
+	path = libs/PYAM_IR
+	url = https://github.com/kzueirf12345/PYAM_IR
