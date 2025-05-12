@@ -58,15 +58,15 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
 static enum LangError GetArgs         (const token_t* const tokens, size_t* const token_index, node_t** const node,
                                        variables_t* const variables);
 static enum LangError GetCommand      (const token_t* const tokens, size_t* const token_index, node_t** const node,
-                                       list_t* const list, variables_t* const variables);
+                                       list_t* const list, variables_t* const variables, node_t* const func);
 static enum LangError GetFunctionCall (const token_t* const tokens, size_t* const token_index, node_t** const node,
                                        list_t* const list, variables_t* const variables);
 static enum LangError GetAssign       (const token_t* const tokens, size_t* const token_index, node_t** const node,
                                        list_t* const list, variables_t* const variables);
 static enum LangError GetCycle        (const token_t* const tokens, size_t* const token_index, node_t** const node,
-                                       list_t* const list, variables_t* const variables);
+                                       list_t* const list, variables_t* const variables, node_t* const func);
 static enum LangError GetIf           (const token_t* const tokens, size_t* const token_index, node_t** const node,
-                                       list_t* const list, variables_t* const variables);
+                                       list_t* const list, variables_t* const variables, node_t* const func);
 static enum LangError GetCond         (const token_t* const tokens, size_t* const token_index, node_t** const node,
                                        list_t* const list, variables_t* const variables);
 static enum LangError GetAddSub       (const token_t* const tokens, size_t* const token_index, node_t** const node,
@@ -229,6 +229,8 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
     }
     SHIFT_TOKEN;
 
+    (*node)->value.function.cnt_loc_vars = (*node)->value.function.cnt_args;
+
     if (FindFuncInTable ((*node)->value.function, funcs) != LLONG_MAX)
     {
         return kDoubleFuncDefinition;
@@ -249,7 +251,7 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
 
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
-        result = GetCommand (tokens, token_index, root, list, &variables);
+        result = GetCommand (tokens, token_index, root, list, &variables, *node);
         CHECK_RESULT;
         root = &((*root)->left);
     }
@@ -325,7 +327,7 @@ static enum LangError GetArgs (const token_t* const tokens, size_t* const token_
 }
 
 static enum LangError GetCommand (const token_t* const tokens, size_t* const token_index, node_t** const node,
-                                  list_t* const list, variables_t* const  variables)
+                                  list_t* const list, variables_t* const  variables, node_t* const func)
 {
     ASSERT (token_index != NULL, "Invalid argument Index of the current token = %p\n", token_index);
     ASSERT (tokens      != NULL, "Invalid argument tokens = %p\n",      tokens);
@@ -375,6 +377,11 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
         CHECK_NULL_PTR (root);
         SHIFT_TOKEN;
         strcpy (variables->var_table [variables->var_num++], tokens [*token_index].value.variable);
+        long long index = FindVarInTable (tokens [*token_index].value.variable, *list, *variables);
+        if (func->value.function.cnt_loc_vars < (size_t) index + 1) // В таблице нумерация идёт с нуля
+        {
+            func->value.function.cnt_loc_vars = (size_t) index + 1;
+        }
         result = GetAssign (tokens, token_index, &(root->right), list, variables);
         REMOVE_TOKEN;
     }
@@ -389,7 +396,7 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
         SHIFT_TOKEN;
         ListPushFront (list, variables);
         variables_t new_variables = {.var_num = 0, .var_table = {}};
-        result = GetCycle (tokens, token_index, &(root), list, &new_variables);
+        result = GetCycle (tokens, token_index, &(root), list, &new_variables, func);
         ListPopFront (list, &new_variables);
     }
     else if (TOKEN_TYPE == kCond)
@@ -399,7 +406,7 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
         SHIFT_TOKEN;
         ListPushFront (list, variables);
         variables_t new_variables = {.var_num = 0, .var_table = {}};
-        result = GetIf (tokens, token_index, &(root), list, &new_variables);
+        result = GetIf (tokens, token_index, &(root), list, &new_variables, func);
         CHECK_RESULT;
         ListPopFront (list, &new_variables);
     }
@@ -575,7 +582,7 @@ static enum LangError GetAssign (const token_t* const tokens, size_t* const toke
 }
 
 static enum LangError GetCycle (const token_t* const tokens, size_t* const token_index, node_t** const node,
-                                list_t* const list, variables_t* const variables)
+                                list_t* const list, variables_t* const variables, node_t* const func)
 {
     ASSERT (token_index != NULL, "Invalid argument Index of the current token = %p\n", token_index);
     ASSERT (tokens      != NULL, "Invalid argument tokens = %p\n",      tokens);
@@ -626,7 +633,7 @@ static enum LangError GetCycle (const token_t* const tokens, size_t* const token
 
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
-        result = GetCommand (tokens, token_index, root, list, variables);
+        result = GetCommand (tokens, token_index, root, list, variables, func);
         CHECK_RESULT;
         root = &((*root)->left);
     }
@@ -636,7 +643,7 @@ static enum LangError GetCycle (const token_t* const tokens, size_t* const token
 }
 
 static enum LangError GetIf (const token_t* const tokens, size_t* const token_index, node_t** const node,
-                             list_t* const list, variables_t* const variables)
+                             list_t* const list, variables_t* const variables, node_t* const func)
 {
     ASSERT (token_index != NULL, "Invalid argument Index of the current token = %p\n", token_index);
     ASSERT (tokens      != NULL, "Invalid argument tokens = %p\n",      tokens);
@@ -714,7 +721,7 @@ static enum LangError GetIf (const token_t* const tokens, size_t* const token_in
     int i = 0;
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
-        result = GetCommand (tokens, token_index, root, list, variables);
+        result = GetCommand (tokens, token_index, root, list, variables, func);
         CHECK_RESULT;
         root = &((*root)->left);
         i++;
@@ -740,7 +747,7 @@ static enum LangError GetIf (const token_t* const tokens, size_t* const token_in
 
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
-        result = GetCommand (tokens, token_index, root, list, variables);
+        result = GetCommand (tokens, token_index, root, list, variables, func);
         CHECK_RESULT;
         root = &((*root)->left);
     }

@@ -56,6 +56,7 @@ typedef struct func_node
     char   func_name [kWordLen];
     size_t func_num;
     size_t cnt_args;
+    size_t cnt_loc_vars;
 } func_node_t;
 
 typedef struct var_node

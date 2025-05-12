@@ -63,8 +63,7 @@ static enum LangError WriteFuncs          (const node_t* const root, FILE* const
 static enum LangError WriteFuncPattern    (const node_t* const root, FILE* const IR_file,
                                            size_t* const tmp_var_counter);
 
-static enum LangError WriteArgs           (const node_t* const root, FILE* const IR_file,
-                                           size_t* const tmp_var_counter, const size_t cnt_args);
+static enum LangError WriteArgs           (const node_t* const root, FILE* const IR_file, const size_t cnt_args);
 
 static enum LangError WriteCommand        (const node_t* const root, FILE* const IR_file,
                                            size_t* const tmp_var_counter, size_t* const label_counter);
@@ -94,7 +93,7 @@ enum LangError WriteIR (const node_t* const root, FILE* const IR_file)
 
     IR_CALL_MAIN_ (1LU);
     IR_GIVE_ARG_ (0LU, 1LU);
-    IR_SYSCALL_ (0LU, kIR_SYS_CALL_ARRAY [SYSCALL_HLT_INDEX], 1LU);
+    IR_SYSCALL_ (0LU, kIR_SYS_CALL_ARRAY [SYSCALL_HLT_INDEX].Name, 1LU);
 
     return WriteFuncs (root, IR_file, tmp_var_counter);
 }
@@ -245,7 +244,7 @@ static enum LangError WriteCallFunc (const node_t* const root, FILE* const IR_fi
         return kInvalidSyscall;
     }
 
-    IR_SYSCALL_ (*tmp_var_counter + 1, kIR_SYS_CALL_ARRAY[index], *tmp_var_counter);
+    IR_SYSCALL_ (*tmp_var_counter + 1, kIR_SYS_CALL_ARRAY[index].Name, *tmp_var_counter);
     (*tmp_var_counter)++;
     return result;
 }
@@ -358,11 +357,14 @@ static enum LangError WriteFuncPattern (const node_t* const root, FILE* const IR
 
     if (root->type == kUserFunc)
     {
-        IR_FUNCTION_BODY_ (root->value.function.func_num, root->value.function.cnt_args, root->value.function.func_name);
+        IR_FUNCTION_BODY_ (root->value.function.func_num,
+                           root->value.function.cnt_args,
+                           root->value.function.cnt_loc_vars,
+                           root->value.function.func_name);
     }
     else if (root->type == kMainFunc)
     {
-        IR_MAIN_BODY_ ();
+        IR_MAIN_BODY_ (root->value.function.cnt_loc_vars);
     }
     else
     {
@@ -371,7 +373,7 @@ static enum LangError WriteFuncPattern (const node_t* const root, FILE* const IR
 
     if (root->right != NULL)
     {
-        result = WriteArgs (root->right, IR_file, tmp_var_counter, root->value.function.cnt_args);
+        result = WriteArgs (root->right, IR_file, root->value.function.cnt_args);
         CHECK_RESULT;
     }
 
@@ -383,12 +385,10 @@ static enum LangError WriteFuncPattern (const node_t* const root, FILE* const IR
     return kDoneLang;
 }
 
-static enum LangError WriteArgs (const node_t* const root, FILE* const IR_file,
-                                 size_t* const tmp_var_counter, const size_t cnt_args)
+static enum LangError WriteArgs (const node_t* const root, FILE* const IR_file, const size_t cnt_args)
 {
     ASSERT (root            != NULL, "Invalid argument root in WriteArgs\n");
     ASSERT (IR_file         != NULL, "Invalid argument IR_file in WriteArgs\n");
-    ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter in WriteArgs\n");
 
     LOG (kDebug, "Root          = %p\n"
                  "File          = %p\n"
@@ -404,7 +404,8 @@ static enum LangError WriteArgs (const node_t* const root, FILE* const IR_file,
          (CHECK_NODE_OP (arg_node, kType, kDouble)) && (CHECK_NODE_TYPE (arg_node->right, kVar));
          arg_index++)
     {
-        IR_TAKE_ARG_ (arg_node->right->value.variable.index, cnt_args - arg_index - 1);
+        IR_TAKE_ARG_ (arg_node->right->value.variable.index, cnt_args - arg_index - 1,
+                      arg_node->right->value.variable.variable);
         arg_node = arg_node->left;
     }
 
