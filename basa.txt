@@ -1,5 +1,5 @@
 	Gnoming(88_tmp2, 3)
-	Gnoming(32_var0, 88_tmp2)	# Put result to the variable
+	Gnoming(32_var0, 88_tmp2)	# Variable: челик
 RingRing(88_tmp1, main, 0)	# call main
 	Gnoming(14_arg0, 88_tmp1)
 	Bobb(88_tmp0, hlt, 1)	# System function call: "hlt"
@@ -8,9 +8,9 @@ Gyat(main, 0)	# implement main
 	Gnoming(88_tmp3, 2)
 	Gnoming(88_tmp4, 3)
 	Digging(88_tmp5, 2, 88_tmp3, 88_tmp4)	# IR_OP_TYPE_SUB
-	Gnoming(32_var0, 88_tmp4)	# Put result to the variable
+	Gnoming(32_var0, 88_tmp4)	# Variable: петух
 	Gnoming(88_tmp5, 2)
-	Gnoming(32_var0, 88_tmp5)	# Put result to the variable
+	Gnoming(32_var0, 88_tmp5)	# Variable: петух
 	Viperr(label0)	# If: comparison
 	Gnoming(88_tmp6, 1)
 	Gnoming(88_tmp7, 2)
@@ -19,19 +19,19 @@ Gyat(main, 0)	# implement main
 	Frog(label2, 1)	# If: jump over "then" body
 	Viperr(label1)	# If: "then" body
 	Gnoming(88_tmp8, 2)
-	Gnoming(32_var-1, 88_tmp8)	# Put result to the variable
+	Gnoming(32_var0, 88_tmp8)	# Variable: петух
 	Viperr(label2)	# If: "then" body end
 	Gnoming(88_tmp6, 10)
-	Gnoming(32_var1, 88_tmp6)	# Put result to the variable
+	Gnoming(32_var1, 88_tmp6)	# Variable: мужик
 	Viperr(label3)	# While: comparison
-	Gnoming(88_tmp7, 32_var-2)	 # петух
+	Gnoming(88_tmp7, 32_var0)	 # петух
 	Gnoming(88_tmp8, 2)
 	Digging(88_tmp9, 8, 88_tmp7, 88_tmp8)	# IR_OP_TYPE_LESS
 	Frog(label4, 88_tmp8)	# While: jump at cycle body
 	Frog(label5, 1)	# While: jump over cycle body
 	Viperr(label4)	# While: body
 	Gnoming(88_tmp9, 50)
-	Gnoming(32_var-1, 88_tmp9)	# Put result to the variable
+	Gnoming(32_var1, 88_tmp9)	# Variable: мужик
 	Frog(label3, 1)	# While: jump back to comparison
 	Viperr(label5)	# While: end body
 	Gnoming(88_tmp7, 32_var0)	 # петух

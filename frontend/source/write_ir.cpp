@@ -149,7 +149,7 @@ static enum LangError WriteAssign (const node_t* const root, FILE* const IR_file
     result = WriteExpression (root->right, IR_file, tmp_var_counter);
     CHECK_RESULT;
 
-    IR_ASSIGN_VAR_ (root->left->value.variable.index, *tmp_var_counter - 1);
+    IR_ASSIGN_VAR_ (root->left->value.variable.index, *tmp_var_counter - 1, root->left->value.variable.variable);
 
     return result;
 }

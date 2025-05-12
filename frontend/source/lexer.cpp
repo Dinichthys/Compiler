@@ -1059,7 +1059,11 @@ static long long FindVarInTable (const char* const var, list_t list, variables_t
 
     LOG (kDebug, "Variable for finding = \"%s\"\n", var);
 
+    variables_t variables_tmp = {.var_num = 0, .var_table = {}};
     long long index = (long long) (variables.var_num - 1);
+    ListElemValLoad (&list, TailIndex (&list), &variables_tmp);
+    long long global_var_num = variables_tmp.var_num;
+    long long ret_val = LLONG_MAX;
 
     for (long long index_in_table = (long long) (variables.var_num - 1);
             (variables.var_num != 0) && (index_in_table >= 0); index_in_table--, index--)
@@ -1070,25 +1074,31 @@ static long long FindVarInTable (const char* const var, list_t list, variables_t
         }
     }
 
+    long long all_var_cnt = 0;
     size_t list_index = HeadIndex (&list);
-
-    variables_t variables_tmp = {.var_num = 0, .var_table = {}};
 
     while (list_index != 0)
     {
         ListElemValLoad (&list, list_index, &variables_tmp);
+        all_var_cnt += variables_tmp.var_num;
         for (long long index_in_table = (long long) (variables_tmp.var_num - 1);
-             (variables_tmp.var_num != 0) && (index_in_table >= 0); index_in_table--, index--)
+             (ret_val == LLONG_MAX) && (variables_tmp.var_num != 0) && (index_in_table >= 0);
+             index_in_table--, index--)
         {
             if (strcmp (var, variables_tmp.var_table [index_in_table]) == 0)
             {
-                return index;
+                ret_val = index;
             }
         }
         list_index = PrevIndex (&list, list_index);
     }
 
-    return LLONG_MAX;
+    if (ret_val == LLONG_MAX)
+    {
+        return LLONG_MAX;
+    }
+
+    return ret_val + all_var_cnt - global_var_num;
 }
 
 static long long FindFuncInTable (const func_node_t function, const funcs_t* const funcs)
