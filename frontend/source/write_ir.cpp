@@ -436,9 +436,8 @@ static enum LangError WriteArgs (const node_t* const root, FILE* const IR_file, 
     ASSERT (IR_file         != NULL, "Invalid argument IR_file in WriteArgs\n");
 
     LOG (kDebug, "Root          = %p\n"
-                 "File          = %p\n"
-                 "TMP counter   = %lu\n",
-                 root, IR_file, *tmp_var_counter);
+                 "File          = %p\n",
+                 root, IR_file);
 
     const node_t* arg_node = root;
 
