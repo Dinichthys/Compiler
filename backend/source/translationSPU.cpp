@@ -155,6 +155,9 @@ static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const outp
         {
             break;
         }
+
+        LOG (kDebug, "Key word = \"%s\"\n", key_word);
+
         read_letters += strlen (key_word);
         read_letters += skip_space_symbols (buffer + read_letters);
         if (*(buffer + read_letters) != kBracketOpen)
@@ -174,6 +177,7 @@ static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const outp
                 result = kTranslationArray [index_kw] (buffer, &read_letters, output_file, in_function,
                                                        func_name, &global_vars_cnt, &cnt_func_args);
                 CHECK_RESULT;
+                break;
             }
         }
     }
@@ -190,6 +194,10 @@ static enum LangError CallFuncSPU (const char* const buffer, size_t* const read_
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     size_t ret_val_index = 0;
     sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
@@ -234,6 +242,10 @@ static enum LangError FuncBodySPU (const char* const buffer, size_t* const read_
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r]", func_name);
     *read_letters += strlen (func_name);
@@ -298,6 +310,10 @@ static enum LangError CondJumpSPU (const char* const buffer, size_t* const read_
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     char label_name [kFuncMaxNameLenIR] = "";
     sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r]", label_name);
@@ -375,6 +391,10 @@ static enum LangError AssignSPU (const char* const buffer, size_t* const read_le
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
 
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
+
     char prefix_name [kPrefixLen] = "";
     sscanf (buffer + *read_letters, "%3s", prefix_name);
     *read_letters += kPrefixLen;
@@ -403,6 +423,10 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     long long var_index = 0;
     sscanf (buffer + *read_letters, "%lld", &var_index);
@@ -493,6 +517,10 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     size_t result_tmp_index = 0;
     sscanf (buffer + *read_letters, "%lu", &result_tmp_index);
@@ -595,6 +623,10 @@ static enum LangError AssignArgSPU (const char* const buffer, size_t* const read
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
 
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
+
     size_t result_arg_index = 0;
     sscanf (buffer + *read_letters, "%lu", &result_arg_index);
     SkipNumber (buffer, read_letters);
@@ -636,6 +668,10 @@ static enum LangError OperationSPU (const char* const buffer, size_t* const read
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     size_t result_tmp_index = 0;
     sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &result_tmp_index);
@@ -707,6 +743,10 @@ static enum LangError LabelSPU (const char* const buffer, size_t* const read_let
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
 
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
+
     char label_name [kFuncMaxNameLenIR] = "";
     sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r]", label_name);
     *read_letters += strlen (label_name);
@@ -740,6 +780,10 @@ static enum LangError ReturnSPU (const char* const buffer, size_t* const read_le
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     size_t ret_val_index = 0;
     sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
@@ -778,6 +822,10 @@ static enum LangError SysCallSPU (const char* const buffer, size_t* const read_l
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     size_t ret_val_index = 0;
     sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
@@ -824,6 +872,10 @@ static enum LangError GlobalVarsNumSPU (const char* const buffer, size_t* const 
     ASSERT (buffer       != NULL, "Invalid argument buffer\n");
     ASSERT (output_file  != NULL, "Invalid argument output_file\n");
     ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+
+    LOG (kDebug, "Current symbol       = {%c}\n"
+                 "Already read letters = %lu\n",
+                 *(buffer + *read_letters), *read_letters);
 
     size_t cnt_glob_vars = 0;
     sscanf (buffer + *read_letters, "%lu", &cnt_glob_vars);
