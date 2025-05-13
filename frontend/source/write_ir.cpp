@@ -42,8 +42,11 @@
 
 //------------------------------------------------------------------------------------------------------------
 
-static enum LangError WriteGlobalVars     (const node_t* const root, FILE* const IR_file,
-                                           size_t* const tmp_var_counter);
+static enum LangError WriteGlobalVars          (const node_t* const root, FILE* const IR_file,
+                                                size_t* const tmp_var_counter);
+static size_t         CountGlobalVars          (const node_t* const root);
+static enum LangError WriteGlobalVarsAssigning (const node_t* const root, FILE* const IR_file,
+                                                size_t* const tmp_var_counter);
 
 static enum LangError WriteAssign         (const node_t* const root, FILE* const IR_file,
                                            size_t* const tmp_var_counter);
@@ -93,7 +96,8 @@ enum LangError WriteIR (const node_t* const root, FILE* const IR_file)
 
     IR_CALL_MAIN_ (1LU);
     IR_GIVE_ARG_ (0LU, 1LU);
-    IR_SYSCALL_ (0LU, kIR_SYS_CALL_ARRAY [SYSCALL_HLT_INDEX].Name, 1LU);
+    IR_SYSCALL_ (0LU, kIR_SYS_CALL_ARRAY [SYSCALL_HLT_INDEX].Name,
+                      kIR_SYS_CALL_ARRAY [SYSCALL_HLT_INDEX].NumberOfArguments);
 
     return WriteFuncs (root, IR_file, tmp_var_counter);
 }
@@ -110,6 +114,24 @@ static enum LangError WriteGlobalVars (const node_t* const root, FILE* const IR_
                  "TMP counter   = %lu\n",
                  root, IR_file, *tmp_var_counter);
 
+    size_t cnt_global_vars = CountGlobalVars (root);
+    IR_GLOBAL_VARS_NUM_ (cnt_global_vars);
+
+    return WriteGlobalVarsAssigning (root, IR_file, tmp_var_counter);
+}
+
+static enum LangError WriteGlobalVarsAssigning (const node_t* const root, FILE* const IR_file,
+                                                size_t* const tmp_var_counter)
+{
+    ASSERT (root            != NULL, "Invalid argument root\n");
+    ASSERT (IR_file         != NULL, "Invalid argument IR_file\n");
+    ASSERT (tmp_var_counter != NULL, "Invalid argument tmp_var_counter\n");
+
+    LOG (kDebug, "Root          = %p\n"
+                 "File          = %p\n"
+                 "TMP counter   = %lu\n",
+                 root, IR_file, *tmp_var_counter);
+
     enum LangError result = kDoneLang;
 
     if (CHECK_NODE_OP (root, kType, kDouble) && CHECK_NODE_OP (root->right, kSym, kAssign))
@@ -120,10 +142,31 @@ static enum LangError WriteGlobalVars (const node_t* const root, FILE* const IR_
 
     if (root->left != NULL)
     {
-        return WriteGlobalVars (root->left, IR_file, tmp_var_counter);
+        return WriteGlobalVarsAssigning (root->left, IR_file, tmp_var_counter);
     }
 
     return result;
+}
+
+static size_t CountGlobalVars (const node_t* const root)
+{
+    ASSERT (root != NULL, "Invalid argument root in CountGlobalVars\n");
+
+    LOG (kDebug, "Root = %p\n", root);
+
+    size_t cnt_global_vars = 0;
+
+    if (CHECK_NODE_OP (root, kType, kDouble) && CHECK_NODE_OP (root->right, kSym, kAssign))
+    {
+        cnt_global_vars++;
+    }
+
+    if (root->left != NULL)
+    {
+        cnt_global_vars += CountGlobalVars (root->left);
+    }
+
+    return cnt_global_vars;
 }
 
 static enum LangError WriteAssign (const node_t* const root, FILE* const IR_file,
@@ -244,7 +287,9 @@ static enum LangError WriteCallFunc (const node_t* const root, FILE* const IR_fi
         return kInvalidSyscall;
     }
 
-    IR_SYSCALL_ (*tmp_var_counter + 1, kIR_SYS_CALL_ARRAY[index].Name, *tmp_var_counter);
+    IR_GIVE_ARG_ (0LU, *tmp_var_counter);
+    IR_SYSCALL_ (*tmp_var_counter + 1, kIR_SYS_CALL_ARRAY[index].Name,
+                                       kIR_SYS_CALL_ARRAY[index].NumberOfArguments);
     (*tmp_var_counter)++;
     return result;
 }

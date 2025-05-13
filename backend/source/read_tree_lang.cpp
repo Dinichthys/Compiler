@@ -1,4 +1,7 @@
 #include "language.h"
+#include "struct_lang.h"
+#include "read_tree_lang.h"
+#include "write_tree_lang.h"
 
 #include <stdio.h>
 #include <string.h>

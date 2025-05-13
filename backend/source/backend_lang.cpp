@@ -1,5 +1,7 @@
 #include "backend_lang.h"
 #include "language.h"
+#include "struct_lang.h"
+#include "dump_lang.h"
 
 #include "My_lib/Assert/my_assert.h"
 #include "My_lib/Logger/logging.h"

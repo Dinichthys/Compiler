@@ -1,6 +1,7 @@
 #include "language.h"
 #include "parse_flags_lang.h"
 #include "parse_mode_lang.h"
+#include "translationSPU.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,7 +13,6 @@
     {                                                                                                   \
         fprintf (stderr, "Code error = {%d} with name \"%s\"\n",                                        \
                          error, EnumErrorToStr (error));                                                \
-        TreeDtor (root);                                                                                \
         SettingsDtor (&set);                                                                            \
         return EXIT_FAILURE;                                                                            \
     }
@@ -31,20 +31,23 @@ int main (const int argc, char* argv[])
     set_log_file (set.stream_err);
     set_log_lvl (kDebug);
 
-    node_t* root = TreeCtor ();
+    // node_t* root = TreeCtor ();
 
     enum LangError result = kDoneLang;
 
     // result = ReadDataBase (&root, set.stream_in);
-    ERROR_HANDLER (result);
+    // ERROR_HANDLER (result);
 
     // result = DumpLang (root);
-    ERROR_HANDLER (result);
+    // ERROR_HANDLER (result);
 
     // result = GenerateAsm (root, set.stream_out);
-    ERROR_HANDLER (result);
+    // ERROR_HANDLER (result);
 
-    TreeDtor (root);
+    // TreeDtor (root);
+
+    result = GenerateAsmSPUFromIR (set.stream_in, set.stream_out);
+    ERROR_HANDLER (result);
 
     SettingsDtor (&set);
 

@@ -14,7 +14,7 @@ target_link_libraries(backend
 target_include_directories (backend
     PRIVATE
         ./include
-        ../
+        ../SPU/libs
 )
 
 # cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++

@@ -2,6 +2,7 @@
 #define BACKEND_LANG_H
 
 #include "language.h"
+#include "struct_lang.h"
 
 #include <stdio.h>
 

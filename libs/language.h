@@ -56,6 +56,8 @@ enum LangError
     kNoBracketsIR               = 37,
     kInvalidSyscall             = 38,
     kInvalidOperation           = 39,
+    kNoSeparateSymbol           = 40,
+    kInvalidPrefixIR            = 41,
 };
 
 enum OpType
