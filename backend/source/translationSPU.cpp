@@ -397,7 +397,7 @@ static enum LangError AssignSPU (const char* const buffer, size_t* const read_le
 
     char prefix_name [kPrefixLen] = "";
     sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kPrefixLen;
+    *read_letters += kPrefixLen - 1;
 
     if (strcmp (prefix_name, VAR_PREFIX) == 0)
     {
@@ -433,16 +433,16 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
 
-    if (*(buffer + *read_letters) != kBracketClose)
+    if (*(buffer + *read_letters) != kSepSym)
     {
-        return kNoBracketsIR;
+        return kNoSeparateSymbol;
     }
     (*read_letters)++;
     *read_letters += skip_space_symbols (buffer + *read_letters);
 
     char prefix_name [kPrefixLen] = "";
     sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kPrefixLen;
+    *read_letters += kPrefixLen - 1;
 
     if (strcmp (prefix_name, TMP_PREFIX) == 0)
     {
@@ -558,7 +558,7 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
 
     char prefix_name [kPrefixLen] = "";
     sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kPrefixLen;
+    *read_letters += kPrefixLen - 1;
 
     if (strcmp (prefix_name, VAR_PREFIX) == 0)
     {

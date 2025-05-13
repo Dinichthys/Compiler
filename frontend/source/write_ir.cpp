@@ -4,6 +4,7 @@
 #include "struct_lang.h"
 #include "dump_lang.h"      // For function EnumToStr
 
+#define IR_FILE_ IR_file
 #include "libpyam_ir.h"
 
 #include <stdio.h>

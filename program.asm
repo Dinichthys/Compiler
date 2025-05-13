@@ -6,3 +6,6 @@
 	push 3	 ; Push the number to tmp through the stack
 	pop [bx+2]
 
+	push [bx+2]	 ; Push tmp to variable through the stack
+	pop [cx+0]
+

@@ -14,7 +14,7 @@ static const char   kSepSym          = ',';
 static const char   kTrueSymbol      = '1';
 
 static const size_t kFuncMaxNameLenIR = 200;
-static const size_t kPrefixLen        = 3;
+static const size_t kPrefixLen        = 4;
 
 static const size_t kRetValRegIndex       = 1;
 static const size_t kTmpBaseRegIndex      = 2;
