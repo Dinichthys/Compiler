@@ -213,7 +213,7 @@ static enum LangError WriteExpression (const node_t* const root, FILE* const IR_
 
     if (root->type == kUserFunc)
     {
-        return WriteCallUserFunc (root->right, IR_file, tmp_var_counter);
+        return WriteCallUserFunc (root, IR_file, tmp_var_counter);
     }
 
     if (root->type == kFunc)
@@ -259,6 +259,7 @@ static enum LangError WriteExpression (const node_t* const root, FILE* const IR_
             return kInvalidOperation;
         }
         IR_OPERATION_ (*tmp_var_counter, index, first_operand, second_operand);
+        (*tmp_var_counter)++;
         return kDoneLang;
     }
 
@@ -288,8 +289,8 @@ static enum LangError WriteCallFunc (const node_t* const root, FILE* const IR_fi
         return kInvalidSyscall;
     }
 
-    IR_GIVE_ARG_ (0LU, *tmp_var_counter);
-    IR_SYSCALL_ (*tmp_var_counter + 1, kIR_SYS_CALL_ARRAY[index].Name,
+    IR_GIVE_ARG_ (0LU, *tmp_var_counter - 1);
+    IR_SYSCALL_ (*tmp_var_counter, kIR_SYS_CALL_ARRAY[index].Name,
                                        kIR_SYS_CALL_ARRAY[index].NumberOfArguments);
     (*tmp_var_counter)++;
     return result;

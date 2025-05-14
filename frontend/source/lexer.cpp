@@ -83,7 +83,7 @@ static enum LangError GetNumFunc      (const token_t* const tokens, size_t* cons
 static enum LangError SyntaxError (const size_t number_nl, const size_t line_pos);
 
 static long long FindVarInTable  (const char* const var, list_t list, variables_t variables);
-static long long FindFuncInTable (const func_node_t function, const funcs_t* const funcs);
+static size_t    FindFuncInTable (const func_node_t function, const funcs_t* const funcs);
 
 static enum LangError ConnectFuncCall (node_t* const  node, const funcs_t* const funcs);
 
@@ -231,7 +231,7 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
 
     (*node)->value.function.cnt_loc_vars = (*node)->value.function.cnt_args;
 
-    if (FindFuncInTable ((*node)->value.function, funcs) != LLONG_MAX)
+    if (FindFuncInTable ((*node)->value.function, funcs) != funcs->func_num)
     {
         return kDoubleFuncDefinition;
     }
@@ -1108,14 +1108,13 @@ static long long FindVarInTable (const char* const var, list_t list, variables_t
     return ret_val + all_var_cnt - global_var_num;
 }
 
-static long long FindFuncInTable (const func_node_t function, const funcs_t* const funcs)
+static size_t FindFuncInTable (const func_node_t function, const funcs_t* const funcs)
 {
     ASSERT (function.func_name != NULL, "Invalid argument func_name = %p\n", function.func_name);
 
     LOG (kDebug, "Function for finding = \"%s\"\n", function.func_name);
 
-    for (long long index = (long long) (funcs->func_num - 1);
-            (funcs->func_num != 0) && (index >= 0); index--)
+    for (size_t index = 0; index < funcs->func_num; index++)
     {
         if ((strcmp (function.func_name, funcs->func_table [index].func_name) == 0)
             && (function.cnt_args == funcs->func_table [index].cnt_args))
@@ -1124,7 +1123,7 @@ static long long FindFuncInTable (const func_node_t function, const funcs_t* con
         }
     }
 
-    return LLONG_MAX;
+    return funcs->func_num;
 }
 
 static enum LangError ConnectFuncCall (node_t* const  node, const funcs_t* const funcs)
@@ -1136,13 +1135,13 @@ static enum LangError ConnectFuncCall (node_t* const  node, const funcs_t* const
 
     if (node->type == kUserFunc)
     {
-        long long index = FindFuncInTable (node->value.function, funcs);
-        if (index == LLONG_MAX)
+        size_t index = FindFuncInTable (node->value.function, funcs);
+        if (index == funcs->func_num)
         {
             return kUndefinedFuncForRead;
         }
 
-        node->value.function = funcs->func_table [index];
+        node->value.function.func_num = index;
     }
 
     if (node->left != NULL)

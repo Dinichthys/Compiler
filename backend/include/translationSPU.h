@@ -13,13 +13,15 @@ static const char   kIRCommentSymbol = '#';
 static const char   kSepSym          = ',';
 static const char   kTrueSymbol      = '1';
 
-static const size_t kFuncMaxNameLenIR = 200;
-static const size_t kPrefixLen        = 4;
+static const size_t kFuncMaxNameLenIR  = 200;
+static const size_t kPrefixLen         = 4;
+static const size_t kSavedRegistersNum = 3;
 
 static const size_t kRetValRegIndex       = 1;
 static const size_t kTmpBaseRegIndex      = 2;
 static const size_t kVarBaseRegIndex      = 3;
 static const size_t kGlobalVarEndRegIndex = 4;
+static const size_t kUnusedRegIndex       = 5;
 static const size_t kRSPRegIndex          = 8;
 static const size_t kRBPRegIndex          = 9;
 
