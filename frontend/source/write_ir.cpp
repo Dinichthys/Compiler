@@ -5,7 +5,9 @@
 #include "dump_lang.h"      // For function EnumToStr
 
 #define IR_FILE_ IR_file
+extern "C" {
 #include "libpyam_ir.h"
+}
 
 #include <stdio.h>
 #include <stdlib.h>
