@@ -31,53 +31,64 @@ static enum LangError CallFuncSPU      (const char* const buffer, size_t* const 
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 static enum LangError FuncBodySPU      (const char* const buffer, size_t* const read_letters, FILE* const output_file,
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 static enum LangError CondJumpSPU      (const char* const buffer, size_t* const read_letters, FILE* const output_file,
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 static enum LangError AssignSPU        (const char* const buffer, size_t* const read_letters, FILE* const output_file,
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 static enum LangError AssignVarSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        size_t* const global_vars_cnt, const size_t* const cnt_func_args);
+                                        size_t* const global_vars_cnt, const size_t* const cnt_func_args,
+                                        size_t* const max_tmp_counter);
 static enum LangError AssignTmpSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        size_t* const global_vars_cnt);
-static enum LangError AssignArgSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file);
+                                        size_t* const global_vars_cnt, size_t* const max_tmp_counter);
+static enum LangError AssignArgSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
+                                        size_t* const max_tmp_counter);
 
 static enum LangError OperationSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 static enum LangError LabelSPU         (const char* const buffer, size_t* const read_letters, FILE* const output_file,
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 static enum LangError ReturnSPU        (const char* const buffer, size_t* const read_letters, FILE* const output_file,
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 static enum LangError SysCallSPU       (const char* const buffer, size_t* const read_letters, FILE* const output_file,
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 static enum LangError GlobalVarsNumSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
                                         __attribute_maybe_unused__ bool in_function,
                                         __attribute_maybe_unused__ char* const func_name,
                                         __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
 
 static void SkipNumber (const char* const input_buf, size_t* const offset);
 
@@ -85,7 +96,8 @@ typedef enum LangError (*TranslateSpuFunc_t) (const char* const buffer, size_t* 
                                     __attribute_maybe_unused__ bool in_function,
                                     __attribute_maybe_unused__ char* const func_name,
                                     __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args);
+                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                    __attribute_maybe_unused__ size_t* const max_tmp_counter);
 
 static const TranslateSpuFunc_t kTranslationArray [kIR_KEY_WORD_NUMBER] =
 {
@@ -134,6 +146,7 @@ static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const outp
     char func_name [kFuncMaxNameLenIR] = "";
     size_t cnt_func_args = 0;
     size_t global_vars_cnt = 0;
+    size_t max_tmp_counter = 0;
 
     while (can_read)
     {
@@ -174,9 +187,10 @@ static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const outp
                 if (index_kw == (size_t) IR_FUNCTION_BODY_INDEX)
                 {
                     in_function = true;
+                    max_tmp_counter = 0;
                 }
                 result = kTranslationArray [index_kw] (buffer, &read_letters, output_file, in_function,
-                                                       func_name, &global_vars_cnt, &cnt_func_args);
+                                                       func_name, &global_vars_cnt, &cnt_func_args, &max_tmp_counter);
                 CHECK_RESULT;
                 break;
             }
@@ -190,11 +204,13 @@ static enum LangError CallFuncSPU (const char* const buffer, size_t* const read_
                                     __attribute_maybe_unused__ bool in_function,
                                     __attribute_maybe_unused__ char* const func_name,
                                     __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -203,6 +219,10 @@ static enum LangError CallFuncSPU (const char* const buffer, size_t* const read_
     size_t ret_val_index = 0;
     sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
     *read_letters += strlen (TMP_PREFIX);
+    if (ret_val_index > *max_tmp_counter)
+    {
+        *max_tmp_counter = ret_val_index;
+    }
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
 
@@ -227,12 +247,39 @@ static enum LangError CallFuncSPU (const char* const buffer, size_t* const read_
 
     LOG (kDebug, "Calling function is \"%s\"\n", call_func_name);
 
-    fprintf (output_file, "call %s:\t ; Calling function\n"
+    size_t cnt_call_func_args = 0;
+    if (strcmp (call_func_name, kMainFuncName) != 0)
+    {
+        sscanf (strchr (strchr (call_func_name, '_') + 1, '_'), "_%lu", &cnt_call_func_args);
+    }
+
+    fprintf (output_file, "\tpush %lu\n"
+                          "\tpush %s\n"
+                          "\tadd\n"
+                          "\tpop %s\t ; Shift tmp counter\n"
+                          "call %s:\t ; Calling function\n"
+                          "\tpush %lu\n"
+                          "\tpush %s\n"
+                          "\tsub\n"
+                          "\tpop %s\t ; Shift back tmp counter\n\n"
                           "\tpush %s\t ; Push return value to the stack\n"
-                          "\tpop [%s+%lu]\t ; Save return value to tmp var\n",
+                          "\tpop [%s+%lu]\t ; Save return value to tmp var\n\n"
+                          "\tpush %lu\n"
+                          "\tpush %s\n"
+                          "\tsub\n"
+                          "\tpop %s\t ; Shift RSP to skip arguments\n",
+                          *max_tmp_counter + 1,
+                          REGISTERS [kTmpBaseRegIndex],
+                          REGISTERS [kTmpBaseRegIndex],
                           call_func_name,
+                          *max_tmp_counter + 1,
+                          REGISTERS [kTmpBaseRegIndex],
+                          REGISTERS [kTmpBaseRegIndex],
                           REGISTERS [kRetValRegIndex],
-                          REGISTERS [kTmpBaseRegIndex], ret_val_index);
+                          REGISTERS [kTmpBaseRegIndex], ret_val_index,
+                          cnt_call_func_args + 1,
+                          REGISTERS [kRSPRegIndex],
+                          REGISTERS [kRSPRegIndex]);
 
     return kDoneLang;
 }
@@ -241,11 +288,13 @@ static enum LangError FuncBodySPU (const char* const buffer, size_t* const read_
                                     __attribute_maybe_unused__ bool in_function,
                                     __attribute_maybe_unused__ char* const func_name,
                                     __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -316,11 +365,13 @@ static enum LangError CondJumpSPU (const char* const buffer, size_t* const read_
                                     __attribute_maybe_unused__ bool in_function,
                                     __attribute_maybe_unused__ char* const func_name,
                                     __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -344,6 +395,10 @@ static enum LangError CondJumpSPU (const char* const buffer, size_t* const read_
     {
         sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &cond_res_tmp_index);
         *read_letters += strlen (TMP_PREFIX);
+        if (cond_res_tmp_index > *max_tmp_counter)
+        {
+            *max_tmp_counter = cond_res_tmp_index;
+        }
         SkipNumber (buffer, read_letters);
         *read_letters += skip_space_symbols (buffer + *read_letters);
     }
@@ -397,11 +452,13 @@ static enum LangError AssignSPU (const char* const buffer, size_t* const read_le
                                     __attribute_maybe_unused__ bool in_function,
                                     __attribute_maybe_unused__ char* const func_name,
                                     __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -413,28 +470,30 @@ static enum LangError AssignSPU (const char* const buffer, size_t* const read_le
 
     if (strcmp (prefix_name, VAR_PREFIX) == 0)
     {
-        return AssignVarSPU (buffer, read_letters, output_file, global_vars_cnt, cnt_func_args);
+        return AssignVarSPU (buffer, read_letters, output_file, global_vars_cnt, cnt_func_args, max_tmp_counter);
     }
 
     if (strcmp (prefix_name, TMP_PREFIX) == 0)
     {
-        return AssignTmpSPU (buffer, read_letters, output_file, global_vars_cnt);
+        return AssignTmpSPU (buffer, read_letters, output_file, global_vars_cnt, max_tmp_counter);
     }
 
     if (strcmp (prefix_name, ARG_PREFIX) == 0)
     {
-        return AssignArgSPU (buffer, read_letters, output_file);
+        return AssignArgSPU (buffer, read_letters, output_file, max_tmp_counter);
     }
 
     return kInvalidPrefixIR;
 }
 
 static enum LangError AssignVarSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    size_t* const global_vars_cnt, const size_t* const cnt_func_args)
+                                    size_t* const global_vars_cnt, const size_t* const cnt_func_args,
+                                    size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -462,6 +521,11 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
         sscanf (buffer + *read_letters, "%lu", &src_tmp_index);
         SkipNumber (buffer, read_letters);
         *read_letters += skip_space_symbols (buffer + *read_letters);
+
+        if (src_tmp_index > *max_tmp_counter)
+        {
+            *max_tmp_counter = src_tmp_index;
+        }
 
         if (*(buffer + *read_letters) != kBracketClose)
         {
@@ -546,11 +610,12 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
 }
 
 static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    size_t* const global_vars_cnt)
+                                    size_t* const global_vars_cnt, size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -560,6 +625,11 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
     sscanf (buffer + *read_letters, "%lu", &result_tmp_index);
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
+
+    if (result_tmp_index > *max_tmp_counter)
+    {
+        *max_tmp_counter = result_tmp_index;
+    }
 
     if (*(buffer + *read_letters) != kSepSym)
     {
@@ -633,6 +703,11 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
         SkipNumber (buffer, read_letters);
         *read_letters += skip_space_symbols (buffer + *read_letters);
 
+        if (src_tmp_index > *max_tmp_counter)
+        {
+            *max_tmp_counter = src_tmp_index;
+        }
+
         if (*(buffer + *read_letters) != kBracketClose)
         {
             return kNoBracketsIR;
@@ -651,11 +726,13 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
     return kInvalidAssigning;
 }
 
-static enum LangError AssignArgSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file)
+static enum LangError AssignArgSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
+                                    size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -679,6 +756,11 @@ static enum LangError AssignArgSPU (const char* const buffer, size_t* const read
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
 
+    if (src_tmp_index > *max_tmp_counter)
+    {
+        *max_tmp_counter = src_tmp_index;
+    }
+
     if (*(buffer + *read_letters) != kBracketClose)
     {
         return kNoBracketsIR;
@@ -697,11 +779,13 @@ static enum LangError OperationSPU (const char* const buffer, size_t* const read
                                     __attribute_maybe_unused__ bool in_function,
                                     __attribute_maybe_unused__ char* const func_name,
                                     __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -712,6 +796,11 @@ static enum LangError OperationSPU (const char* const buffer, size_t* const read
     *read_letters += strlen (TMP_PREFIX);
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
+
+    if (result_tmp_index > *max_tmp_counter)
+    {
+        *max_tmp_counter = result_tmp_index;
+    }
 
     if (*(buffer + *read_letters) != kSepSym)
     {
@@ -738,6 +827,11 @@ static enum LangError OperationSPU (const char* const buffer, size_t* const read
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
 
+    if (first_operand_tmp_index > *max_tmp_counter)
+    {
+        *max_tmp_counter = first_operand_tmp_index;
+    }
+
     if (*(buffer + *read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
@@ -750,6 +844,11 @@ static enum LangError OperationSPU (const char* const buffer, size_t* const read
     *read_letters += strlen (TMP_PREFIX);
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
+
+    if (second_operand_tmp_index > *max_tmp_counter)
+    {
+        *max_tmp_counter = second_operand_tmp_index;
+    }
 
     if (*(buffer + *read_letters) != kBracketClose)
     {
@@ -774,11 +873,13 @@ static enum LangError LabelSPU (const char* const buffer, size_t* const read_let
                                 __attribute_maybe_unused__ bool in_function,
                                 __attribute_maybe_unused__ char* const func_name,
                                 __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -814,11 +915,13 @@ static enum LangError ReturnSPU (const char* const buffer, size_t* const read_le
                                  __attribute_maybe_unused__ bool in_function,
                                  __attribute_maybe_unused__ char* const func_name,
                                  __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                 __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                 __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                 __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -829,6 +932,11 @@ static enum LangError ReturnSPU (const char* const buffer, size_t* const read_le
     *read_letters += strlen (TMP_PREFIX);
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
+
+    if (ret_val_index > *max_tmp_counter)
+    {
+        *max_tmp_counter = ret_val_index;
+    }
 
     const char* end_args = strchr (buffer + *read_letters, kBracketClose);
     if (end_args == NULL)
@@ -857,11 +965,13 @@ static enum LangError SysCallSPU (const char* const buffer, size_t* const read_l
                                     __attribute_maybe_unused__ bool in_function,
                                     __attribute_maybe_unused__ char* const func_name,
                                     __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
@@ -872,6 +982,11 @@ static enum LangError SysCallSPU (const char* const buffer, size_t* const read_l
     *read_letters += strlen (TMP_PREFIX);
     SkipNumber (buffer, read_letters);
     *read_letters += skip_space_symbols (buffer + *read_letters);
+
+    if (ret_val_index > *max_tmp_counter)
+    {
+        *max_tmp_counter = ret_val_index;
+    }
 
     if (*(buffer + *read_letters) != kSepSym)
     {
@@ -901,6 +1016,11 @@ static enum LangError SysCallSPU (const char* const buffer, size_t* const read_l
                               REGISTERS [kTmpBaseRegIndex], ret_val_index);
     }
 
+    if (strcmp (sys_func_name, kIR_SYS_CALL_ARRAY [SYSCALL_IN_INDEX].Name) == 0)
+    {
+        fprintf (output_file, "\tpop 0x\t ; Pop argument out of stack\n\n");
+    }
+
     return kDoneLang;
 }
 
@@ -908,11 +1028,13 @@ static enum LangError GlobalVarsNumSPU (const char* const buffer, size_t* const 
                                        __attribute_maybe_unused__ bool in_function,
                                        __attribute_maybe_unused__ char* const func_name,
                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                       __attribute_maybe_unused__ size_t* const cnt_func_args)
+                                       __attribute_maybe_unused__ size_t* const cnt_func_args,
+                                       __attribute_maybe_unused__ size_t* const max_tmp_counter)
 {
-    ASSERT (buffer       != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file  != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters != NULL, "Invalid argument read_letters\n");
+    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
+    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
+    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
+    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",

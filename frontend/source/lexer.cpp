@@ -24,9 +24,10 @@
 
 #define REMOVE_TOKEN (*token_index)--;
 
-#define CHECK_RESULT                \
+#define CHECK_RESULT(...)           \
         if (result != kDoneLang)    \
         {                           \
+            __VA_ARGS__             \
             return result;          \
         }
 
@@ -225,7 +226,7 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
     while (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketClose)))
     {
         result = GetArgs (tokens, token_index, node, &variables);
-        CHECK_RESULT;
+        CHECK_RESULT ();
     }
     SHIFT_TOKEN;
 
@@ -252,7 +253,7 @@ static enum LangError GetFunctionPattern (const token_t* const tokens, size_t* c
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
         result = GetCommand (tokens, token_index, root, list, &variables, *node);
-        CHECK_RESULT;
+        CHECK_RESULT ();
         root = &((*root)->left);
     }
     SHIFT_TOKEN;
@@ -407,7 +408,7 @@ static enum LangError GetCommand (const token_t* const tokens, size_t* const tok
         ListPushFront (list, variables);
         variables_t new_variables = {.var_num = 0, .var_table = {}};
         result = GetIf (tokens, token_index, &(root), list, &new_variables, func);
-        CHECK_RESULT;
+        CHECK_RESULT (TreeDtor (root););
         ListPopFront (list, &new_variables);
     }
     else
@@ -506,7 +507,7 @@ static enum LangError GetFunctionCall (const token_t* const tokens, size_t* cons
         SHIFT_TOKEN;
 
         result = GetAddSub (tokens, token_index, &((*root)->right), list, variables);
-        CHECK_RESULT;
+        CHECK_RESULT ();
 
         root = &((*root)->left);
         count_args++;
@@ -634,7 +635,7 @@ static enum LangError GetCycle (const token_t* const tokens, size_t* const token
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
         result = GetCommand (tokens, token_index, root, list, variables, func);
-        CHECK_RESULT;
+        CHECK_RESULT ();
         root = &((*root)->left);
     }
     SHIFT_TOKEN;
@@ -722,7 +723,7 @@ static enum LangError GetIf (const token_t* const tokens, size_t* const token_in
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
         result = GetCommand (tokens, token_index, root, list, variables, func);
-        CHECK_RESULT;
+        CHECK_RESULT ();
         root = &((*root)->left);
         i++;
     }
@@ -748,7 +749,7 @@ static enum LangError GetIf (const token_t* const tokens, size_t* const token_in
     while (!(CHECK_TOKEN_OP (kSym, kCurlyBracketClose)))
     {
         result = GetCommand (tokens, token_index, root, list, variables, func);
-        CHECK_RESULT;
+        CHECK_RESULT ();
         root = &((*root)->left);
     }
     SHIFT_TOKEN;
@@ -817,7 +818,7 @@ static enum LangError GetAddSub (const token_t* const tokens, size_t* const toke
                  tokens [*token_index].type);
 
     result = GetMulDiv (tokens, token_index, node, list, variables);
-    CHECK_RESULT;
+    CHECK_RESULT ();
 
 
     if (!(CHECK_TOKEN_OP (kArithm, kAdd)) && !(CHECK_TOKEN_OP (kArithm, kSub)))
@@ -838,7 +839,7 @@ static enum LangError GetAddSub (const token_t* const tokens, size_t* const toke
 
         result = GetMulDiv (tokens, token_index, &(root->right), list, variables);
         root->right->parent = root;
-        CHECK_RESULT;
+        CHECK_RESULT (TreeDtor (root););
 
         *node = root;
 
@@ -867,7 +868,7 @@ static enum LangError GetMulDiv (const token_t* const tokens, size_t* const toke
                  tokens [*token_index].type);
 
     result = GetPow (tokens, token_index, node, list, variables);
-    CHECK_RESULT;
+    CHECK_RESULT ();
 
     if (!(CHECK_TOKEN_OP (kArithm, kMul)) && !(CHECK_TOKEN_OP (kArithm, kDiv)))
     {
@@ -887,7 +888,7 @@ static enum LangError GetMulDiv (const token_t* const tokens, size_t* const toke
 
         result = GetPow (tokens, token_index, &(root->right), list, variables);
         root->right->parent = root;
-        CHECK_RESULT;
+        CHECK_RESULT (TreeDtor (root););
 
         if ((root->value.operation == kDiv)
             && ((root->right != NULL) && (root->right->type == kNum)
@@ -924,7 +925,7 @@ static enum LangError GetPow (const token_t* const tokens, size_t* const token_i
                  tokens [*token_index].type);
 
     result = GetBrace (tokens, token_index, node, list, variables);
-    CHECK_RESULT;
+    CHECK_RESULT ();
 
     if (!(CHECK_TOKEN_OP (kArithm, kPow)))
     {
@@ -943,7 +944,7 @@ static enum LangError GetPow (const token_t* const tokens, size_t* const token_i
         SHIFT_TOKEN;
 
         result = GetBrace (tokens, token_index, &(root->right), list, variables);
-        CHECK_RESULT;
+        CHECK_RESULT (TreeDtor (root););
 
         root->right->parent = root;
 
@@ -978,7 +979,7 @@ static enum LangError GetBrace (const token_t* const tokens, size_t* const token
         SHIFT_TOKEN;
 
         result = GetAddSub (tokens, token_index, node, list, variables);
-        CHECK_RESULT;
+        CHECK_RESULT ();
 
         if (!(CHECK_TOKEN_OP (kSym, kParenthesesBracketClose)))
         {
@@ -1147,13 +1148,13 @@ static enum LangError ConnectFuncCall (node_t* const  node, const funcs_t* const
     if (node->left != NULL)
     {
         result = ConnectFuncCall (node->left, funcs);
-        CHECK_RESULT;
+        CHECK_RESULT ();
     }
 
     if (node->right != NULL)
     {
         result = ConnectFuncCall (node->right, funcs);
-        CHECK_RESULT;
+        CHECK_RESULT ();
     }
 
     return result;

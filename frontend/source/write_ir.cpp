@@ -220,7 +220,7 @@ static enum LangError WriteExpression (const node_t* const root, FILE* const IR_
 
     if (root->type == kFunc)
     {
-        return WriteCallFunc (root->right, IR_file, tmp_var_counter);
+        return WriteCallFunc (root, IR_file, tmp_var_counter);
     }
 
     if (root->left != NULL)
@@ -403,6 +403,7 @@ static enum LangError WriteFuncPattern (const node_t* const root, FILE* const IR
     enum LangError result = kDoneLang;
 
     size_t label_counter = 0;
+    *tmp_var_counter = 0;
 
     if (root->type == kUserFunc)
     {

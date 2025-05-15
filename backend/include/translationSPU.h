@@ -13,6 +13,8 @@ static const char   kIRCommentSymbol = '#';
 static const char   kSepSym          = ',';
 static const char   kTrueSymbol      = '1';
 
+static const char* kMainFuncName = "main";
+
 static const size_t kFuncMaxNameLenIR  = 200;
 static const size_t kPrefixLen         = 4;
 static const size_t kSavedRegistersNum = 3;

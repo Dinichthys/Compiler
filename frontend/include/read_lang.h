@@ -131,7 +131,7 @@ const token_pattern_t kTokenTypes [kTokenNumber] =
     [24] = {.token = {.type = kFunc,     {.operation = kIn}, .line_pos = 0, .number_of_line = 0},                      .str_token = "проставиться"   },
     [25] = {.token = {.type = kFunc,     {.operation = kOut}, .line_pos = 0, .number_of_line = 0},                     .str_token = "покукарекай"    },
 
-    [26] = {.token = {.type = kRet,     {.operation = kReturn}, .line_pos = 0, .number_of_line = 0},                  .str_token = "АТАС_ШМОН"      },
+    [26] = {.token = {.type = kRet,      {.operation = kReturn}, .line_pos = 0, .number_of_line = 0},                  .str_token = "АТАС_ШМОН"      },
 
     [27] = {.token = {.type = kType,     {.operation = kDouble}, .line_pos = 0, .number_of_line = 0},                  .str_token = "фраер"          },
 

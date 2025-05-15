@@ -1,78 +1,73 @@
-Gg(1)
-	Gnoming(tmp2, 3 )
-	Gnoming(var0, tmp2)	# Variable: челик
+Gg(0)
 
 RingRing(tmp1, main)	# call main
 	Gnoming(arg0, tmp1)
 
 	Bobb(tmp0, hlt, 1)	# System function call: "hlt"
 
-Gyat(main, 0, 2)	# implement main
-	Gnoming(tmp3, 2 )
-	Gnoming(tmp4, 3 )
-	Digging(tmp5, 2, tmp3, tmp4)	# IR_OP_TYPE_SUB
+Gyat(main, 0, 1)	# implement main
+	Gnoming(tmp0, 0 )
+	Gnoming(var0, tmp0)	# Variable: петух
+	Gnoming(tmp1, var0)	 # петух
+	Gnoming(arg0, tmp1)
 
-	Gnoming(var0, tmp5)	# Variable: петух
-	Gnoming(tmp6, 2 )
-	Gnoming(var0, tmp6)	# Variable: петух
+	Bobb(tmp2, in, 1)	# System function call: "in"
+	Gnoming(var0, tmp2)	# Variable: петух
+	Gnoming(tmp3, var0)	 # петух
+	Gnoming(arg0, tmp3)
 
-Viperr(label0)	# If: comparison
+RingRing(tmp4, func_2_1)	# фак_ю_ториал
+
+	Gnoming(var0, tmp4)	# Variable: петух
+	Gnoming(tmp5, var0)	 # петух
+	Gnoming(arg0, tmp5)
+
+	Bobb(tmp6, out, 1)	# System function call: "out"
 	Gnoming(tmp7, 1 )
-	Gnoming(tmp8, 2 )
-	Digging(tmp9, 9, tmp7, tmp8)	# IR_OP_TYPE_GREAT
 
-Frog(label1, tmp9)	# If: jump on "then" body
-Frog(label2, 1)	# If: jump over "then" body
-
-Viperr(label1)	# If: "then" body
-	Gnoming(tmp10, 2 )
-	Gnoming(var0, tmp10)	# Variable: петух
-
-Viperr(label2)	# If: "then" body end
-	Gnoming(tmp7, 10 )
-	Gnoming(var1, tmp7)	# Variable: мужик
-
-Viperr(label3)	# While: comparison
-	Gnoming(tmp8, var0)	 # петух
-	Gnoming(tmp9, 0 )
-	Digging(tmp10, 7, tmp8, tmp9)	# IR_OP_TYPE_LESS
-
-Frog(label4, tmp10)	# While: jump at cycle body
-Frog(label5, 1)	# While: jump over cycle body
-
-Viperr(label4)	# While: body
-	Gnoming(tmp11, 50 )
-	Gnoming(var1, tmp11)	# Variable: мужик
-Frog(label3, 1)	# While: jump back to comparison
-
-Viperr(label5)	# While: end body
-	Gnoming(tmp8, var0)	 # петух
-	Gnoming(tmp9, 2 )
-	Gnoming(arg0, tmp9)
-	Gnoming(arg1, tmp8)
-
-RingRing(tmp10, func_1_2)	# кукушка
-
-	Gnoming(var1, tmp10)	# Variable: мужик
-	Gnoming(tmp11, 2 )
-	Gnoming(tmp12, 2 )
-	Gnoming(arg0, tmp12)
-	Gnoming(arg1, tmp11)
-
-RingRing(tmp13, func_1_2)	# кукушка
-
-	Gnoming(var1, tmp13)	# Variable: мужик
-	Gnoming(tmp14, 1 )
-
-	Cherepovec(tmp14)
+	Cherepovec(tmp7)
 
 Gyat(func_1_2, 2, 2)	# кукушка
 	Gnoming(var0, arg1)	 # Variable: рофлинка
 	Gnoming(var1, arg0)	 # Variable: пацан
+	Gnoming(tmp0, var0)	 # рофлинка
+	Gnoming(arg0, tmp0)
+
+	Bobb(tmp1, out, 1)	# System function call: "out"
+	Gnoming(tmp2, 2 )
+
+	Cherepovec(tmp2)
+
+Gyat(func_2_1, 1, 1)	# фак_ю_ториал
+	Gnoming(var0, arg0)	 # Variable: рофлинка
+
+Viperr(label0)	# If: comparison
+	Gnoming(tmp0, var0)	 # рофлинка
+	Gnoming(tmp1, 1 )
+	Digging(tmp2, 5, tmp0, tmp1)	# IR_OP_TYPE_EQ
+
+Frog(label1, tmp2)	# If: jump on "then" body
+Frog(label2, 1)	# If: jump over "then" body
+
+Viperr(label1)	# If: "then" body
 	Gnoming(tmp3, var0)	 # рофлинка
-	Gnoming(arg0, tmp3)
 
-	Bobb(tmp4, out, 1)	# System function call: "out"
-	Gnoming(tmp5, 2 )
+	Cherepovec(tmp3)
+Frog(label3, 1)	# If: jump over "else" body
 
-	Cherepovec(tmp5)
+Viperr(label2)	# If: "else" body
+	Gnoming(tmp4, var0)	 # рофлинка
+	Gnoming(tmp5, var0)	 # рофлинка
+	Gnoming(tmp6, 1 )
+	Digging(tmp7, 2, tmp5, tmp6)	# IR_OP_TYPE_SUB
+
+	Gnoming(arg0, tmp7)
+
+RingRing(tmp8, func_2_1)	# фак_ю_ториал
+
+	Digging(tmp9, 3, tmp4, tmp8)	# IR_OP_TYPE_MUL
+
+
+	Cherepovec(tmp9)
+
+Viperr(label3)	# If: "else" body end
