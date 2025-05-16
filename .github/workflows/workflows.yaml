@@ -1,23 +1,29 @@
-name: build action
+name: Build and Test
 on: [push, pull_request]
 jobs:
   build-cmake:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        compiler: [g++, clang++]
+        compiler:
+          - { cc: gcc, cxx: g++ }
+          - { cc: clang, cxx: clang++ }
         build_type: [Debug, Release]
     steps:
-      - name: clone
-        id: checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-      - name: install deps
+
+      - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential cmake nasm libsfml-dev
-      - name: build
+          sudo apt-get install -y build-essential cmake nasm libsfml-dev clang
+
+      - name: Configure and Build
         run: |
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_CXX_COMPILER=${{matrix.compiler}}
-          cmake --build build
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+            -DCMAKE_C_COMPILER=${{ matrix.compiler_set.cc }} \
+            -DCMAKE_CXX_COMPILER=${{ matrix.compiler_set.cxx }}
+          cmake --build build --parallel
