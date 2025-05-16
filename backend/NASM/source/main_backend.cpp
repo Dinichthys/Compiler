@@ -1,10 +1,10 @@
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "language.h"
 #include "parse_flags_lang.h"
 #include "struct_lang.h"
 #include "translationNASM.h"
-
-#include <stdlib.h>
-#include <stdio.h>
 
 #include "My_lib/Logger/logging.h"
 

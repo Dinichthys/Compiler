@@ -1,19 +1,16 @@
 #include "lexer.h"
 
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <limits.h>
+
 #include "read_lang.h"
 #include "struct_lang.h"
 #include "connect_tree_lang.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <math.h>
-#include <limits.h>
-
 #include "MyLib/Assert/my_assert.h"
 #include "MyLib/Logger/logging.h"
-#include "MyLib/My_stdio/my_stdio.h"
-#include "MyLib/helpful.h"
 #include "list.h"
 
 //-----DSL----------------------------------------------------------------------------------------------------

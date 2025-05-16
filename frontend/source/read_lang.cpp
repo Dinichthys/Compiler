@@ -6,7 +6,6 @@
 #include "connect_tree_lang.h"
 
 #include "MyLib/Assert/my_assert.h"
-#include "MyLib/Logger/logging.h"
 #include "MyLib/helpful.h"
 
 enum LangError ReadProgram (const char* const input_file_name, node_t** const root)

@@ -1,13 +1,12 @@
+#include <stdlib.h>
+#include <stdio.h>
+
 #include "language.h"
 #include "parse_flags_lang.h"
-#include "parse_mode_lang.h"
 #include "read_lang.h"
 #include "dump_lang.h"
 #include "write_tree_lang.h"
 #include "write_ir.h"
-
-#include <stdlib.h>
-#include <stdio.h>
 
 #include "My_lib/Logger/logging.h"
 

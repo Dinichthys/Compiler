@@ -3,7 +3,7 @@ add_executable (backend_spu
     source/translationSPU.cpp
 )
 
-target_link_libraries(backend_spu
+target_link_libraries (backend_spu
     all_libs
     pyam_ir
     flags

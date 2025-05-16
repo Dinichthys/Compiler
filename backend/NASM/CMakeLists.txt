@@ -3,7 +3,7 @@ add_executable (backend_nasm
     source/translationNASM.cpp
 )
 
-target_link_libraries(backend_nasm
+target_link_libraries (backend_nasm
     all_libs
     pyam_ir
     flags

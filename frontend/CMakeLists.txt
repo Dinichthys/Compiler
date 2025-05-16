@@ -10,7 +10,7 @@ add_executable (frontend
     include/Stack/hash.cpp
 )
 
-target_link_libraries(frontend
+target_link_libraries (frontend
     all_libs
     pyam_ir
     flags

@@ -1,21 +1,18 @@
 #include "write_ir.h"
 
-#include "language.h"
-#include "struct_lang.h"
-#include "dump_lang.h"      // For function EnumToStr
-
-#define IR_FILE_ IR_file
-extern "C" {
-#include "libpyam_ir.h"
-}
-
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "language.h"
+#include "operations.h"
+#include "struct_lang.h"
+
+#define IR_FILE_ IR_file
+
+#include "dsl_write.h"
+
 #include "MyLib/Assert/my_assert.h"
 #include "MyLib/Logger/logging.h"
-#include "MyLib/My_stdio/my_stdio.h"
-#include "MyLib/helpful.h"
 
 #include "Stack/stack.h"
 
@@ -23,11 +20,15 @@ extern "C" {
 
 //-----CHECKING-----------------------------------------------------------------------------------------------
 
-#define CHECK_NODE_OP(node, node_type, node_op)                                         \
-    ((node != NULL) && (node->type == node_type) && (node->value.operation == node_op))
+static bool CheckNodeOp (const node_t* const node, const enum NodeType node_type, const OpType node_op)
+{
+    return ((node != NULL) && (node->type == node_type) && (node->value.operation == node_op));
+}
 
-#define CHECK_NODE_TYPE(node, node_type)          \
-    ((node != NULL) && (node->type == node_type))
+static bool CheckNodeType (const node_t* const node, const enum NodeType node_type)
+{
+    return ((node != NULL) && (node->type == node_type));
+}
 
 #define CHECK_RESULT                \
         if (result != kDoneLang)    \
@@ -137,7 +138,7 @@ static enum LangError WriteGlobalVarsAssigning (const node_t* const root, FILE* 
 
     enum LangError result = kDoneLang;
 
-    if (CHECK_NODE_OP (root, kType, kDouble) && CHECK_NODE_OP (root->right, kSym, kAssign))
+    if (CheckNodeOp (root, kType, kDouble) && CheckNodeOp (root->right, kSym, kAssign))
     {
         result = WriteAssign (root->right, IR_file, tmp_var_counter);
         CHECK_RESULT;
@@ -159,7 +160,7 @@ static size_t CountGlobalVars (const node_t* const root)
 
     size_t cnt_global_vars = 0;
 
-    if (CHECK_NODE_OP (root, kType, kDouble) && CHECK_NODE_OP (root->right, kSym, kAssign))
+    if (CheckNodeOp (root, kType, kDouble) && CheckNodeOp (root->right, kSym, kAssign))
     {
         cnt_global_vars++;
     }
@@ -186,7 +187,7 @@ static enum LangError WriteAssign (const node_t* const root, FILE* const IR_file
 
     enum LangError result = kDoneLang;
 
-    if ((!CHECK_NODE_OP (root, kSym, kAssign)) || (!CHECK_NODE_TYPE (root->left, kVar)))
+    if ((!CheckNodeOp (root, kSym, kAssign)) || (!CheckNodeType (root->left, kVar)))
     {
         return kCantWriteAssigning;
     }
@@ -323,7 +324,7 @@ static enum LangError WriteCallUserFunc (const node_t* const root, FILE* const I
         return kCantCreateStackArgs;
     }
 
-    while (CHECK_NODE_OP (var_node, kSym, kComma))
+    while (CheckNodeOp (var_node, kSym, kComma))
     {
         result = WriteExpression (var_node->right, IR_file, tmp_var_counter);
         CHECK_RESULT;
@@ -373,8 +374,8 @@ static enum LangError WriteFuncs (const node_t* const root, FILE* const IR_file,
 
     size_t scope_tmp_var_counter = tmp_var_counter;
 
-    if (CHECK_NODE_OP (root, kType, kDouble)
-        && (CHECK_NODE_OP (root->right, kMainFunc, kMain) || CHECK_NODE_TYPE (root->right, kUserFunc)))
+    if (CheckNodeOp (root, kType, kDouble)
+        && (CheckNodeOp (root->right, kMainFunc, kMain) || CheckNodeType (root->right, kUserFunc)))
     {
         result = WriteFuncPattern (root->right, IR_file, &scope_tmp_var_counter);
         CHECK_RESULT;
@@ -450,7 +451,7 @@ static enum LangError WriteArgs (const node_t* const root, FILE* const IR_file, 
 
     for (arg_index = 0;
          (arg_index < cnt_args) &&
-         (CHECK_NODE_OP (arg_node, kType, kDouble)) && (CHECK_NODE_TYPE (arg_node->right, kVar));
+         (CheckNodeOp (arg_node, kType, kDouble)) && (CheckNodeType (arg_node->right, kVar));
          arg_index++)
     {
         IR_TAKE_ARG_ (arg_node->right->value.variable.index, cnt_args - arg_index - 1,
@@ -484,59 +485,66 @@ static enum LangError WriteCommand (const node_t* const root, FILE* const IR_fil
 
     bool done = false;
 
-    if (!CHECK_NODE_OP (root, kSym, kCommandEnd))
+    if (!CheckNodeOp (root, kSym, kCommandEnd))
     {
         return kNoCommandEnd;
     }
 
-    if (CHECK_NODE_OP (root->right, kSym, kAssign))
+    if (CheckNodeOp (root->right, kSym, kAssign))
     {
         result = WriteAssign (root->right, IR_file, tmp_var_counter);
         CHECK_RESULT;
         done = true;
     }
 
-    if (CHECK_NODE_OP (root->right, kType, kDouble))
+    if (CheckNodeOp (root->right, kType, kDouble))
     {
         result = WriteAssign (root->right->right, IR_file, tmp_var_counter);
         CHECK_RESULT;
         done = true;
     }
 
-    if (CHECK_NODE_TYPE (root->right, kFunc))
+    switch (root->right->type)
     {
-        result = WriteCallFunc (root->right, IR_file, tmp_var_counter);
-        CHECK_RESULT;
-        done = true;
-    }
+        case kFunc:
+        {
+            result = WriteCallFunc (root->right, IR_file, tmp_var_counter);
+            CHECK_RESULT;
+            done = true;
+            break;
+        }
+        case kRet:
+        {
+            result = WriteExpression (root->right->right, IR_file, tmp_var_counter);
+            CHECK_RESULT;
+            IR_RET_ (*tmp_var_counter - 1);
+            done = true;
+            break;
+        }
+        case kUserFunc:
+        {
+            result = WriteCallUserFunc (root->right, IR_file, tmp_var_counter);
+            CHECK_RESULT;
+            done = true;
+            break;
+        }
+        case kCond:
+        {
+            result = WriteIf (root->right, IR_file, tmp_var_counter, label_counter);
+            CHECK_RESULT;
+            done = true;
+            break;
+        }
+        case kCycle:
+        {
+            result = WriteCycle (root->right, IR_file, tmp_var_counter, label_counter);
+            CHECK_RESULT;
+            done = true;
+            break;
+        }
 
-    if (CHECK_NODE_OP (root->right, kRet, kReturn))
-    {
-        result = WriteExpression (root->right->right, IR_file, tmp_var_counter);
-        CHECK_RESULT;
-        IR_RET_ (*tmp_var_counter - 1);
-        done = true;
-    }
-
-    if (CHECK_NODE_TYPE (root->right, kUserFunc))
-    {
-        result = WriteCallUserFunc (root->right, IR_file, tmp_var_counter);
-        CHECK_RESULT;
-        done = true;
-    }
-
-    if (CHECK_NODE_TYPE (root->right, kCond))
-    {
-        result = WriteIf (root->right, IR_file, tmp_var_counter, label_counter);
-        CHECK_RESULT;
-        done = true;
-    }
-
-    if (CHECK_NODE_TYPE (root->right, kCycle))
-    {
-        result = WriteCycle (root->right, IR_file, tmp_var_counter, label_counter);
-        CHECK_RESULT;
-        done = true;
+        default:
+            break;
     }
 
     if (!done)
@@ -570,8 +578,8 @@ static enum LangError WriteIf (const node_t* const root, FILE* const IR_file,
 
     size_t scope_tmp_var_counter = *tmp_var_counter;
 
-    if (!(CHECK_NODE_OP (root, kCond, kIf) && CHECK_NODE_TYPE (root->right, kComp)
-          && CHECK_NODE_OP (root->left, kCond, kElse)))
+    if (!(CheckNodeOp (root, kCond, kIf) && CheckNodeType (root->right, kComp)
+          && CheckNodeOp (root->left, kCond, kElse)))
     {
         return kInvalidPatternOfIf;
     }
@@ -631,7 +639,7 @@ static enum LangError WriteCycle (const node_t* const root, FILE* const IR_file,
 
     size_t scope_tmp_var_counter = *tmp_var_counter;
 
-    if (!(CHECK_NODE_OP (root, kCycle, kWhile) && CHECK_NODE_TYPE (root->right, kComp)))
+    if (!(CheckNodeOp (root, kCycle, kWhile) && CheckNodeType (root->right, kComp)))
     {
         return kInvalidPatternOfCycle;
     }
@@ -665,16 +673,9 @@ static enum IR_SysCall_Indexes IdentifySysCall (const node_t* const node)
 
     switch (node->value.operation)
     {
-        case (kIn):
-        {
-            return SYSCALL_IN_INDEX;
-        }
-        case (kOut):
-        {
-            return SYSCALL_OUT_INDEX;
-        }
-        default:
-            return INVALID_SYSCALL;
+        case (kIn):  return SYSCALL_IN_INDEX;
+        case (kOut): return SYSCALL_OUT_INDEX;
+        default:     return INVALID_SYSCALL;
     }
 }
 
@@ -684,48 +685,17 @@ static enum IrOpType IdentifyOperation (const node_t* const node)
 
     switch (node->value.operation)
     {
-        case (kAdd):
-        {
-            return IR_OP_TYPE_SUM;
-        }
-        case (kSub):
-        {
-            return IR_OP_TYPE_SUB;
-        }
-        case (kMul):
-        {
-            return IR_OP_TYPE_MUL;
-        }
-        case (kDiv):
-        {
-            return IR_OP_TYPE_DIV;
-        }
-        case (kEqual):
-        {
-            return IR_OP_TYPE_EQ;
-        }
-        case (kNEqual):
-        {
-            return IR_OP_TYPE_NEQ;
-        }
-        case (kLess):
-        {
-            return IR_OP_TYPE_LESS;
-        }
-        case (kLessOrEq):
-        {
-            return IR_OP_TYPE_LESSEQ;
-        }
-        case (kMore):
-        {
-            return IR_OP_TYPE_GREAT;
-        }
-        case (kMoreOrEq):
-        {
-            return IR_OP_TYPE_GREATEQ;
-        }
-        default:
-            return IR_OP_TYPE_INVALID_OPERATION;
+        case (kAdd):      return IR_OP_TYPE_SUM;
+        case (kSub):      return IR_OP_TYPE_SUB;
+        case (kMul):      return IR_OP_TYPE_MUL;
+        case (kDiv):      return IR_OP_TYPE_DIV;
+        case (kEqual):    return IR_OP_TYPE_EQ;
+        case (kNEqual):   return IR_OP_TYPE_NEQ;
+        case (kLess):     return IR_OP_TYPE_LESS;
+        case (kLessOrEq): return IR_OP_TYPE_LESSEQ;
+        case (kMore):     return IR_OP_TYPE_GREAT;
+        case (kMoreOrEq): return IR_OP_TYPE_GREATEQ;
+        default:          return IR_OP_TYPE_INVALID_OPERATION;
     }
 }
 
@@ -733,8 +703,8 @@ static enum IrOpType IdentifyOperation (const node_t* const node)
 
 //-----CHECKING-----------------------------------------------------------------------------------------------
 
-#undef CHECK_NODE_OP
-#undef CHECK_NODE_TYPE
+#undef CheckNodeOp
+#undef CheckNodeType
 #undef CHECK_RESULT
 
 //------------------------------------------------------------------------------------------------------------

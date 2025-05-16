@@ -1,13 +1,13 @@
 #include "parser.h"
 
-#include "struct_lang.h"
-#include "read_lang.h"
-
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
 #include <limits.h>
+
+#include "struct_lang.h"
+#include "read_lang.h"
 
 #include "MyLib/Assert/my_assert.h"
 #include "MyLib/Logger/logging.h"
