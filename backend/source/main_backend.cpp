@@ -2,6 +2,7 @@
 #include "parse_flags_lang.h"
 #include "parse_mode_lang.h"
 #include "translationSPU.h"
+#include "translationNASM.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -46,7 +47,10 @@ int main (const int argc, char* argv[])
 
     // TreeDtor (root);
 
-    result = GenerateAsmSPUFromIR (set.stream_in, set.stream_out);
+    // result = GenerateAsmSPUFromIR (set.stream_in, set.stream_out);
+    // ERROR_HANDLER (result);
+
+    result = GenerateAsmNASMFromIR (set.stream_in, set.stream_out);
     ERROR_HANDLER (result);
 
     SettingsDtor (&set);

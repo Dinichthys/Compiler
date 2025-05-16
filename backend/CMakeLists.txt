@@ -4,6 +4,7 @@ add_executable (backend
     source/read_tree_lang.cpp
     source/backend_lang.cpp
     source/translationSPU.cpp
+    source/translationNASM.cpp
 )
 
 target_link_libraries(backend

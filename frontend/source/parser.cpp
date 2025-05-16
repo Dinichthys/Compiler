@@ -65,11 +65,14 @@ enum LangError ParseTokens (token_t** const tokens, const char* const input_file
                      "Run time symbol     = {%c}\n",
                      input_buf, offset, line_pos, counter_nl, input_buf [offset]);
 
+        offset += SkipSpace (input_buf + offset, &counter_nl, &line_pos);
+
         if (input_buf [offset] == kCommentSymbol)
         {
             in_comment = !in_comment;
             offset++;
             line_pos++;
+            continue;
         }
 
         if (in_comment)
@@ -83,8 +86,6 @@ enum LangError ParseTokens (token_t** const tokens, const char* const input_file
             line_pos++;
             continue;
         }
-
-        offset += SkipSpace (input_buf + offset, &counter_nl, &line_pos);
 
         if ((isdigit (input_buf [offset])) || (input_buf [offset] == '-'))
         {
