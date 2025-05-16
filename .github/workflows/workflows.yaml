@@ -22,5 +22,5 @@ jobs:
 
       - name: Configure and Build
         run: |
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_C_COMPILER=${{ matrix.compiler_set.cc }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler_set.cxx }}
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_C_COMPILER=${{matrix.compiler.cc}} -DCMAKE_CXX_COMPILER=${{matrix.compiler.cxx}}
           cmake --build build --parallel
