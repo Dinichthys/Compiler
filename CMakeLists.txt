@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 3.20)
 project (language_to CXX ASM_NASM)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # to generate compile_commands.json
+
 add_subdirectory(frontend)
 add_subdirectory(backend)
 add_subdirectory(SPU)

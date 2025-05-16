@@ -19,7 +19,6 @@ target_link_libraries(frontend
 target_include_directories (frontend
     PRIVATE
         ./include
-        ../
 )
 
 # cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++

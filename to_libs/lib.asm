@@ -33,6 +33,7 @@ section .text
 global hlt_syscall
 global in_syscall
 global out_syscall
+global pow_syscall
 global StartRam
 
 extern MyPrintf
@@ -163,6 +164,26 @@ out_syscall:
     mov rsi, Format_str
 
     call MyPrintf
+
+    pop rsi
+    pop rdi
+    pop rcx
+    pop rbx
+    xor rax, rax
+    ret
+
+pow_syscall:
+    pop rax
+    pop r11
+    pop r10
+    push rax
+    push rbx
+    push rcx
+    push rdi
+    push rsi
+
+    cmp r11, 0
+
 
     pop rsi
     pop rdi

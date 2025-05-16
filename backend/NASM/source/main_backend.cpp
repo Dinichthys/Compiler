@@ -1,7 +1,6 @@
 #include "language.h"
 #include "parse_flags_lang.h"
-#include "parse_mode_lang.h"
-#include "translationSPU.h"
+#include "struct_lang.h"
 #include "translationNASM.h"
 
 #include <stdlib.h>
@@ -32,23 +31,7 @@ int main (const int argc, char* argv[])
     set_log_file (set.stream_err);
     set_log_lvl (kDebug);
 
-    // node_t* root = TreeCtor ();
-
     enum LangError result = kDoneLang;
-
-    // result = ReadDataBase (&root, set.stream_in);
-    // ERROR_HANDLER (result);
-
-    // result = DumpLang (root);
-    // ERROR_HANDLER (result);
-
-    // result = GenerateAsm (root, set.stream_out);
-    // ERROR_HANDLER (result);
-
-    // TreeDtor (root);
-
-    // result = GenerateAsmSPUFromIR (set.stream_in, set.stream_out);
-    // ERROR_HANDLER (result);
 
     result = GenerateAsmNASMFromIR (set.stream_in, set.stream_out);
     ERROR_HANDLER (result);
