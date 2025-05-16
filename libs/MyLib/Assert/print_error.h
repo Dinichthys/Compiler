@@ -1,4 +1,4 @@
-#if !(defined(PRINT_ERROR_H))
+#ifndef PRINT_ERROR_H
 #define PRINT_ERROR_H
 
 #include <stdio.h>

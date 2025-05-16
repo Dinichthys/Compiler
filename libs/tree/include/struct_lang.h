@@ -1,4 +1,4 @@
-#if !(defined(STRUCT_LANG_H))
+#ifndef STRUCT_LANG_H
 #define STRUCT_LANG_H
 
 #include "language.h"

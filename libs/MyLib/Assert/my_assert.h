@@ -1,4 +1,4 @@
-#if !(defined(MY_ASSERT_H))
+#ifndef MY_ASSERT_H
 #define MY_ASSERT_H
 
 #include <stdio.h>

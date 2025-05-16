@@ -8,3 +8,4 @@ sh scripts/frontend.sh
 sh scripts/backendNASM.sh
 nasm -f elf64 -l build/nasm.lst DataBase/program_nasm.asm -o DataBase/objects/nasm.o -g -F dwarf
 ld DataBase/objects/printf.o DataBase/objects/lib.o DataBase/objects/nasm.o -o program
+./program

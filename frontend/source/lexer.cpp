@@ -9,9 +9,14 @@
 #include "struct_lang.h"
 #include "connect_tree_lang.h"
 
+#include "list.h"
+#include "list_construction.h"
+#include "list_src.h"
+#include "list_push.h"
+#include "list_pop.h"
+
 #include "MyLib/Assert/my_assert.h"
 #include "MyLib/Logger/logging.h"
-#include "list.h"
 
 //-----DSL----------------------------------------------------------------------------------------------------
 

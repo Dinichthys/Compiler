@@ -1,4 +1,4 @@
-#if !(defined(CONNECT_TREE_LANG_H))
+#ifndef CONNECT_TREE_LANG_H
 #define CONNECT_TREE_LANG_H
 
 #include "language.h"

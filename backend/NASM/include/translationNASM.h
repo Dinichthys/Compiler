@@ -1,4 +1,4 @@
-#if !(defined(TRANSLATION_NASM_H))
+#ifndef TRANSLATION_NASM_H
 #define TRANSLATION_NASM_H
 
 #include <stdio.h>

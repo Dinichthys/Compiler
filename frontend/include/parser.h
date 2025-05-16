@@ -1,4 +1,4 @@
-#if !(defined(PARSER_H))
+#ifndef PARSER_H
 #define PARSER_H
 
 #include "language.h"

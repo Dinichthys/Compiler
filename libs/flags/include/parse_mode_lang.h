@@ -1,4 +1,4 @@
-#if !(defined(PARSE_MODE_LANG_H))
+#ifndef PARSE_MODE_LANG_H
 #define PARSE_MODE_LANG_H
 
 #include "language.h"

@@ -1,11 +1,10 @@
-#if !(defined(READ_LANG_H))
+#ifndef READ_LANG_H
 #define READ_LANG_H
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "language.h"
-#include "parse_flags_lang.h"
 #include "struct_lang.h"
 
 static const size_t kProgramLen      = 10000;

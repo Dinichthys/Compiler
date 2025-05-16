@@ -1,4 +1,4 @@
-#if !(defined(DUMP_LANG_H))
+#ifndef DUMP_LANG_H
 #define DUMP_LANG_H
 
 #include <stdlib.h>

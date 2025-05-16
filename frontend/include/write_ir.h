@@ -1,4 +1,4 @@
-#if !(defined(WRITE_IR_H))
+#ifndef WRITE_IR_H
 #define WRITE_IR_H
 
 #include <stdio.h>

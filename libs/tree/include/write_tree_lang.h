@@ -1,4 +1,4 @@
-#if !(defined(WRITE_TREE_LANG_H))
+#ifndef WRITE_TREE_LANG_H
 #define WRITE_TREE_LANG_H
 
 #include "language.h"

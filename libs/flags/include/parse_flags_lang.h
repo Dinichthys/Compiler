@@ -1,4 +1,4 @@
-#if !(defined(PARSE_FLAGS_LANG_H))
+#ifndef PARSE_FLAGS_LANG_H
 #define PARSE_FLAGS_LANG_H
 
 #include <stdio.h>

@@ -1,4 +1,4 @@
-#if !(defined(TRANSLATION_SPU_H))
+#ifndef TRANSLATION_SPU_H
 #define TRANSLATION_SPU_H
 
 #include <stdio.h>

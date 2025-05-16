@@ -1,4 +1,4 @@
-#if !(defined(LANGUAGE_H))
+#ifndef LANGUAGE_H
 #define LANGUAGE_H
 
 #include <stdlib.h>
