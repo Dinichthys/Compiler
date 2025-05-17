@@ -34,30 +34,31 @@ enum LangError
     kUndefinedVariable          = 21,
     kMissCommaFuncCall          = 22,
     kMissCommaInArgs            = 23,
+    kInvalidUsingIn             = 24,
 
-    kCantDumpLang               = 24,
-    kInvalidNodeTypeLangError   = 25,
+    kCantDumpLang               = 25,
+    kInvalidNodeTypeLangError   = 26,
 
-    kInvalidPrefixDataBase      = 26,
-    kMissValue                  = 27,
+    kInvalidPrefixDataBase      = 27,
+    kMissValue                  = 28,
 
-    kInvalidModeTypeLangError   = 28,
+    kInvalidModeTypeLangError   = 29,
 
-    kInvalidPatternOfIf         = 29,
-    kInvalidPatternOfCycle      = 30,
+    kInvalidPatternOfIf         = 30,
+    kInvalidPatternOfCycle      = 31,
 
-    kCantWriteAssigning         = 31,
-    kCantCreateStackArgs        = 32,
-    kCantPushTMPVarCounter      = 33,
-    kCantPopTMPVarCounter       = 34,
-    kInvalidArgNum              = 35,
-    kNoCommandEnd               = 36,
+    kCantWriteAssigning         = 32,
+    kCantCreateStackArgs        = 33,
+    kCantPushTMPVarCounter      = 34,
+    kCantPopTMPVarCounter       = 35,
+    kInvalidArgNum              = 36,
+    kNoCommandEnd               = 37,
 
-    kNoBracketsIR               = 37,
-    kInvalidSyscall             = 38,
-    kInvalidOperation           = 39,
-    kNoSeparateSymbol           = 40,
-    kInvalidPrefixIR            = 41,
+    kNoBracketsIR               = 38,
+    kInvalidSyscall             = 39,
+    kInvalidOperation           = 40,
+    kNoSeparateSymbol           = 41,
+    kInvalidPrefixIR            = 42,
 };
 
 enum OpType

@@ -283,8 +283,11 @@ static enum LangError WriteCallFunc (const node_t* const root, FILE* const IR_fi
 
     enum LangError result = kDoneLang;
 
-    result = WriteExpression (root->right, IR_file, tmp_var_counter);
-    CHECK_RESULT;
+    if (root->right != NULL)
+    {
+        result = WriteExpression (root->right, IR_file, tmp_var_counter);
+        CHECK_RESULT;
+    }
 
     enum IR_SysCall_Indexes index = IdentifySysCall (root);
     if (index == INVALID_SYSCALL)

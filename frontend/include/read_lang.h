@@ -52,7 +52,7 @@ typedef struct token_pattern
 } token_pattern_t;
 
 #define TOKEN_PATTERN(index, token_type, op_type, key_word)\
-    [ind{.token = {.type = token_type, {.operation = op_type}}, .str_token = key_word}
+    {.token = {.type = token_type, {.operation = op_type}}, .str_token = key_word}
 
 const token_pattern_t kTokenTypes [kTokenNumber] {
 //----------------------|        Available token meaning          |       Key word for the token        |

@@ -1056,6 +1056,14 @@ static enum LangError GetNumFunc (const token_t* const tokens, size_t* const tok
     {
         (*node)->value.operation = tokens [*token_index].value.operation;
         SHIFT_TOKEN;
+        if ((*node)->value.operation == kIn)
+        {
+            return (   (TOKEN_TYPE != kFunc) && (TOKEN_TYPE != kCycle) && (TOKEN_TYPE != kCond)
+                    && (TOKEN_TYPE != kRet ) && (TOKEN_TYPE != kComp ) && (TOKEN_TYPE != kType)
+                    && ((TOKEN_TYPE != kSym) || CHECK_TOKEN_OP (kSym, kCommandEnd) || CHECK_TOKEN_OP (kSym, kComma)))
+                    ? kDoneLang
+                    : kInvalidUsingIn;
+        }
         result = GetBrace (tokens, token_index, &((*node)->right), list, variables);
         return result;
     }
