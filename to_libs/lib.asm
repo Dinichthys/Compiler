@@ -21,6 +21,8 @@ Zero_after_buf db 0
 
 Float_nums dd 0x0, 0x3f800000, 0x40000000, 0x40400000, 0x40800000, 0x40A00000, 0x40C00000, 0x40E00000, 0x41000000, 0x41100000
 
+Double_nums dq 0x0, 0x3ff0000000000000, 0x4000000000000000, 0x4008000000000000, 0x4010000000000000, 0x4014000000000000, 0x4018000000000000, 0x401C000000000000, 0x4020000000000000, 0x4022000000000000
+
 Error_msg db 'You are trying to run library', 10
 Error_msg_len db $ - Error_msg
 
@@ -105,9 +107,13 @@ ReadBuffInSyscall:
 .While_1:
     sub al, '0'
 
-    mulss xmm0, xmm2        ; XMM0 = XMM0 * 10
-    movss xmm1, dword [rax*DWORD_LEN+Float_nums]
-    addss xmm0, xmm1        ; XMM0 = XMM0 * 10 + XMM1
+    ; mulss xmm0, xmm2        ; XMM0 = XMM0 * 10
+    ; movss xmm1, dword [rax*DWORD_LEN+Float_nums]
+    ; addss xmm0, xmm1        ; XMM0 = XMM0 * 10 + XMM1
+
+    mulsd xmm0, xmm2        ; XMM0 = XMM0 * 10
+    movsd xmm1, qword [rax*QWORD_LEN+Double_nums]
+    addsd xmm0, xmm1        ; XMM0 = XMM0 * 10 + XMM1
 
     inc rcx
     jmp .Comparison_1
@@ -128,10 +134,15 @@ ReadBuffInSyscall:
 .While_2:
     sub al, '0'
 
-    movss xmm1, dword [rax*DWORD_LEN+Float_nums]
-    divss xmm1, xmm2        ; XMM1 = XMM1 / 10
-    addss xmm0, xmm1        ; XMM0 = XMM0 + XMM1 / 10
-    mulss xmm2, xmm3
+    ; movss xmm1, dword [rax*DWORD_LEN+Float_nums]
+    ; divss xmm1, xmm2        ; XMM1 = XMM1 / 10
+    ; addss xmm0, xmm1        ; XMM0 = XMM0 + XMM1 / 10
+    ; mulss xmm2, xmm3
+
+    movsd xmm1, qword [rax*QWORD_LEN+Double_nums]
+    divsd xmm1, xmm2        ; XMM1 = XMM1 / 10
+    addsd xmm0, xmm1        ; XMM0 = XMM0 + XMM1 / 10
+    mulsd xmm2, xmm3
 
     inc rcx
     jmp .Comparison_2
@@ -150,14 +161,14 @@ out_syscall:
     push rdi
     push rsi
 
-    mov rdi, rdx
-    shr rdx, FLOAT_SIZE - 2
-    shl rdx, FLOAT_SIZE * 2 - 2
-
-    shl rdi, FLOAT_SIZE + 2
-    shr rdi, 2 + DOUBLE_EXP - FLOAT_EXP
-
-    or rdx, rdi
+;     mov rdi, rdx
+;     shr rdx, FLOAT_SIZE - 2
+;     shl rdx, FLOAT_SIZE * 2 - 2
+;
+;     shl rdi, FLOAT_SIZE + 2
+;     shr rdi, 2 + DOUBLE_EXP - FLOAT_EXP
+;
+;     or rdx, rdi
     movq xmm0, rdx
 
     mov rdi, STDOUT

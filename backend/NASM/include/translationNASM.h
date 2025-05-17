@@ -12,6 +12,7 @@ static const char   kNASMBracketClose    = ')';
 static const char   kNASMIRCommentSymbol = '#';
 static const char   kNASMSepSym          = ',';
 static const char   kNASMTrueSymbol      = '1';
+static const size_t kRegisterSize        = 64;
 
 static const char* const kNASMMainFuncName   = "main";
 static const char* const kNASMStartRamName   = "StartRam";
@@ -48,10 +49,10 @@ static const size_t kNASMIRArithmOperationsNum = 4;
 
 static const char* const kInstructionsArithmNASM [kNASMIRArithmOperationsNum] =
 {
-    "addss",
-    "subss",
-    "mulss",
-    "divss",
+    "addsd",
+    "subsd",
+    "mulsd",
+    "divsd",
 };
 
 static const size_t kNASMIRLogicOperationsNum = 6;
@@ -61,12 +62,12 @@ static const size_t kNASMCFShift = 0;
 
 static const char* const kInstructionsLogicNASM [kNASMIRLogicOperationsNum] =
 {
-    "cmpeqss",      // equal
-    "cmpneqss",     // nequal
-    "cmpltss",      // below
-    "cmpless",      // below or equal
-    "cmpnless",     // above
-    "cmpnltss"      // above or equal
+    "cmpeqsd",      // equal
+    "cmpneqsd",     // nequal
+    "cmpltsd",      // below
+    "cmplesd",      // below or equal
+    "cmpnlesd",     // above
+    "cmpnltsd"      // above or equal
 };
 
 // static const char* const kInstructionsLogicNASM [kNASMIRLogicOperationsNum] =

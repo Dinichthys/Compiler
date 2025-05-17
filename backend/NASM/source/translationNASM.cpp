@@ -549,8 +549,8 @@ static enum LangError AssignTmpNASM (current_position_t* const cur_pos, FILE* co
 
     if (isdigit (*(cur_pos->buffer + cur_pos->read_letters)))
     {
-        float number = 0;
-        sscanf (cur_pos->buffer + cur_pos->read_letters, "%g", &number);
+        double number = 0;
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lg", &number);
         SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
         cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
@@ -561,10 +561,12 @@ static enum LangError AssignTmpNASM (current_position_t* const cur_pos, FILE* co
         cur_pos->read_letters++;
         cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        fprintf (output_file, "\tpush 0x%08x\n"
-                              "\tpop qword [%s+%lu]\t ; Push the number %g to tmp through the stack\n",
-                               *((unsigned int*) (&number)),
+        fprintf (output_file, "\tmov %s, 0x%016lx\n"
+                              "\tmov qword [%s+%lu], %s\t ; Push the number %g to tmp through the stack\n",
+                              kNASMRegisters [kNASMUnusedRegisterIndex],
+                               *((unsigned long int*) (&number)),
                               kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize,
+                              kNASMRegisters [kNASMUnusedRegisterIndex],
                               number);
 
         return kDoneLang;
@@ -779,7 +781,7 @@ static enum LangError OperationNASM (current_position_t* const cur_pos, FILE* co
                               "\tmovq %s, qword [%s+%lu]\t ; Push second operand\n"
                               "\t%s %s, %s\t ; Comparison\n"
                               "\tmovq %s, %s\t ; Move the result of comparison to the unused reg\n"
-                              "\tshr %s, 31\t ; Make the result 1 or 0\n"
+                              "\tshr %s, %lu\t ; Make the result 1 or 0\n"
                               "\tmov qword [%s+%lu], %s\t ; Move the result to the tmp var\n\n",
                               kNASMRegisters [kNASMFirstOpRegIndex],
                               kNASMRegisters [kNASMTmpBaseRegIndex], first_operand_tmp_index * kNASMQWordSize,
@@ -789,7 +791,7 @@ static enum LangError OperationNASM (current_position_t* const cur_pos, FILE* co
                               kNASMRegisters [kNASMFirstOpRegIndex],
                               kNASMRegisters [kNASMSecondOpRegIndex],
                               kNASMRegisters [kNASMUnusedRegisterIndex], kNASMRegisters [kNASMFirstOpRegIndex],
-                              kNASMRegisters [kNASMUnusedRegisterIndex],
+                              kNASMRegisters [kNASMUnusedRegisterIndex], kRegisterSize - 1,
                               kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize, kNASMRegisters [kNASMUnusedRegisterIndex]);
     }
 
