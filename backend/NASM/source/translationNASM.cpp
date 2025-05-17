@@ -24,81 +24,38 @@
 #define CALL_FUNC(func_name)                                                                                    \
     fprintf (output_file, "call %s:\t ; Call function\n", func_name, cnt_args);
 
+typedef struct current_position
+{
+    const char* buffer;
+    size_t      read_letters;
+    char        func_name [kNASMFuncMaxNameLenIR];
+    size_t      global_vars_cnt;
+    size_t      cnt_func_args;
+    size_t      max_tmp_counter;
+} current_position_t;
+
 static enum LangError GenerateAsmNASM (const char* const buffer, FILE* const output_file);
 
 static enum LangError PrintStartProgram (FILE* const output_file);
 
-static enum LangError CallFuncNASM      (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError FuncBodyNASM      (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError CondJumpNASM      (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError AssignNASM        (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError AssignVarNASM     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        size_t* const global_vars_cnt, const size_t* const cnt_func_args,
-                                        size_t* const max_tmp_counter);
-static enum LangError AssignTmpNASM     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        size_t* const global_vars_cnt, size_t* const max_tmp_counter);
-static enum LangError AssignArgNASM     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        size_t* const max_tmp_counter);
+static enum LangError CallFuncNASM      (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError FuncBodyNASM      (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError CondJumpNASM      (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError AssignNASM        (current_position_t* const cur_pos, FILE* const output_file);
 
-static enum LangError OperationNASM     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError LabelNASM         (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError ReturnNASM        (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError SysCallNASM       (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError GlobalVarsNumNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
+static enum LangError AssignVarNASM     (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError AssignTmpNASM     (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError AssignArgNASM     (current_position_t* const cur_pos, FILE* const output_file);
+
+static enum LangError OperationNASM     (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError LabelNASM         (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError ReturnNASM        (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError SysCallNASM       (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError GlobalVarsNumNASM (current_position_t* const cur_pos, FILE* const output_file);
 
 static void SkipNumber (const char* const input_buf, size_t* const offset);
 
-typedef enum LangError (*TranslateNASMFunc_t) (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter);
+typedef enum LangError (*TranslateNASMFunc_t) (current_position_t* const cur_pos, FILE* const output_file);
 
 static const TranslateNASMFunc_t kTranslationArray [kIR_KEY_WORD_NUMBER] =
 {
@@ -136,34 +93,40 @@ static enum LangError GenerateAsmNASM (const char* const buffer, FILE* const out
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     int can_read = 1;
-    size_t read_letters = skip_space_symbols (buffer);
 
     enum LangError result = kDoneLang;
-    bool in_function = false;
-    char func_name [kNASMFuncMaxNameLenIR] = "";
-    size_t cnt_func_args = 0;
-    size_t global_vars_cnt = 0;
-    size_t max_tmp_counter = 0;
+
+    current_position_t cur_pos =
+    {
+        .buffer = buffer,
+        .read_letters = 0,
+        .func_name = "global",
+        .global_vars_cnt = 0,
+        .cnt_func_args = 0,
+        .max_tmp_counter = 0,
+    };
+
+    cur_pos.read_letters = skip_space_symbols (buffer);
 
     PrintStartProgram (output_file);
 
     while (can_read)
     {
-        read_letters += skip_space_symbols (buffer + read_letters);
+        cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
         char key_word [kNASMIRWordMaxLen] = "";
 
-        if (*(buffer + read_letters) == kNASMIRCommentSymbol)
+        if (*(buffer + cur_pos.read_letters) == kNASMIRCommentSymbol)
         {
-            const char* end_comment = strchr (buffer + read_letters, '\n');
+            const char* end_comment = strchr (buffer + cur_pos.read_letters, '\n');
             if (end_comment == NULL)
             {
                 return kDoneLang;
             }
-            read_letters = end_comment - buffer;
-            read_letters += skip_space_symbols (buffer + read_letters);
+            cur_pos.read_letters = end_comment - buffer;
+            cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
         }
 
-        can_read = sscanf (buffer + read_letters, "%[^ ^\t^\n^(]", key_word);
+        can_read = sscanf (buffer + cur_pos.read_letters, "%[^ ^\t^\n^(]", key_word);
         if ((can_read == 0) || (strcmp (key_word, "") == 0))
         {
             break;
@@ -171,13 +134,13 @@ static enum LangError GenerateAsmNASM (const char* const buffer, FILE* const out
 
         LOG (kDebug, "Key word = \"%s\"\n", key_word);
 
-        read_letters += strlen (key_word);
-        read_letters += skip_space_symbols (buffer + read_letters);
-        if (*(buffer + read_letters) != kNASMBracketOpen)
+        cur_pos.read_letters += strlen (key_word);
+        cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
+        if (*(buffer + cur_pos.read_letters) != kNASMBracketOpen)
         {
             return kNoBracketsIR;
         }
-        read_letters++;
+        cur_pos.read_letters++;
 
         for (size_t index_kw = 0; index_kw <= kIR_KEY_WORD_NUMBER; index_kw++)
         {
@@ -185,11 +148,9 @@ static enum LangError GenerateAsmNASM (const char* const buffer, FILE* const out
             {
                 if (index_kw == (size_t) IR_FUNCTION_BODY_INDEX)
                 {
-                    in_function = true;
-                    max_tmp_counter = 0;
+                    cur_pos.max_tmp_counter = 0;
                 }
-                result = kTranslationArray [index_kw] (buffer, &read_letters, output_file, in_function,
-                                                       func_name, &global_vars_cnt, &cnt_func_args, &max_tmp_counter);
+                result = kTranslationArray [index_kw] (&cur_pos, output_file);
                 CHECK_RESULT;
                 break;
             }
@@ -217,50 +178,43 @@ static enum LangError PrintStartProgram (FILE* const output_file)
     return kDoneLang;
 }
 
-static enum LangError CallFuncNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError CallFuncNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t ret_val_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    *read_letters += strlen (TMP_PREFIX);
-    if (ret_val_index > *max_tmp_counter)
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    if (ret_val_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = ret_val_index;
+        cur_pos->max_tmp_counter = ret_val_index;
     }
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     char call_func_name [kNASMFuncMaxNameLenIR] = "";
-    sscanf (buffer + *read_letters, "%[^)^ ^\n^\t^\r]", call_func_name);
-    *read_letters += strlen (call_func_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^)^ ^\n^\t^\r]", call_func_name);
+    cur_pos->read_letters += strlen (call_func_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     LOG (kDebug, "Calling function is \"%s\"\n", call_func_name);
 
@@ -276,10 +230,10 @@ static enum LangError CallFuncNASM (const char* const buffer, size_t* const read
                           "\tmov qword [%s+%lu], %s\t ; Save return value to tmp var\n\n"
                           "\tadd %s, %lu\t ; Shift RSP to skip arguments\n",
                           kNASMRegisters [kNASMTmpBaseRegIndex],
-                          (*max_tmp_counter + 1) * kNASMQWordSize,
+                          (cur_pos->max_tmp_counter + 1) * kNASMQWordSize,
                           call_func_name,
                           kNASMRegisters [kNASMTmpBaseRegIndex],
-                          (*max_tmp_counter + 1) * kNASMQWordSize,
+                          (cur_pos->max_tmp_counter + 1) * kNASMQWordSize,
                           kNASMRegisters [kNASMTmpBaseRegIndex], ret_val_index * kNASMQWordSize,
                           kNASMRegisters [kNASMRetValRegIndex],
                           kNASMRegisters [kNASMRSPRegIndex],
@@ -288,57 +242,50 @@ static enum LangError CallFuncNASM (const char* const buffer, size_t* const read
     return kDoneLang;
 }
 
-static enum LangError FuncBodyNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError FuncBodyNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
-    sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r]", func_name);
-    *read_letters += strlen (func_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r]", cur_pos->func_name);
+    cur_pos->read_letters += strlen (cur_pos->func_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    sscanf (buffer + *read_letters, "%lu", cnt_func_args);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &(cur_pos->cnt_func_args));
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t cnt_loc_vars = 0;
-    sscanf (buffer + *read_letters, "%lu", &cnt_loc_vars);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &cnt_loc_vars);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    LOG (kDebug, "Start function \"%s\" body\n", func_name);
+    LOG (kDebug, "Start function \"%s\" body\n", cur_pos->func_name);
 
     fprintf (output_file, "\n%s:\t ; Function body\n"
                           "\tpush %s\t ; Save variables counter register value\n"
@@ -350,7 +297,7 @@ static enum LangError FuncBodyNASM (const char* const buffer, size_t* const read
                           "\tadd %s, %lu\n"
                           "\tmov %s, %s\t ; Make RBP point on the last arg\n"
                           "\tmov %s, %s\t ; Save old RSP value\n",
-                          func_name,
+                          cur_pos->func_name,
                           kNASMRegisters [kNASMVarBaseRegIndex],
                           kNASMRegisters [kNASMTmpBaseRegIndex],
                           kNASMRegisters [kNASMRBPRegIndex],
@@ -365,184 +312,145 @@ static enum LangError FuncBodyNASM (const char* const buffer, size_t* const read
     return kDoneLang;
 }
 
-static enum LangError CondJumpNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError CondJumpNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     char label_name [kNASMFuncMaxNameLenIR] = "";
-    sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r]", label_name);
-    *read_letters += strlen (label_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r]", label_name);
+    cur_pos->read_letters += strlen (label_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t cond_res_tmp_index = 0;
-    bool cond_jump = (*(buffer + *read_letters) != kNASMTrueSymbol);
+    bool cond_jump = (*(cur_pos->buffer + cur_pos->read_letters) != kNASMTrueSymbol);
     if (cond_jump)
     {
-        sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &cond_res_tmp_index);
-        *read_letters += strlen (TMP_PREFIX);
-        if (cond_res_tmp_index > *max_tmp_counter)
+        sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &cond_res_tmp_index);
+        cur_pos->read_letters += strlen (TMP_PREFIX);
+        if (cond_res_tmp_index > cur_pos->max_tmp_counter)
         {
-            *max_tmp_counter = cond_res_tmp_index;
+            cur_pos->max_tmp_counter = cond_res_tmp_index;
         }
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
     }
     else
     {
-        (*read_letters)++;
+        cur_pos->read_letters++;
     }
 
-    if (*(buffer + *read_letters) != kNASMBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     if (cond_jump)
     {
-        if (in_function)
-        {
-            fprintf (output_file, "\tmov %s, qword [%s+%lu]\n"
-                                  "\ttest %s, %s\t ; Compare the result of the condition\n"
-                                  "jne %s_%s\t ; Jump on label if the condition is true\n",
-                                  kNASMRegisters [kNASMUnusedRegisterIndex],
-                                  kNASMRegisters [kNASMTmpBaseRegIndex], cond_res_tmp_index * kNASMQWordSize,
-                                  kNASMRegisters [kNASMUnusedRegisterIndex],
-                                  kNASMRegisters [kNASMUnusedRegisterIndex],
-                                  func_name, label_name);
-        }
-        else
-        {
-            fprintf (output_file, "\tmov %s, qword [%s+%lu]\n"
-                                  "\ttest %s, %s\t ; Compare the result of the condition\n"
-                                  "jne %s\t ; Jump on label if the condition is true\n",
-                                  kNASMRegisters [kNASMUnusedRegisterIndex],
-                                  kNASMRegisters [kNASMTmpBaseRegIndex], cond_res_tmp_index * kNASMQWordSize,
-                                  kNASMRegisters [kNASMUnusedRegisterIndex],
-                                  kNASMRegisters [kNASMUnusedRegisterIndex],
-                                  label_name);
-        }
+        fprintf (output_file, "\tmov %s, qword [%s+%lu]\n"
+                              "\ttest %s, %s\t ; Compare the result of the condition\n"
+                              "jne %s_%s\t ; Jump on label if the condition is true\n",
+                              kNASMRegisters [kNASMUnusedRegisterIndex],
+                              kNASMRegisters [kNASMTmpBaseRegIndex], cond_res_tmp_index * kNASMQWordSize,
+                              kNASMRegisters [kNASMUnusedRegisterIndex],
+                              kNASMRegisters [kNASMUnusedRegisterIndex],
+                              cur_pos->func_name, label_name);
     }
     else
     {
-        if (in_function)
-        {
-            fprintf (output_file, "jmp %s_%s\t ; Jump on label\n", func_name, label_name);
-        }
-        else
-        {
-            fprintf (output_file, "jmp %s\t ; Jump on label\n", label_name);
-        }
+        fprintf (output_file, "jmp %s_%s\t ; Jump on label\n", cur_pos->func_name, label_name);
     }
 
     return kDoneLang;
 }
 
-static enum LangError AssignNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError AssignNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     char prefix_name [kNASMPrefixLen] = "";
-    sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kNASMPrefixLen - 1;
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
+    cur_pos->read_letters += kNASMPrefixLen - 1;
 
     if (strcmp (prefix_name, VAR_PREFIX) == 0)
     {
-        return AssignVarNASM (buffer, read_letters, output_file, global_vars_cnt, cnt_func_args, max_tmp_counter);
+        return AssignVarNASM (cur_pos, output_file);
     }
 
     if (strcmp (prefix_name, TMP_PREFIX) == 0)
     {
-        return AssignTmpNASM (buffer, read_letters, output_file, global_vars_cnt, max_tmp_counter);
+        return AssignTmpNASM (cur_pos, output_file);
     }
 
     if (strcmp (prefix_name, ARG_PREFIX) == 0)
     {
-        return AssignArgNASM (buffer, read_letters, output_file, max_tmp_counter);
+        return AssignArgNASM (cur_pos, output_file);
     }
 
     return kInvalidPrefixIR;
 }
 
-static enum LangError AssignVarNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    size_t* const global_vars_cnt, const size_t* const cnt_func_args,
-                                    size_t* const max_tmp_counter)
+static enum LangError AssignVarNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     long long var_index = 0;
-    sscanf (buffer + *read_letters, "%lld", &var_index);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lld", &var_index);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     char prefix_name [kNASMPrefixLen] = "";
-    sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kNASMPrefixLen - 1;
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
+    cur_pos->read_letters += kNASMPrefixLen - 1;
 
     if (strcmp (prefix_name, TMP_PREFIX) == 0)
     {
         size_t src_tmp_index = 0;
-        sscanf (buffer + *read_letters, "%lu", &src_tmp_index);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &src_tmp_index);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (src_tmp_index > *max_tmp_counter)
+        if (src_tmp_index > cur_pos->max_tmp_counter)
         {
-            *max_tmp_counter = src_tmp_index;
+            cur_pos->max_tmp_counter = src_tmp_index;
         }
 
-        if (*(buffer + *read_letters) != kNASMBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         if (var_index >= 0)
         {
@@ -557,7 +465,7 @@ static enum LangError AssignVarNASM (const char* const buffer, size_t* const rea
                                   "\tpop qword [%s+%lu]\n\n",
                                   kNASMRegisters [kNASMTmpBaseRegIndex], src_tmp_index * kNASMQWordSize,
                                   kNASMStartRamName,
-                                  (*global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize);
+                                  (cur_pos->global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize);
         }
 
         return kDoneLang;
@@ -566,16 +474,16 @@ static enum LangError AssignVarNASM (const char* const buffer, size_t* const rea
     if (strcmp (prefix_name, ARG_PREFIX) == 0)
     {
         size_t arg_index = 0;
-        sscanf (buffer + *read_letters, "%lu", &arg_index);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &arg_index);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (*(buffer + *read_letters) != kNASMBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         if (var_index >= 0)
         {
@@ -586,7 +494,7 @@ static enum LangError AssignVarNASM (const char* const buffer, size_t* const rea
                                   "\tpop %s\t ; Save value to RBP\n\n",
                                   kNASMRegisters [kNASMRBPRegIndex],
                                   kNASMRegisters [kNASMRBPRegIndex],
-                                  (*cnt_func_args - arg_index) * kNASMQWordSize,
+                                  (cur_pos->cnt_func_args - arg_index) * kNASMQWordSize,
                                   kNASMRegisters [kNASMRBPRegIndex],
                                   kNASMRegisters [kNASMVarBaseRegIndex], ((size_t) var_index) * kNASMQWordSize,
                                   kNASMRegisters [kNASMRBPRegIndex]);
@@ -600,10 +508,10 @@ static enum LangError AssignVarNASM (const char* const buffer, size_t* const rea
                                   "\tpop %s\t ; Save value to RBP\n\n",
                                   kNASMRegisters [kNASMRBPRegIndex],
                                   kNASMRegisters [kNASMRBPRegIndex],
-                                  (*cnt_func_args - arg_index) * kNASMQWordSize,
+                                  (cur_pos->cnt_func_args - arg_index) * kNASMQWordSize,
                                   kNASMRegisters [kNASMRBPRegIndex],
                                   kNASMStartRamName,
-                                  (*global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize,
+                                  (cur_pos->global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize,
                                   kNASMRegisters [kNASMRBPRegIndex]);
         }
 
@@ -613,48 +521,45 @@ static enum LangError AssignVarNASM (const char* const buffer, size_t* const rea
     return kInvalidPrefixIR;
 }
 
-static enum LangError AssignTmpNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    size_t* const global_vars_cnt, size_t* const max_tmp_counter)
+static enum LangError AssignTmpNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t result_tmp_index = 0;
-    sscanf (buffer + *read_letters, "%lu", &result_tmp_index);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &result_tmp_index);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (result_tmp_index > *max_tmp_counter)
+    if (result_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = result_tmp_index;
+        cur_pos->max_tmp_counter = result_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (isdigit (*(buffer + *read_letters)))
+    if (isdigit (*(cur_pos->buffer + cur_pos->read_letters)))
     {
         float number = 0;
-        sscanf (buffer + *read_letters, "%g", &number);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%g", &number);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (*(buffer + *read_letters) != kNASMBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         fprintf (output_file, "\tpush 0x%08x\n"
                               "\tpop qword [%s+%lu]\t ; Push the number %g to tmp through the stack\n",
@@ -666,22 +571,22 @@ static enum LangError AssignTmpNASM (const char* const buffer, size_t* const rea
     }
 
     char prefix_name [kNASMPrefixLen] = "";
-    sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kNASMPrefixLen - 1;
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
+    cur_pos->read_letters += kNASMPrefixLen - 1;
 
     if (strcmp (prefix_name, VAR_PREFIX) == 0)
     {
         long long var_index = 0;
-        sscanf (buffer + *read_letters, "%lld", &var_index);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lld", &var_index);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (*(buffer + *read_letters) != kNASMBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         if (var_index >= 0)
         {
@@ -695,7 +600,7 @@ static enum LangError AssignTmpNASM (const char* const buffer, size_t* const rea
             fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push variable to tmp through the stack\n"
                                   "\tpop qword [%s+%lu]\n\n",
                                   kNASMStartRamName,
-                                  (*global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize,
+                                  (cur_pos->global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize,
                                   kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize);
         }
 
@@ -705,21 +610,21 @@ static enum LangError AssignTmpNASM (const char* const buffer, size_t* const rea
     if (strcmp (prefix_name, TMP_PREFIX) == 0)
     {
         size_t src_tmp_index = 0;
-        sscanf (buffer + *read_letters, "%lu", &src_tmp_index);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &src_tmp_index);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (src_tmp_index > *max_tmp_counter)
+        if (src_tmp_index > cur_pos->max_tmp_counter)
         {
-            *max_tmp_counter = src_tmp_index;
+            cur_pos->max_tmp_counter = src_tmp_index;
         }
 
-        if (*(buffer + *read_letters) != kNASMBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push tmp to tmp through the stack\n"
                               "\tpop qword [%s+%lu]\n\n",
@@ -732,47 +637,44 @@ static enum LangError AssignTmpNASM (const char* const buffer, size_t* const rea
     return kInvalidAssigning;
 }
 
-static enum LangError AssignArgNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    size_t* const max_tmp_counter)
+static enum LangError AssignArgNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t result_arg_index = 0;
-    sscanf (buffer + *read_letters, "%lu", &result_arg_index);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &result_arg_index);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t src_tmp_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &src_tmp_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &src_tmp_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (src_tmp_index > *max_tmp_counter)
+    if (src_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = src_tmp_index;
+        cur_pos->max_tmp_counter = src_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kNASMBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push tmp %lu to argument %lu through the stack\n",
                           kNASMRegisters [kNASMTmpBaseRegIndex], src_tmp_index * kNASMQWordSize,
@@ -781,87 +683,80 @@ static enum LangError AssignArgNASM (const char* const buffer, size_t* const rea
     return kDoneLang;
 }
 
-static enum LangError OperationNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError OperationNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t result_tmp_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &result_tmp_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &result_tmp_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (result_tmp_index > *max_tmp_counter)
+    if (result_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = result_tmp_index;
+        cur_pos->max_tmp_counter = result_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     unsigned int operation_enum = 0;
-    sscanf (buffer + *read_letters, "%u", &operation_enum);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%u", &operation_enum);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t first_operand_tmp_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &first_operand_tmp_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &first_operand_tmp_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (first_operand_tmp_index > *max_tmp_counter)
+    if (first_operand_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = first_operand_tmp_index;
+        cur_pos->max_tmp_counter = first_operand_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t second_operand_tmp_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &second_operand_tmp_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &second_operand_tmp_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (second_operand_tmp_index > *max_tmp_counter)
+    if (second_operand_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = second_operand_tmp_index;
+        cur_pos->max_tmp_counter = second_operand_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kNASMBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     if (operation_enum < kNASMIRArithmOperationsNum)
     {
@@ -901,82 +796,61 @@ static enum LangError OperationNASM (const char* const buffer, size_t* const rea
     return kDoneLang;
 }
 
-static enum LangError LabelNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                __attribute_maybe_unused__ bool in_function,
-                                __attribute_maybe_unused__ char* const func_name,
-                                __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError LabelNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     char label_name [kNASMFuncMaxNameLenIR] = "";
-    sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r^)]", label_name);
-    *read_letters += strlen (label_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r^)]", label_name);
+    cur_pos->read_letters += strlen (label_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     LOG (kDebug, "Label \"%s\" was analyzed\n", label_name);
 
-    if (in_function)
-    {
-        fprintf (output_file, "%s_%s:\t ; Label in function\n", func_name, label_name);
-    }
-    else
-    {
-        fprintf (output_file, "%s:\t ; Label in global\n", label_name);
-    }
+    fprintf (output_file, "%s_%s:\t ; Label in function\n", cur_pos->func_name, label_name);
 
     return kDoneLang;
 }
 
-static enum LangError ReturnNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                 __attribute_maybe_unused__ bool in_function,
-                                 __attribute_maybe_unused__ char* const func_name,
-                                 __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                 __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                 __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError ReturnNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t ret_val_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (ret_val_index > *max_tmp_counter)
+    if (ret_val_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = ret_val_index;
+        cur_pos->max_tmp_counter = ret_val_index;
     }
 
-    const char* end_args = strchr (buffer + *read_letters, kNASMBracketClose);
+    const char* end_args = strchr (cur_pos->buffer + cur_pos->read_letters, kNASMBracketClose);
     if (end_args == NULL)
     {
         return kNoBracketsIR;
     }
-    *read_letters = end_args - buffer;
-    (*read_letters)++;
+    cur_pos->read_letters = end_args - cur_pos->buffer;
+    cur_pos->read_letters++;
 
     fprintf (output_file, "\n\tpush qword [%s+%lu]\n"
                           "\tpop %s\t ; Save return value to the rax\n"
@@ -993,52 +867,45 @@ static enum LangError ReturnNASM (const char* const buffer, size_t* const read_l
     return kDoneLang;
 }
 
-static enum LangError SysCallNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError SysCallNASM (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t ret_val_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (ret_val_index > *max_tmp_counter)
+    if (ret_val_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = ret_val_index;
+        cur_pos->max_tmp_counter = ret_val_index;
     }
 
-    if (*(buffer + *read_letters) != kNASMSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     char sys_func_name [kNASMFuncMaxNameLenIR] = "";
-    sscanf (buffer + *read_letters, "%[^)^ ^\n^\t^\r^,]", sys_func_name);
-    *read_letters += strlen (sys_func_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^)^ ^\n^\t^\r^,]", sys_func_name);
+    cur_pos->read_letters += strlen (sys_func_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    const char* end_args = strchr (buffer + *read_letters, kNASMBracketClose);
+    const char* end_args = strchr (cur_pos->buffer + cur_pos->read_letters, kNASMBracketClose);
     if (end_args == NULL)
     {
         return kNoBracketsIR;
     }
-    *read_letters = end_args - buffer;
-    (*read_letters)++;
+    cur_pos->read_letters = end_args - cur_pos->buffer;
+    cur_pos->read_letters++;
 
     fprintf (output_file, "call %s_syscall\t ; System call\n", sys_func_name);
 
@@ -1057,33 +924,26 @@ static enum LangError SysCallNASM (const char* const buffer, size_t* const read_
     return kDoneLang;
 }
 
-static enum LangError GlobalVarsNumNASM (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                       __attribute_maybe_unused__ bool in_function,
-                                       __attribute_maybe_unused__ char* const func_name,
-                                       __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                       __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                       __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError GlobalVarsNumNASM  (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t cnt_glob_vars = 0;
-    sscanf (buffer + *read_letters, "%lu", &cnt_glob_vars);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &cnt_glob_vars);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kNASMBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     fprintf (output_file, "\n%s:\n"
                           "\tmov %s, %s\t ; Set label to global variables counter register\n"
@@ -1094,7 +954,7 @@ static enum LangError GlobalVarsNumNASM (const char* const buffer, size_t* const
                           kNASMRegisters [kNASMTmpBaseRegIndex], kNASMStartRamName,
                           kNASMRegisters [kNASMTmpBaseRegIndex], cnt_glob_vars);
 
-    *global_vars_cnt = cnt_glob_vars;
+    cur_pos->global_vars_cnt = cnt_glob_vars;
 
     return kDoneLang;
 }

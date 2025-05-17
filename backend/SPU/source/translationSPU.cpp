@@ -22,82 +22,36 @@
         return result;          \
     }
 
-#define CALL_FUNC(func_name)                                                                                    \
-    fprintf (output_file, "call %s:\t ; Call function\n", func_name, cnt_args);
+typedef struct current_position
+{
+    const char* buffer;
+    size_t      read_letters;
+    char        func_name [kFuncMaxNameLenIR];
+    size_t      global_vars_cnt;
+    size_t      cnt_func_args;
+    size_t      max_tmp_counter;
+} current_position_t;
 
 static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const output_file);
 
-static enum LangError CallFuncSPU      (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError FuncBodySPU      (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError CondJumpSPU      (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError AssignSPU        (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError AssignVarSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        size_t* const global_vars_cnt, const size_t* const cnt_func_args,
-                                        size_t* const max_tmp_counter);
-static enum LangError AssignTmpSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        size_t* const global_vars_cnt, size_t* const max_tmp_counter);
-static enum LangError AssignArgSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        size_t* const max_tmp_counter);
+static enum LangError CallFuncSPU      (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError FuncBodySPU      (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError CondJumpSPU      (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError AssignSPU        (current_position_t* const cur_pos, FILE* const output_file);
 
-static enum LangError OperationSPU     (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError LabelSPU         (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError ReturnSPU        (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError SysCallSPU       (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
-static enum LangError GlobalVarsNumSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                        __attribute_maybe_unused__ bool in_function,
-                                        __attribute_maybe_unused__ char* const func_name,
-                                        __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                        __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                        __attribute_maybe_unused__ size_t* const max_tmp_counter);
+static enum LangError AssignVarSPU     (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError AssignTmpSPU     (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError AssignArgSPU     (current_position_t* const cur_pos, FILE* const output_file);
+
+static enum LangError OperationSPU     (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError LabelSPU         (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError ReturnSPU        (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError SysCallSPU       (current_position_t* const cur_pos, FILE* const output_file);
+static enum LangError GlobalVarsNumSPU (current_position_t* const cur_pos, FILE* const output_file);
 
 static void SkipNumber (const char* const input_buf, size_t* const offset);
 
-typedef enum LangError (*TranslateSpuFunc_t) (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter);
+typedef enum LangError (*TranslateSpuFunc_t) (current_position_t* const cur_pos, FILE* const output_file);
 
 static const TranslateSpuFunc_t kTranslationArray [kIR_KEY_WORD_NUMBER] =
 {
@@ -138,43 +92,51 @@ static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const outp
     size_t read_letters = skip_space_symbols (buffer);
 
     enum LangError result = kDoneLang;
-    bool in_function = false;
-    char func_name [kFuncMaxNameLenIR] = "";
-    size_t cnt_func_args = 0;
-    size_t global_vars_cnt = 0;
-    size_t max_tmp_counter = 0;
+
+    current_position_t cur_pos =
+    {
+        .buffer = buffer,
+        .read_letters = read_letters,
+        .func_name = "global",
+        .global_vars_cnt = 0,
+        .cnt_func_args = 0,
+        .max_tmp_counter = 0,
+    };
 
     while (can_read)
     {
-        read_letters += skip_space_symbols (buffer + read_letters);
+        cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
         char key_word [kIRWordMaxLen] = "";
 
-        if (*(buffer + read_letters) == kIRCommentSymbol)
+        if (*(buffer + cur_pos.read_letters) == kIRCommentSymbol)
         {
-            const char* end_comment = strchr (buffer + read_letters, '\n');
+            const char* end_comment = strchr (buffer + cur_pos.read_letters, '\n');
             if (end_comment == NULL)
             {
                 return kDoneLang;
             }
-            read_letters = end_comment - buffer;
-            read_letters += skip_space_symbols (buffer + read_letters);
+            cur_pos.read_letters = end_comment - buffer;
+            cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
         }
 
-        can_read = sscanf (buffer + read_letters, "%[^ ^\t^\n^(]", key_word);
+        can_read = sscanf (buffer + cur_pos.read_letters, "%[^ ^\t^\n^(]", key_word);
         if ((can_read == 0) || (strcmp (key_word, "") == 0))
         {
+            LOG (kDebug, "Stop reading on index %lu\n"
+                         "Current symbol = {%c}\n",
+                         cur_pos.read_letters, *(buffer + cur_pos.read_letters));
             break;
         }
 
         LOG (kDebug, "Key word = \"%s\"\n", key_word);
 
-        read_letters += strlen (key_word);
-        read_letters += skip_space_symbols (buffer + read_letters);
-        if (*(buffer + read_letters) != kBracketOpen)
+        cur_pos.read_letters += strlen (key_word);
+        cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
+        if (*(buffer + cur_pos.read_letters) != kBracketOpen)
         {
             return kNoBracketsIR;
         }
-        read_letters++;
+        cur_pos.read_letters++;
 
         for (size_t index_kw = 0; index_kw <= kIR_KEY_WORD_NUMBER; index_kw++)
         {
@@ -182,11 +144,9 @@ static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const outp
             {
                 if (index_kw == (size_t) IR_FUNCTION_BODY_INDEX)
                 {
-                    in_function = true;
-                    max_tmp_counter = 0;
+                    cur_pos.max_tmp_counter = 0;
                 }
-                result = kTranslationArray [index_kw] (buffer, &read_letters, output_file, in_function,
-                                                       func_name, &global_vars_cnt, &cnt_func_args, &max_tmp_counter);
+                result = kTranslationArray [index_kw] (&cur_pos, output_file);
                 CHECK_RESULT;
                 break;
             }
@@ -196,50 +156,43 @@ static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const outp
     return kDoneLang;
 }
 
-static enum LangError CallFuncSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError CallFuncSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t ret_val_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    *read_letters += strlen (TMP_PREFIX);
-    if (ret_val_index > *max_tmp_counter)
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    if (ret_val_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = ret_val_index;
+        cur_pos->max_tmp_counter = ret_val_index;
     }
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     char call_func_name [kFuncMaxNameLenIR] = "";
-    sscanf (buffer + *read_letters, "%[^)^ ^\n^\t^\r]", call_func_name);
-    *read_letters += strlen (call_func_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^)^ ^\n^\t^\r]", call_func_name);
+    cur_pos->read_letters += strlen (call_func_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     LOG (kDebug, "Calling function is \"%s\"\n", call_func_name);
 
@@ -264,11 +217,11 @@ static enum LangError CallFuncSPU (const char* const buffer, size_t* const read_
                           "\tpush %s\n"
                           "\tsub\n"
                           "\tpop %s\t ; Shift RSP to skip arguments\n",
-                          *max_tmp_counter + 1,
+                          cur_pos->max_tmp_counter + 1,
                           REGISTERS [kTmpBaseRegIndex],
                           REGISTERS [kTmpBaseRegIndex],
                           call_func_name,
-                          *max_tmp_counter + 1,
+                          cur_pos->max_tmp_counter + 1,
                           REGISTERS [kTmpBaseRegIndex],
                           REGISTERS [kTmpBaseRegIndex],
                           REGISTERS [kRetValRegIndex],
@@ -280,57 +233,50 @@ static enum LangError CallFuncSPU (const char* const buffer, size_t* const read_
     return kDoneLang;
 }
 
-static enum LangError FuncBodySPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError FuncBodySPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
-    sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r]", func_name);
-    *read_letters += strlen (func_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r]", cur_pos->func_name);
+    cur_pos->read_letters += strlen (cur_pos->func_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    sscanf (buffer + *read_letters, "%lu", cnt_func_args);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &(cur_pos->cnt_func_args));
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t cnt_loc_vars = 0;
-    sscanf (buffer + *read_letters, "%lu", &cnt_loc_vars);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &cnt_loc_vars);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    LOG (kDebug, "Start function \"%s\" body\n", func_name);
+    LOG (kDebug, "Start function \"%s\" body\n", cur_pos->func_name);
 
     fprintf (output_file, "\n%s:\t ; Function body\n"
                           "\tpush %s\t ; Save variables counter register value\n"
@@ -346,7 +292,7 @@ static enum LangError FuncBodySPU (const char* const buffer, size_t* const read_
                           "\tpush %s\n"
                           "\tsub\t ; Make RBP point on the last arg\n"
                           "\tpop %s\t ; Move RSP to RBP\n\n",
-                          func_name,
+                          cur_pos->func_name,
                           REGISTERS [kVarBaseRegIndex],
                           REGISTERS [kTmpBaseRegIndex],
                           REGISTERS [kRBPRegIndex],
@@ -357,178 +303,142 @@ static enum LangError FuncBodySPU (const char* const buffer, size_t* const read_
     return kDoneLang;
 }
 
-static enum LangError CondJumpSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError CondJumpSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     char label_name [kFuncMaxNameLenIR] = "";
-    sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r]", label_name);
-    *read_letters += strlen (label_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r]", label_name);
+    cur_pos->read_letters += strlen (label_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t cond_res_tmp_index = 0;
-    bool cond_jump = (*(buffer + *read_letters) != kTrueSymbol);
+    bool cond_jump = (*(cur_pos->buffer + cur_pos->read_letters) != kTrueSymbol);
     if (cond_jump)
     {
-        sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &cond_res_tmp_index);
-        *read_letters += strlen (TMP_PREFIX);
-        if (cond_res_tmp_index > *max_tmp_counter)
+        sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &cond_res_tmp_index);
+        cur_pos->read_letters += strlen (TMP_PREFIX);
+        if (cond_res_tmp_index > cur_pos->max_tmp_counter)
         {
-            *max_tmp_counter = cond_res_tmp_index;
+            cur_pos->max_tmp_counter = cond_res_tmp_index;
         }
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
     }
     else
     {
-        (*read_letters)++;
+        cur_pos->read_letters++;
     }
 
-    if (*(buffer + *read_letters) != kBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     if (cond_jump)
     {
-        if (in_function)
-        {
-            fprintf (output_file, "\tpush [%s+%lu]\t ; Push the result of the condition to the stack\n"
-                                  "\tpush 1\t ; Push true\n\n"
-                                  "je %s_%s:\t ; Jump on label if the condition is true\n",
-                                  REGISTERS [kTmpBaseRegIndex], cond_res_tmp_index,
-                                  func_name, label_name);
-        }
-        else
-        {
-            fprintf (output_file, "\tpush [%s+%lu]\t ; Push the result of the condition to the stack\n"
-                                  "\tpush 1\t ; Push true\n\n"
-                                  "je %s:\t ; Jump on label if the condition is true\n",
-                                  REGISTERS [kTmpBaseRegIndex], cond_res_tmp_index,
-                                  label_name);
-        }
+        fprintf (output_file, "\tpush [%s+%lu]\t ; Push the result of the condition to the stack\n"
+                              "\tpush 1\t ; Push true\n\n"
+                              "je %s_%s:\t ; Jump on label if the condition is true\n",
+                              REGISTERS [kTmpBaseRegIndex], cond_res_tmp_index,
+                              cur_pos->func_name, label_name);
     }
     else
     {
-        if (in_function)
-        {
-            fprintf (output_file, "jmp %s_%s:\t ; Jump on label\n", func_name, label_name);
-        }
-        else
-        {
-            fprintf (output_file, "jmp %s:\t ; Jump on label\n", label_name);
-        }
+        fprintf (output_file, "jmp %s_%s:\t ; Jump on label\n", cur_pos->func_name, label_name);
     }
 
     return kDoneLang;
 }
 
-static enum LangError AssignSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError AssignSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     char prefix_name [kPrefixLen] = "";
-    sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kPrefixLen - 1;
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
+    cur_pos->read_letters += kPrefixLen - 1;
 
     if (strcmp (prefix_name, VAR_PREFIX) == 0)
     {
-        return AssignVarSPU (buffer, read_letters, output_file, global_vars_cnt, cnt_func_args, max_tmp_counter);
+        return AssignVarSPU (cur_pos, output_file);
     }
 
     if (strcmp (prefix_name, TMP_PREFIX) == 0)
     {
-        return AssignTmpSPU (buffer, read_letters, output_file, global_vars_cnt, max_tmp_counter);
+        return AssignTmpSPU (cur_pos, output_file);
     }
 
     if (strcmp (prefix_name, ARG_PREFIX) == 0)
     {
-        return AssignArgSPU (buffer, read_letters, output_file, max_tmp_counter);
+        return AssignArgSPU (cur_pos, output_file);
     }
 
     return kInvalidPrefixIR;
 }
 
-static enum LangError AssignVarSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    size_t* const global_vars_cnt, const size_t* const cnt_func_args,
-                                    size_t* const max_tmp_counter)
+static enum LangError AssignVarSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     long long var_index = 0;
-    sscanf (buffer + *read_letters, "%lld", &var_index);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lld", &var_index);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     char prefix_name [kPrefixLen] = "";
-    sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kPrefixLen - 1;
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
+    cur_pos->read_letters += kPrefixLen - 1;
 
     if (strcmp (prefix_name, TMP_PREFIX) == 0)
     {
         size_t src_tmp_index = 0;
-        sscanf (buffer + *read_letters, "%lu", &src_tmp_index);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &src_tmp_index);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (src_tmp_index > *max_tmp_counter)
+        if (src_tmp_index > cur_pos->max_tmp_counter)
         {
-            *max_tmp_counter = src_tmp_index;
+            cur_pos->max_tmp_counter = src_tmp_index;
         }
 
-        if (*(buffer + *read_letters) != kBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         if (var_index >= 0)
         {
@@ -542,7 +452,7 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
             fprintf (output_file, "\tpush [%s+%lu]\t ; Push tmp to variable through the stack\n"
                                   "\tpop [%lu]\n\n",
                                   REGISTERS [kTmpBaseRegIndex], src_tmp_index,
-                                  *global_vars_cnt + 1 - (size_t) (-var_index));
+                                  cur_pos->global_vars_cnt + 1 - (size_t) (-var_index));
         }
 
         return kDoneLang;
@@ -551,16 +461,16 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
     if (strcmp (prefix_name, ARG_PREFIX) == 0)
     {
         size_t arg_index = 0;
-        sscanf (buffer + *read_letters, "%lu", &arg_index);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &arg_index);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (*(buffer + *read_letters) != kBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         if (var_index >= 0)
         {
@@ -573,7 +483,7 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
                                   "\tpop [%s+%lu]\n"
                                   "\tpop %s\t ; Save value to RBP\n\n",
                                   REGISTERS [kRBPRegIndex],
-                                  *cnt_func_args - arg_index,
+                                  cur_pos->cnt_func_args - arg_index,
                                   REGISTERS [kRBPRegIndex],
                                   REGISTERS [kRBPRegIndex],
                                   REGISTERS [kRBPRegIndex],
@@ -591,11 +501,11 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
                                   "\tpop [%lu]\n"
                                   "\tpop %s\t ; Save value to RBP\n\n",
                                   REGISTERS [kRBPRegIndex],
-                                  *cnt_func_args - arg_index,
+                                  cur_pos->cnt_func_args - arg_index,
                                   REGISTERS [kRBPRegIndex],
                                   REGISTERS [kRBPRegIndex],
                                   REGISTERS [kRBPRegIndex],
-                                  *global_vars_cnt + 1 - (size_t) (-var_index),
+                                  cur_pos->global_vars_cnt + 1 - (size_t) (-var_index),
                                   REGISTERS [kRBPRegIndex]);
         }
 
@@ -605,48 +515,45 @@ static enum LangError AssignVarSPU (const char* const buffer, size_t* const read
     return kInvalidPrefixIR;
 }
 
-static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    size_t* const global_vars_cnt, size_t* const max_tmp_counter)
+static enum LangError AssignTmpSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t result_tmp_index = 0;
-    sscanf (buffer + *read_letters, "%lu", &result_tmp_index);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &result_tmp_index);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (result_tmp_index > *max_tmp_counter)
+    if (result_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = result_tmp_index;
+        cur_pos->max_tmp_counter = result_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (isdigit (*(buffer + *read_letters)))
+    if (isdigit (*(cur_pos->buffer + cur_pos->read_letters)))
     {
         double number = 0;
-        sscanf (buffer + *read_letters, "%lg", &number);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lg", &number);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (*(buffer + *read_letters) != kBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         fprintf (output_file, "\tpush %lg\t ; Push the number to tmp through the stack\n"
                               "\tpop [%s+%lu]\n\n",
@@ -657,22 +564,22 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
     }
 
     char prefix_name [kPrefixLen] = "";
-    sscanf (buffer + *read_letters, "%3s", prefix_name);
-    *read_letters += kPrefixLen - 1;
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
+    cur_pos->read_letters += kPrefixLen - 1;
 
     if (strcmp (prefix_name, VAR_PREFIX) == 0)
     {
         long long var_index = 0;
-        sscanf (buffer + *read_letters, "%lld", &var_index);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lld", &var_index);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (*(buffer + *read_letters) != kBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         if (var_index >= 0)
         {
@@ -685,7 +592,7 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
         {
             fprintf (output_file, "\tpush [%lu]\t ; Push variable to tmp through the stack\n"
                                   "\tpop [%s+%lu]\n\n",
-                                  *global_vars_cnt + 1 - (size_t) (-var_index),
+                                  cur_pos->global_vars_cnt + 1 - (size_t) (-var_index),
                                   REGISTERS [kTmpBaseRegIndex], result_tmp_index);
         }
 
@@ -695,21 +602,21 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
     if (strcmp (prefix_name, TMP_PREFIX) == 0)
     {
         size_t src_tmp_index = 0;
-        sscanf (buffer + *read_letters, "%lu", &src_tmp_index);
-        SkipNumber (buffer, read_letters);
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &src_tmp_index);
+        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-        if (src_tmp_index > *max_tmp_counter)
+        if (src_tmp_index > cur_pos->max_tmp_counter)
         {
-            *max_tmp_counter = src_tmp_index;
+            cur_pos->max_tmp_counter = src_tmp_index;
         }
 
-        if (*(buffer + *read_letters) != kBracketClose)
+        if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
             return kNoBracketsIR;
         }
-        (*read_letters)++;
-        *read_letters += skip_space_symbols (buffer + *read_letters);
+        cur_pos->read_letters++;
+        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
         fprintf (output_file, "\tpush [%s+%lu]\t ; Push tmp to tmp through the stack\n"
                               "\tpop [%s+%lu]\n\n",
@@ -722,47 +629,44 @@ static enum LangError AssignTmpSPU (const char* const buffer, size_t* const read
     return kInvalidAssigning;
 }
 
-static enum LangError AssignArgSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    size_t* const max_tmp_counter)
+static enum LangError AssignArgSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t result_arg_index = 0;
-    sscanf (buffer + *read_letters, "%lu", &result_arg_index);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &result_arg_index);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t src_tmp_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &src_tmp_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &src_tmp_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (src_tmp_index > *max_tmp_counter)
+    if (src_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = src_tmp_index;
+        cur_pos->max_tmp_counter = src_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     fprintf (output_file, "\tpush [%s+%lu]\t ; Push tmp %lu to argument %lu through the stack\n",
                           REGISTERS [kTmpBaseRegIndex], src_tmp_index,
@@ -771,87 +675,80 @@ static enum LangError AssignArgSPU (const char* const buffer, size_t* const read
     return kDoneLang;
 }
 
-static enum LangError OperationSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError OperationSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t result_tmp_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &result_tmp_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &result_tmp_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (result_tmp_index > *max_tmp_counter)
+    if (result_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = result_tmp_index;
+        cur_pos->max_tmp_counter = result_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     int operation_enum = 0;
-    sscanf (buffer + *read_letters, "%d", &operation_enum);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%d", &operation_enum);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t first_operand_tmp_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &first_operand_tmp_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &first_operand_tmp_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (first_operand_tmp_index > *max_tmp_counter)
+    if (first_operand_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = first_operand_tmp_index;
+        cur_pos->max_tmp_counter = first_operand_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     size_t second_operand_tmp_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &second_operand_tmp_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &second_operand_tmp_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (second_operand_tmp_index > *max_tmp_counter)
+    if (second_operand_tmp_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = second_operand_tmp_index;
+        cur_pos->max_tmp_counter = second_operand_tmp_index;
     }
 
-    if (*(buffer + *read_letters) != kBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     fprintf (output_file, "\tpush [%s+%lu]\t ; Push second operand\n"
                           "\tpush [%s+%lu]\t ; Push first operand\n"
@@ -865,82 +762,61 @@ static enum LangError OperationSPU (const char* const buffer, size_t* const read
     return kDoneLang;
 }
 
-static enum LangError LabelSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                __attribute_maybe_unused__ bool in_function,
-                                __attribute_maybe_unused__ char* const func_name,
-                                __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError LabelSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     char label_name [kFuncMaxNameLenIR] = "";
-    sscanf (buffer + *read_letters, "%[^,^ ^\n^\t^\r^)]", label_name);
-    *read_letters += strlen (label_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r^)]", label_name);
+    cur_pos->read_letters += strlen (label_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     LOG (kDebug, "Label \"%s\" was analyzed\n", label_name);
 
-    if (in_function)
-    {
-        fprintf (output_file, "%s_%s:\t ; Label in function\n", func_name, label_name);
-    }
-    else
-    {
-        fprintf (output_file, "%s:\t ; Label in global\n", label_name);
-    }
+    fprintf (output_file, "%s_%s:\t ; Label in function\n", cur_pos->func_name, label_name);
 
     return kDoneLang;
 }
 
-static enum LangError ReturnSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                 __attribute_maybe_unused__ bool in_function,
-                                 __attribute_maybe_unused__ char* const func_name,
-                                 __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                 __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                 __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError ReturnSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t ret_val_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (ret_val_index > *max_tmp_counter)
+    if (ret_val_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = ret_val_index;
+        cur_pos->max_tmp_counter = ret_val_index;
     }
 
-    const char* end_args = strchr (buffer + *read_letters, kBracketClose);
+    const char* end_args = strchr (cur_pos->buffer + cur_pos->read_letters, kBracketClose);
     if (end_args == NULL)
     {
         return kNoBracketsIR;
     }
-    *read_letters = end_args - buffer;
-    (*read_letters)++;
+    cur_pos->read_letters = end_args - cur_pos->buffer;
+    cur_pos->read_letters++;
 
     fprintf (output_file, "\n\tpush [%s+%lu]\n"
                           "\tpop %s\t ; Save return value to the rax\n"
@@ -957,52 +833,45 @@ static enum LangError ReturnSPU (const char* const buffer, size_t* const read_le
     return kDoneLang;
 }
 
-static enum LangError SysCallSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                    __attribute_maybe_unused__ bool in_function,
-                                    __attribute_maybe_unused__ char* const func_name,
-                                    __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                    __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                    __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError SysCallSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t ret_val_index = 0;
-    sscanf (buffer + *read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    *read_letters += strlen (TMP_PREFIX);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
+    cur_pos->read_letters += strlen (TMP_PREFIX);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (ret_val_index > *max_tmp_counter)
+    if (ret_val_index > cur_pos->max_tmp_counter)
     {
-        *max_tmp_counter = ret_val_index;
+        cur_pos->max_tmp_counter = ret_val_index;
     }
 
-    if (*(buffer + *read_letters) != kSepSym)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kSepSym)
     {
         return kNoSeparateSymbol;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     char sys_func_name [kFuncMaxNameLenIR] = "";
-    sscanf (buffer + *read_letters, "%[^)^ ^\n^\t^\r^,]", sys_func_name);
-    *read_letters += strlen (sys_func_name);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^)^ ^\n^\t^\r^,]", sys_func_name);
+    cur_pos->read_letters += strlen (sys_func_name);
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    const char* end_args = strchr (buffer + *read_letters, kBracketClose);
+    const char* end_args = strchr (cur_pos->buffer + cur_pos->read_letters, kBracketClose);
     if (end_args == NULL)
     {
         return kNoBracketsIR;
     }
-    *read_letters = end_args - buffer;
-    (*read_letters)++;
+    cur_pos->read_letters = end_args - cur_pos->buffer;
+    cur_pos->read_letters++;
 
     fprintf (output_file, "%s\t ; System call\n", sys_func_name);
 
@@ -1020,33 +889,26 @@ static enum LangError SysCallSPU (const char* const buffer, size_t* const read_l
     return kDoneLang;
 }
 
-static enum LangError GlobalVarsNumSPU (const char* const buffer, size_t* const read_letters, FILE* const output_file,
-                                       __attribute_maybe_unused__ bool in_function,
-                                       __attribute_maybe_unused__ char* const func_name,
-                                       __attribute_maybe_unused__ size_t* const global_vars_cnt,
-                                       __attribute_maybe_unused__ size_t* const cnt_func_args,
-                                       __attribute_maybe_unused__ size_t* const max_tmp_counter)
+static enum LangError GlobalVarsNumSPU (current_position_t* const cur_pos, FILE* const output_file)
 {
-    ASSERT (buffer          != NULL, "Invalid argument buffer\n");
-    ASSERT (output_file     != NULL, "Invalid argument output_file\n");
-    ASSERT (read_letters    != NULL, "Invalid argument read_letters\n");
-    ASSERT (max_tmp_counter != NULL, "Invalid argument max_tmp_counter\n");
+    ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
+    ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
     LOG (kDebug, "Current symbol       = {%c}\n"
                  "Already read letters = %lu\n",
-                 *(buffer + *read_letters), *read_letters);
+                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
 
     size_t cnt_glob_vars = 0;
-    sscanf (buffer + *read_letters, "%lu", &cnt_glob_vars);
-    SkipNumber (buffer, read_letters);
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &cnt_glob_vars);
+    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
-    if (*(buffer + *read_letters) != kBracketClose)
+    if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
         return kNoBracketsIR;
     }
-    (*read_letters)++;
-    *read_letters += skip_space_symbols (buffer + *read_letters);
+    cur_pos->read_letters++;
+    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     fprintf (output_file, "\tpush 0\n"
                           "\tpop %s\t ; Set zero to global variables counter register\n"
@@ -1055,7 +917,7 @@ static enum LangError GlobalVarsNumSPU (const char* const buffer, size_t* const 
                           REGISTERS [kVarBaseRegIndex],
                           cnt_glob_vars, REGISTERS [kTmpBaseRegIndex]);
 
-    *global_vars_cnt = cnt_glob_vars;
+    cur_pos->global_vars_cnt = cnt_glob_vars;
 
     return kDoneLang;
 }
