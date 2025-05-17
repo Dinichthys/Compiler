@@ -706,8 +706,6 @@ static enum IrOpType IdentifyOperation (const node_t* const node)
 
 //-----CHECKING-----------------------------------------------------------------------------------------------
 
-#undef CheckNodeOp
-#undef CheckNodeType
 #undef CHECK_RESULT
 
 //------------------------------------------------------------------------------------------------------------

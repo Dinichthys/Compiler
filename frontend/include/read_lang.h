@@ -51,44 +51,7 @@ typedef struct token_pattern
     const char* str_token;
 } token_pattern_t;
 
-#define TOKEN_PATTERN(index, token_type, op_type, key_word)\
-    {.token = {.type = token_type, {.operation = op_type}}, .str_token = key_word}
-
 const token_pattern_t kTokenTypes [kTokenNumber] {
-//----------------------|        Available token meaning          |       Key word for the token        |
-//----------------|index| type of node |      meaning of node     |                                     |
-//     TOKEN_PATTERN (  0,      kMainFunc,  kMain,                     "Блатной"                           ),
-//
-//     TOKEN_PATTERN (  1,      kArithm,    kAdd,                      "хапнуть"                           ),
-//     TOKEN_PATTERN (  2,      kArithm,    kSub,                      "вырезать"                          ),
-//     TOKEN_PATTERN (  3,      kArithm,    kMul,                      "Здравствуйте_я_сотрудник_Сбербанка"),
-//     TOKEN_PATTERN (  4,      kArithm,    kDiv,                      "твоя_доля"                         ),
-//     TOKEN_PATTERN (  5,      kArithm,    kPow,                      "короновать"                        ),
-//     TOKEN_PATTERN (  6,      kArithm,    kSqrt,                      "кореш"                            ),
-//
-//     TOKEN_PATTERN (  7,      kFunc,      kSin,                      "синенький"                         ),
-//     TOKEN_PATTERN (  8,      kFunc,      kCos,                      "костлявый"                         ),
-//     TOKEN_PATTERN (  9,      kFunc,      kTg,                       "штанга"                            ),
-//     TOKEN_PATTERN (  10,     kFunc,      kCtg,                      "котяра"                            ),
-//
-//     TOKEN_PATTERN (  11,     kFunc,      kLn,                       "натурал"                           ),
-//     TOKEN_PATTERN (  12,     kFunc,      kLog,                      "лох"                               ),
-//
-//     TOKEN_PATTERN (  13,     kCycle,     kFor,                      "мотать_срок"                       ),
-//     TOKEN_PATTERN (  14,     kCycle,     kWhile,                    "чалиться"                          ), // ПОЖИЗНЕННОЕ
-//
-//     TOKEN_PATTERN (  15,     kCond,      kIf,                       "УДО"                               ),
-//
-//     TOKEN_PATTERN (  16,     kSym,       kAssign,                   "отжать"                            ),
-//     TOKEN_PATTERN (  17,     kSym,       kParenthesesBracketOpen,   "заковали"                          ),
-//     TOKEN_PATTERN (  18,     kSym,       kParenthesesBracketClose,  "в_браслеты"                        ),
-//     TOKEN_PATTERN (  19,     kSym,       kCurlyBracketOpen,         "век"                               ),
-//     TOKEN_PATTERN (  20,     kSym,       kCurlyBracketClose,        "воли_не_видать"                    ),
-//     TOKEN_PATTERN (  21,     kSym,       kCommandEnd,               "откинуться"                        ),
-//
-//     TOKEN_PATTERN (  21,     kFunc,      kIn,                       "проставиться"                      ),
-//     TOKEN_PATTERN (  22,     kFunc,      kOut,                      "покукарекай"                       ),
-
 //-------------------|                  Available token meaning                   |    Key word for the token    |
 //-------------------|    type of node   |             meaning of node            |                              |
     {.token = {.type = kMainFunc, {.operation = kMain}, .line_pos = 0, .number_of_line = 0},                    .str_token = "Блатной"        },

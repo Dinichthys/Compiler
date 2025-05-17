@@ -8,6 +8,7 @@ DataBase
 
 Грамматика
 
-program
+program_nasm
+program_elf
 
 .cache
