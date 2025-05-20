@@ -41,4 +41,6 @@ int main (const int argc, char* argv[])
     return EXIT_SUCCESS;
 }
 
+// roflanEbalo -мяу
+
 #undef ERROR_HANDLER

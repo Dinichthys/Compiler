@@ -4,7 +4,6 @@ add_library (all_libs
     STATIC
 
     flags/source/parse_flags_lang.cpp
-    flags/source/parse_mode_lang.cpp
 
     List/source/list_construction.cpp
     List/source/list_error_handler.cpp
@@ -20,6 +19,8 @@ add_library (all_libs
     tree/source/dump_lang.cpp
     tree/source/write_tree_lang.cpp
     tree/source/struct_lang.cpp
+
+    IR/source/read_ir.cpp
 )
 
 target_link_libraries(all_libs
@@ -42,6 +43,8 @@ target_include_directories(all_libs
         ./MyLib/Assert
 
         ./tree/include
+
+        ./IR/include
 )
 
 # cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++

@@ -15,7 +15,6 @@ static const char   kNASMTrueSymbol      = '1';
 static const size_t kRegisterSize        = 64;
 
 static const char* const kNASMMainFuncName   = "main";
-static const char* const kNASMStartRamName   = "StartRam";
 static const char* const kNASMStartLabelName = "_start";
 
 static const size_t kNASMFuncMaxNameLenIR  = 200;
@@ -23,7 +22,7 @@ static const size_t kNASMPrefixLen         = 4;
 static const size_t kNASMSavedRegistersNum = 3;
 static const size_t kNASMQWordSize         = 8;
 
-static const size_t kNASMRegistersNum         = 8;
+static const size_t kNASMRegistersNum         = 10;
 static const size_t kNASMRetValRegIndex       = 0;
 static const size_t kNASMTmpBaseRegIndex      = 1;
 static const size_t kNASMVarBaseRegIndex      = 2;
@@ -32,6 +31,8 @@ static const size_t kNASMFirstOpRegIndex      = 4;
 static const size_t kNASMSecondOpRegIndex     = 5;
 static const size_t kNASMRSPRegIndex          = 6;
 static const size_t kNASMRBPRegIndex          = 7;
+static const size_t kNASMGlobalVarsStartIndex = 8;
+static const size_t kNASMSavingRegister       = 9;
 
 static const char* const kNASMRegisters [kNASMRegistersNum] =
 {
@@ -42,7 +43,9 @@ static const char* const kNASMRegisters [kNASMRegistersNum] =
     "xmm0",
     "xmm1",
     "rsp",
-    "rbp"
+    "rbp",
+    "r12",
+    "r13"
 };
 
 static const size_t kNASMIRArithmOperationsNum = 4;

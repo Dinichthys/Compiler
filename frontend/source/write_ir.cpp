@@ -287,6 +287,7 @@ static enum LangError WriteCallFunc (const node_t* const root, FILE* const IR_fi
     {
         result = WriteExpression (root->right, IR_file, tmp_var_counter);
         CHECK_RESULT;
+        IR_GIVE_ARG_ (0LU, *tmp_var_counter - 1);
     }
 
     enum IR_SysCall_Indexes index = IdentifySysCall (root);
@@ -295,7 +296,6 @@ static enum LangError WriteCallFunc (const node_t* const root, FILE* const IR_fi
         return kInvalidSyscall;
     }
 
-    IR_GIVE_ARG_ (0LU, *tmp_var_counter - 1);
     IR_SYSCALL_ (*tmp_var_counter, kIR_SYS_CALL_ARRAY[index].Name,
                                        kIR_SYS_CALL_ARRAY[index].NumberOfArguments);
     (*tmp_var_counter)++;
@@ -707,28 +707,6 @@ static enum IrOpType IdentifyOperation (const node_t* const node)
 //-----CHECKING-----------------------------------------------------------------------------------------------
 
 #undef CHECK_RESULT
-
-//------------------------------------------------------------------------------------------------------------
-
-//-----WRITING------------------------------------------------------------------------------------------------
-
-#undef WRITE_ASSIGN_VAR
-#undef WRITE_ASSIGN_NUM
-#undef WRITE_ASSIGN_TMP
-#undef WRITE_ASSIGN_TMP_TO_VAR
-#undef WRITE_ASSIGN_ARG_TO_VAR
-#undef WRITE_ASSIGN_RES
-#undef WRITE_ASSIGN_RES_TO_ARG
-#undef WRITE_ASSIGN_TMP_TO_ARG
-#undef WRITE_ASSIGN
-
-#undef WRITE_CALL
-#undef WRITE_FUNC
-
-#undef WRITE_LABEL
-
-#undef WRITE_COND_JMP
-#undef WRITE_JMP
 
 //------------------------------------------------------------------------------------------------------------
 

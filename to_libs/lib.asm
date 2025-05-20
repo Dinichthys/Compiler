@@ -12,9 +12,10 @@ TEN equ 0x41200000
 QWORD_LEN  equ 8
 DWORD_LEN  equ 4
 
-FLOAT_SIZE equ 32
-DOUBLE_EXP equ 11
-FLOAT_EXP  equ 8
+DOUBLE_SIZE equ 64
+FLOAT_SIZE  equ 32
+DOUBLE_EXP  equ 11
+FLOAT_EXP   equ 8
 
 Buffer db 0xFF dup(0)
 Zero_after_buf db 0
@@ -27,8 +28,6 @@ Error_msg db 'You are trying to run library', 10
 Error_msg_len db $ - Error_msg
 
 Format_str db 'Out = %f', 10, 0
-
-StartRam dq 0
 
 section .text
 
@@ -96,6 +95,15 @@ ReadBuffInSyscall:
     movq xmm3, rax
     xor rax, rax
 
+    mov al, byte [rcx]
+    cmp al, '-'
+    jne .Comparison_1
+
+    mov rax, 1
+    shl rax, DOUBLE_SIZE - 1
+    movq xmm0, rax
+    inc rcx
+
 .Comparison_1:
     mov al, byte [rcx]
     cmp al, '0'
@@ -155,20 +163,13 @@ ReadBuffInSyscall:
 out_syscall:
     pop rax
     pop rdx
+    push rdx
     push rax
     push rbx
     push rcx
     push rdi
     push rsi
 
-;     mov rdi, rdx
-;     shr rdx, FLOAT_SIZE - 2
-;     shl rdx, FLOAT_SIZE * 2 - 2
-;
-;     shl rdi, FLOAT_SIZE + 2
-;     shr rdi, 2 + DOUBLE_EXP - FLOAT_EXP
-;
-;     or rdx, rdi
     movq xmm0, rdx
 
     mov rdi, STDOUT

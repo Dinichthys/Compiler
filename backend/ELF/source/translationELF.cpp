@@ -75,6 +75,9 @@ enum LangError GenerateAsmELFFromIR (FILE* const ir_file, FILE* const output_fil
     ASSERT (ir_file     != NULL, "Invalid argument ir_file in function GenerateASMELFFromIR\n");
     ASSERT (output_file != NULL, "Invalid argument output_file in function GenerateASMELFFromIR\n");
 
+    FILE* lib_file = fopen (kLibFileName, "w");
+    char* lib_file_buf = ReadFileToBuffer(lib_file)
+
     char* buffer = ReadFileToBuffer (ir_file);
     if (buffer == NULL)
     {

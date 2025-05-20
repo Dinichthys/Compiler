@@ -59,6 +59,10 @@ enum LangError
     kInvalidOperation           = 40,
     kNoSeparateSymbol           = 41,
     kInvalidPrefixIR            = 42,
+
+    kCantCreateList             = 43,
+    kCantPushListElemIR         = 44,
+    kInvalidKeyWordIR           = 45,
 };
 
 enum OpType

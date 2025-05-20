@@ -3,38 +3,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
+#include <limits.h>
 
 #include "language.h"
+#include "read_ir.h"
+
+#include "list.h"
+#include "list_src.h"
+#include "list_construction.h"
 
 #include "key_words.h"
-#include "dsl_write.h"
 
 #include "MyLib/Assert/my_assert.h"
 #include "MyLib/Logger/logging.h"
 #include "MyLib/My_stdio/my_stdio.h"
 #include "MyLib/helpful.h"
 
-#define CHECK_RESULT            \
-    if (result != kDoneLang)    \
-    {                           \
-        return result;          \
-    }
-
-#define CALL_FUNC(func_name)                                                                                    \
-    fprintf (output_file, "call %s:\t ; Call function\n", func_name, cnt_args);
-
 typedef struct current_position
 {
-    const char* buffer;
-    size_t      read_letters;
-    char        func_name [kNASMFuncMaxNameLenIR];
-    size_t      global_vars_cnt;
-    size_t      cnt_func_args;
-    size_t      max_tmp_counter;
+    const list_t* const list;
+    size_t              index;
+    IRInstruction_t     instruction;
+    size_t              global_vars_cnt;
+    size_t              cnt_func_args;
+    size_t              max_tmp_counter;
+    size_t              cnt_loc_vars;
 } current_position_t;
 
-static enum LangError GenerateAsmNASM (const char* const buffer, FILE* const output_file);
+static enum LangError GenerateAsmNASM (const list_t* const list, FILE* const output_file);
 
 static enum LangError PrintStartProgram (FILE* const output_file);
 
@@ -53,22 +49,8 @@ static enum LangError ReturnNASM        (current_position_t* const cur_pos, FILE
 static enum LangError SysCallNASM       (current_position_t* const cur_pos, FILE* const output_file);
 static enum LangError GlobalVarsNumNASM (current_position_t* const cur_pos, FILE* const output_file);
 
-static void SkipNumber (const char* const input_buf, size_t* const offset);
-
-typedef enum LangError (*TranslateNASMFunc_t) (current_position_t* const cur_pos, FILE* const output_file);
-
-static const TranslateNASMFunc_t kTranslationArray [kIR_KEY_WORD_NUMBER] =
-{
-    CallFuncNASM,
-    FuncBodyNASM,
-    CondJumpNASM,
-    AssignNASM,
-    OperationNASM,
-    LabelNASM,
-    ReturnNASM,
-    SysCallNASM,
-    GlobalVarsNumNASM
-};
+static size_t MaxTmpIndexBeforeCall (const current_position_t* const cur_pos);
+static size_t IndexSysCall      (const char* const syscall_name);
 
 enum LangError GenerateAsmNASMFromIR (FILE* const ir_file, FILE* const output_file)
 {
@@ -81,80 +63,102 @@ enum LangError GenerateAsmNASMFromIR (FILE* const ir_file, FILE* const output_fi
         return kCantReadDataBase;
     }
 
-    enum LangError result = GenerateAsmNASM (buffer, output_file);
-
+    list_t list = {};
+    enum LangError result = ReadIR (buffer, &list);
     FREE_AND_NULL (buffer);
+    if (result != kDoneLang)
+    {
+        ListDtor (&list);
+        return result;
+    }
+
+    result = GenerateAsmNASM (&list, output_file);
+    ListDtor (&list);
     return result;
 }
 
-static enum LangError GenerateAsmNASM (const char* const buffer, FILE* const output_file)
+static enum LangError GenerateAsmNASM (const list_t* const list, FILE* const output_file)
 {
-    ASSERT (buffer      != NULL, "Invalid argument buffer\n");
+    ASSERT (list        != NULL, "Invalid argument list\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
-
-    int can_read = 1;
 
     enum LangError result = kDoneLang;
 
     current_position_t cur_pos =
     {
-        .buffer = buffer,
-        .read_letters = 0,
-        .func_name = "global",
+        .list            = list,
+        .index           = 0,
+        .instruction     = {},
         .global_vars_cnt = 0,
-        .cnt_func_args = 0,
+        .cnt_func_args   = 0,
         .max_tmp_counter = 0,
+        .cnt_loc_vars    = 0,
     };
-
-    cur_pos.read_letters = skip_space_symbols (buffer);
+    cur_pos.index = NextIndex (list, cur_pos.index);
 
     PrintStartProgram (output_file);
 
-    while (can_read)
+    while (cur_pos.index != 0)
     {
-        cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
-        char key_word [kNASMIRWordMaxLen] = "";
-
-        if (*(buffer + cur_pos.read_letters) == kNASMIRCommentSymbol)
+        ListElemValLoad (list, cur_pos.index, &(cur_pos.instruction));
+        switch (cur_pos.instruction.type)
         {
-            const char* end_comment = strchr (buffer + cur_pos.read_letters, '\n');
-            if (end_comment == NULL)
+            case IR_FUNCTION_CALL_INDEX:
             {
-                return kDoneLang;
-            }
-            cur_pos.read_letters = end_comment - buffer;
-            cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
-        }
-
-        can_read = sscanf (buffer + cur_pos.read_letters, "%[^ ^\t^\n^(]", key_word);
-        if ((can_read == 0) || (strcmp (key_word, "") == 0))
-        {
-            break;
-        }
-
-        LOG (kDebug, "Key word = \"%s\"\n", key_word);
-
-        cur_pos.read_letters += strlen (key_word);
-        cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
-        if (*(buffer + cur_pos.read_letters) != kNASMBracketOpen)
-        {
-            return kNoBracketsIR;
-        }
-        cur_pos.read_letters++;
-
-        for (size_t index_kw = 0; index_kw <= kIR_KEY_WORD_NUMBER; index_kw++)
-        {
-            if (strcmp (key_word, kIR_KEY_WORD_ARRAY [index_kw]) == 0)
-            {
-                if (index_kw == (size_t) IR_FUNCTION_BODY_INDEX)
-                {
-                    cur_pos.max_tmp_counter = 0;
-                }
-                result = kTranslationArray [index_kw] (&cur_pos, output_file);
-                CHECK_RESULT;
+                result = CallFuncNASM (&cur_pos, output_file);
                 break;
             }
+            case IR_FUNCTION_BODY_INDEX:
+            {
+                result = FuncBodyNASM (&cur_pos, output_file);
+                break;
+            }
+            case IR_CONDITIONAL_JUMP_INDEX:
+            {
+                result = CondJumpNASM (&cur_pos, output_file);
+                break;
+            }
+            case IR_ASSIGNMENT_INDEX:
+            {
+                result = AssignNASM (&cur_pos, output_file);
+                break;
+            }
+            case IR_LABEL_INDEX:
+            {
+                result = LabelNASM (&cur_pos, output_file);
+                break;
+            }
+            case IR_SYSTEM_FUNCTION_CALL_INDEX:
+            {
+                result = SysCallNASM (&cur_pos, output_file);
+                break;
+            }
+            case IR_OPERATION_INDEX:
+            {
+                result = OperationNASM (&cur_pos, output_file);
+                break;
+            }
+            case IR_RETURN_INDEX:
+            {
+                result = ReturnNASM (&cur_pos, output_file);
+                break;
+            }
+            case IR_GLOBAL_VARS_NUM_INDEX:
+            {
+                result = GlobalVarsNumNASM (&cur_pos, output_file);
+                break;
+            }
+            case IR_INVALID_KEY_WORD:
+            default:
+            {
+                return kInvalidKeyWordIR;
+            }
+            if (result != kDoneLang)
+            {
+                return result;
+            }
         }
+        cur_pos.index = NextIndex (list, cur_pos.index);
     }
 
     return kDoneLang;
@@ -164,11 +168,9 @@ static enum LangError PrintStartProgram (FILE* const output_file)
 {
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    fprintf (output_file, "section .data\n\n"
-                          "\t%s dq 0\n\n"
-                          "section .text\n\n"
+    fprintf (output_file, "section .text\n\n"
                           "global %s\n\n",
-                          kNASMStartRamName, kNASMStartLabelName);
+                          kNASMStartLabelName);
 
     for (size_t syscall_index = 0; syscall_index < kIR_SYS_CALL_NUMBER; syscall_index++)
     {
@@ -183,61 +185,39 @@ static enum LangError CallFuncNASM (current_position_t* const cur_pos, FILE* con
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "CallFunc started analyzing\n");
 
-    size_t ret_val_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    cur_pos->read_letters += strlen (TMP_PREFIX);
-    if (ret_val_index > cur_pos->max_tmp_counter)
-    {
-        cur_pos->max_tmp_counter = ret_val_index;
-    }
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
-    {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    char call_func_name [kNASMFuncMaxNameLenIR] = "";
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^)^ ^\n^\t^\r]", call_func_name);
-    cur_pos->read_letters += strlen (call_func_name);
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-    {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    LOG (kDebug, "Calling function is \"%s\"\n", call_func_name);
+    LOG (kDebug, "Calling function is \"%s\"\n", cur_pos->instruction.label);
 
     size_t cnt_call_func_args = 0;
-    if (strcmp (call_func_name, kNASMMainFuncName) != 0)
+    if (strcmp (cur_pos->instruction.label, kNASMMainFuncName) != 0)
     {
-        sscanf (strchr (strchr (call_func_name, '_') + 1, '_'), "_%lu", &cnt_call_func_args);
+        sscanf (strchr (strchr (cur_pos->instruction.label, '_') + 1, '_'), "_%lu", &cnt_call_func_args);
     }
 
-    fprintf (output_file, "\tadd %s, %lu\t ; Shift tmp counter\n"
+    fprintf (output_file, "\tsub %s, %lu\t ; Shift tmp counter\n"
+                          "\tsub %s, %lu\t ; Shift RSP\n"
                           "call %s\t ; Calling function\n"
-                          "\tsub %s, %lu\t ; Shift back tmp counter\n\n"
-                          "\tmov qword [%s+%lu], %s\t ; Save return value to tmp var\n\n"
-                          "\tadd %s, %lu\t ; Shift RSP to skip arguments\n",
+                          "\tadd %s, %lu\t ; Shift back RSP\n"
+                          "\tadd %s, %lu\t ; Shift back tmp counter\n\n"
+                          "\tmov qword [%s-%lu], %s\t ; Save return value to tmp var\n\n",
                           kNASMRegisters [kNASMTmpBaseRegIndex],
-                          (cur_pos->max_tmp_counter + 1) * kNASMQWordSize,
-                          call_func_name,
-                          kNASMRegisters [kNASMTmpBaseRegIndex],
-                          (cur_pos->max_tmp_counter + 1) * kNASMQWordSize,
-                          kNASMRegisters [kNASMTmpBaseRegIndex], ret_val_index * kNASMQWordSize,
-                          kNASMRegisters [kNASMRetValRegIndex],
+                          (cur_pos->max_tmp_counter + cnt_call_func_args + 1 + kNASMSavedRegistersNum + 1) * kNASMQWordSize,
                           kNASMRegisters [kNASMRSPRegIndex],
-                          cnt_call_func_args * kNASMQWordSize);
+                          (cur_pos->max_tmp_counter + cnt_call_func_args) * kNASMQWordSize,
+                          cur_pos->instruction.label,
+                          kNASMRegisters [kNASMRSPRegIndex],
+                          (cur_pos->max_tmp_counter + cnt_call_func_args) * kNASMQWordSize,
+                          kNASMRegisters [kNASMTmpBaseRegIndex],
+                          (cur_pos->max_tmp_counter + cnt_call_func_args + 1 + kNASMSavedRegistersNum + 1) * kNASMQWordSize,
+                          kNASMRegisters [kNASMTmpBaseRegIndex],
+                          cur_pos->instruction.res_index * kNASMQWordSize,
+                          kNASMRegisters [kNASMRetValRegIndex]);
+
+    if (cur_pos->instruction.res_index > cur_pos->max_tmp_counter)
+    {
+        cur_pos->max_tmp_counter = cur_pos->instruction.res_index;
+    }
 
     return kDoneLang;
 }
@@ -247,66 +227,38 @@ static enum LangError FuncBodyNASM (current_position_t* const cur_pos, FILE* con
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "FuncBody started analyzing\n");
 
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r]", cur_pos->func_name);
-    cur_pos->read_letters += strlen (cur_pos->func_name);
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
+    cur_pos->cnt_func_args = cur_pos->instruction.value_1.number_size_t;
+    cur_pos->cnt_loc_vars  = cur_pos->instruction.value_2.number_size_t;
 
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
-    {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &(cur_pos->cnt_func_args));
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
-    {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    size_t cnt_loc_vars = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &cnt_loc_vars);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-    {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    LOG (kDebug, "Start function \"%s\" body\n", cur_pos->func_name);
+    LOG (kDebug, "Start function \"%s\" body\n", cur_pos->instruction.label);
 
     fprintf (output_file, "\n%s:\t ; Function body\n"
                           "\tpush %s\t ; Save variables counter register value\n"
                           "\tpush %s\t ; Save tmp variables counter register value\n"
                           "\tpush %s\t ; Save RBP\n\n"
                           "\tmov %s, %s\t ; Move tmp var counter reg value to the var counter reg\n\n"
-                          "\tadd %s, %lu\t ; Make a stack frame for local variables\n\n"
+                          "\tsub %s, %lu\t ; Make a stack frame for local variables\n\n"
                           "\tmov %s, %s\t ; Save old RSP value\n"
                           "\tadd %s, %lu\n"
-                          "\tmov %s, %s\t ; Make RBP point on the last arg\n"
-                          "\tmov %s, %s\t ; Save old RSP value\n",
-                          cur_pos->func_name,
+                          "\tmov %s, %s\t ; Make RBP point on the first arg\n"
+                          "\tmov %s, %s\t ; Save old RSP value\n"
+                          "\tsub %s, %lu\t ; Make RSP == Tmp counter\n",
+                          cur_pos->instruction.label,
                           kNASMRegisters [kNASMVarBaseRegIndex],
                           kNASMRegisters [kNASMTmpBaseRegIndex],
                           kNASMRegisters [kNASMRBPRegIndex],
                           kNASMRegisters [kNASMVarBaseRegIndex], kNASMRegisters [kNASMTmpBaseRegIndex],
-                          kNASMRegisters [kNASMTmpBaseRegIndex], cnt_loc_vars * kNASMQWordSize,
+                          kNASMRegisters [kNASMTmpBaseRegIndex],
+                          cur_pos->instruction.value_2.number_size_t * kNASMQWordSize,
                           kNASMRegisters [kNASMUnusedRegisterIndex], kNASMRegisters [kNASMRSPRegIndex],
-                          kNASMRegisters [kNASMRSPRegIndex], (kNASMSavedRegistersNum) * kNASMQWordSize,
+                          kNASMRegisters [kNASMRSPRegIndex],
+                          (kNASMSavedRegistersNum + cur_pos->cnt_func_args) * kNASMQWordSize,
                           kNASMRegisters [kNASMRBPRegIndex], kNASMRegisters [kNASMRSPRegIndex],
-                          kNASMRegisters [kNASMRSPRegIndex], kNASMRegisters [kNASMUnusedRegisterIndex]);
+                          kNASMRegisters [kNASMRSPRegIndex], kNASMRegisters [kNASMUnusedRegisterIndex],
+                          kNASMRegisters [kNASMRSPRegIndex],
+                          (cur_pos->instruction.value_2.number_size_t + 1) * kNASMQWordSize);
                           // В стеке лежит 3 сохранённых регистра и адрес возврата, а затем аргументы
 
     return kDoneLang;
@@ -317,61 +269,32 @@ static enum LangError CondJumpNASM (current_position_t* const cur_pos, FILE* con
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "CondJump started analyzing\n");
 
-    char label_name [kNASMFuncMaxNameLenIR] = "";
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r]", label_name);
-    cur_pos->read_letters += strlen (label_name);
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
-    {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    size_t cond_res_tmp_index = 0;
-    bool cond_jump = (*(cur_pos->buffer + cur_pos->read_letters) != kNASMTrueSymbol);
+    bool cond_jump = (cur_pos->instruction.type_1 != kNum);
     if (cond_jump)
     {
-        sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &cond_res_tmp_index);
-        cur_pos->read_letters += strlen (TMP_PREFIX);
-        if (cond_res_tmp_index > cur_pos->max_tmp_counter)
+        if (cur_pos->instruction.value_1.operand_1_index > cur_pos->max_tmp_counter)
         {
-            cur_pos->max_tmp_counter = cond_res_tmp_index;
+            cur_pos->max_tmp_counter = cur_pos->instruction.value_1.operand_1_index;
         }
-        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
     }
-    else
-    {
-        cur_pos->read_letters++;
-    }
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-    {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
 
     if (cond_jump)
     {
-        fprintf (output_file, "\tmov %s, qword [%s+%lu]\n"
+        fprintf (output_file, "\tmov %s, qword [%s-%lu]\n"
                               "\ttest %s, %s\t ; Compare the result of the condition\n"
-                              "jne %s_%s\t ; Jump on label if the condition is true\n",
+                              "jne %s\t ; Jump on label if the condition is true\n",
                               kNASMRegisters [kNASMUnusedRegisterIndex],
-                              kNASMRegisters [kNASMTmpBaseRegIndex], cond_res_tmp_index * kNASMQWordSize,
+                              kNASMRegisters [kNASMTmpBaseRegIndex],
+                              cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
                               kNASMRegisters [kNASMUnusedRegisterIndex],
                               kNASMRegisters [kNASMUnusedRegisterIndex],
-                              cur_pos->func_name, label_name);
+                              cur_pos->instruction.label);
     }
     else
     {
-        fprintf (output_file, "jmp %s_%s\t ; Jump on label\n", cur_pos->func_name, label_name);
+        fprintf (output_file, "jmp %s\t ; Jump on label\n", cur_pos->instruction.label);
     }
 
     return kDoneLang;
@@ -382,30 +305,16 @@ static enum LangError AssignNASM (current_position_t* const cur_pos, FILE* const
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "Assigning started analyzing\n");
 
-    char prefix_name [kNASMPrefixLen] = "";
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
-    cur_pos->read_letters += kNASMPrefixLen - 1;
-
-    if (strcmp (prefix_name, VAR_PREFIX) == 0)
+    switch (cur_pos->instruction.res_type)
     {
-        return AssignVarNASM (cur_pos, output_file);
+        case kGlobalVar:
+        case kVar: return AssignVarNASM (cur_pos, output_file);
+        case kTmp: return AssignTmpNASM (cur_pos, output_file);
+        case kArg: return AssignArgNASM (cur_pos, output_file);
+        default:   return kInvalidPrefixIR;
     }
-
-    if (strcmp (prefix_name, TMP_PREFIX) == 0)
-    {
-        return AssignTmpNASM (cur_pos, output_file);
-    }
-
-    if (strcmp (prefix_name, ARG_PREFIX) == 0)
-    {
-        return AssignArgNASM (cur_pos, output_file);
-    }
-
-    return kInvalidPrefixIR;
 }
 
 static enum LangError AssignVarNASM (current_position_t* const cur_pos, FILE* const output_file)
@@ -413,112 +322,54 @@ static enum LangError AssignVarNASM (current_position_t* const cur_pos, FILE* co
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "Assigning to var started analyzing\n");
 
-    long long var_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lld", &var_index);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
+    switch (cur_pos->instruction.type_1)
     {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    char prefix_name [kNASMPrefixLen] = "";
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
-    cur_pos->read_letters += kNASMPrefixLen - 1;
-
-    if (strcmp (prefix_name, TMP_PREFIX) == 0)
-    {
-        size_t src_tmp_index = 0;
-        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &src_tmp_index);
-        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        if (src_tmp_index > cur_pos->max_tmp_counter)
+        case kTmp:
         {
-            cur_pos->max_tmp_counter = src_tmp_index;
-        }
+            if (cur_pos->instruction.value_1.operand_1_index > cur_pos->max_tmp_counter)
+            {
+                cur_pos->max_tmp_counter = cur_pos->instruction.value_1.operand_1_index;
+            }
 
-        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-        {
-            return kNoBracketsIR;
-        }
-        cur_pos->read_letters++;
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
+            fprintf (output_file, "\tmov %s, qword [%s-%lu]\t ; Push tmp to variable through the register\n"
+                                  "\tmov qword [%s-%lu], %s\n\n",
+                                  kNASMRegisters [kNASMUnusedRegisterIndex],
+                                  kNASMRegisters [kNASMTmpBaseRegIndex],
+                                  cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
+                                  (cur_pos->instruction.res_type == kVar)
+                                                                  ? kNASMRegisters [kNASMVarBaseRegIndex]
+                                                                  : kNASMRegisters [kNASMGlobalVarsStartIndex],
+                                  cur_pos->instruction.res_index * kNASMQWordSize,
+                                  kNASMRegisters [kNASMUnusedRegisterIndex]);
 
-        if (var_index >= 0)
-        {
-            fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push tmp to variable through the stack\n"
-                                  "\tpop qword [%s+%lu]\n\n",
-                                  kNASMRegisters [kNASMTmpBaseRegIndex], src_tmp_index * kNASMQWordSize,
-                                  kNASMRegisters [kNASMVarBaseRegIndex], ((size_t) var_index) * kNASMQWordSize);
+            return kDoneLang;
         }
-        else
+        case kArg:
         {
-            fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push tmp to variable through the stack\n"
-                                  "\tpop qword [%s+%lu]\n\n",
-                                  kNASMRegisters [kNASMTmpBaseRegIndex], src_tmp_index * kNASMQWordSize,
-                                  kNASMStartRamName,
-                                  (cur_pos->global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize);
-        }
+            fprintf (output_file, "\tmov %s, %s\t ; Save RBP for one memory access\n"
+                                  "\tsub %s, %lu\t ; Save value temporary to RBP\n"
+                                  "\tmov %s, qword [%s]\t ; Push argument to variable through the register\n"
+                                  "\tmov qword [%s-%lu], %s\n"
+                                  "\tmov %s, %s\t ; Save value to RBP\n\n",
+                                  kNASMRegisters [kNASMSavingRegister], kNASMRegisters [kNASMRBPRegIndex],
+                                  kNASMRegisters [kNASMRBPRegIndex],
+                                  cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
+                                  kNASMRegisters [kNASMUnusedRegisterIndex], kNASMRegisters [kNASMRBPRegIndex],
+                                  (cur_pos->instruction.res_type == kVar)
+                                                                  ? kNASMRegisters [kNASMVarBaseRegIndex]
+                                                                  : kNASMRegisters [kNASMGlobalVarsStartIndex],
+                                  cur_pos->instruction.res_index * kNASMQWordSize,
+                                  kNASMRegisters [kNASMUnusedRegisterIndex],
+                                  kNASMRegisters [kNASMRBPRegIndex], kNASMRegisters [kNASMSavingRegister]);
 
-        return kDoneLang;
+            return kDoneLang;
+        }
+        default:
+            return kInvalidPrefixIR;
     }
 
-    if (strcmp (prefix_name, ARG_PREFIX) == 0)
-    {
-        size_t arg_index = 0;
-        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &arg_index);
-        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-        {
-            return kNoBracketsIR;
-        }
-        cur_pos->read_letters++;
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        if (var_index >= 0)
-        {
-            fprintf (output_file, "\tpush %s\t ; Save RBP for one memory access\n"
-                                  "\tadd %s, %lu\t ; Save value temporary to RBP\n"
-                                  "\tpush qword [%s]\t ; Push argument to variable through the stack\n"
-                                  "\tpop qword [%s+%lu]\n"
-                                  "\tpop %s\t ; Save value to RBP\n\n",
-                                  kNASMRegisters [kNASMRBPRegIndex],
-                                  kNASMRegisters [kNASMRBPRegIndex],
-                                  (cur_pos->cnt_func_args - arg_index) * kNASMQWordSize,
-                                  kNASMRegisters [kNASMRBPRegIndex],
-                                  kNASMRegisters [kNASMVarBaseRegIndex], ((size_t) var_index) * kNASMQWordSize,
-                                  kNASMRegisters [kNASMRBPRegIndex]);
-        }
-        else
-        {
-            fprintf (output_file, "\tpush %s\t ; Save RBP for one memory access\n"
-                                  "\tadd %s, %lu\t ; Save value temporary to RBP\n"
-                                  "\tpush qword [%s]\t ; Push argument to variable through the stack\n"
-                                  "\tpop qword [%s+%lu]\n"
-                                  "\tpop %s\t ; Save value to RBP\n\n",
-                                  kNASMRegisters [kNASMRBPRegIndex],
-                                  kNASMRegisters [kNASMRBPRegIndex],
-                                  (cur_pos->cnt_func_args - arg_index) * kNASMQWordSize,
-                                  kNASMRegisters [kNASMRBPRegIndex],
-                                  kNASMStartRamName,
-                                  (cur_pos->global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize,
-                                  kNASMRegisters [kNASMRBPRegIndex]);
-        }
-
-        return kDoneLang;
-    }
-
-    return kInvalidPrefixIR;
 }
 
 static enum LangError AssignTmpNASM (current_position_t* const cur_pos, FILE* const output_file)
@@ -526,117 +377,64 @@ static enum LangError AssignTmpNASM (current_position_t* const cur_pos, FILE* co
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "Assigning to tmp started analyzing\n");
 
-    size_t result_tmp_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &result_tmp_index);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (result_tmp_index > cur_pos->max_tmp_counter)
+    if (cur_pos->instruction.res_index > cur_pos->max_tmp_counter)
     {
-        cur_pos->max_tmp_counter = result_tmp_index;
+        cur_pos->max_tmp_counter = cur_pos->instruction.res_index;
     }
 
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
+    switch (cur_pos->instruction.type_1)
     {
-        return kNoSeparateSymbol;
+        case kNum:
+        {
+            fprintf (output_file, "\tmov %s, 0x%016lx\n"
+                                  "\tmov qword [%s-%lu], %s\t ; Push the number %lg to tmp through the stack\n",
+                                  kNASMRegisters [kNASMUnusedRegisterIndex],
+                                  *((unsigned long int*) (&cur_pos->instruction.value_1.number_double)),
+                                  kNASMRegisters [kNASMTmpBaseRegIndex],
+                                  cur_pos->instruction.res_index * kNASMQWordSize,
+                                  kNASMRegisters [kNASMUnusedRegisterIndex],
+                                  cur_pos->instruction.value_1.number_double);
+
+            return kDoneLang;
+        }
+        case kVar:
+        {
+            fprintf (output_file, "\tmov %s, qword [%s-%lu]\t ; Push variable to tmp through the register\n"
+                                  "\tmov qword [%s-%lu], %s\n\n",
+                                  kNASMRegisters [kNASMUnusedRegisterIndex],
+                                  (cur_pos->instruction.type_1 == kVar)
+                                                                  ? kNASMRegisters [kNASMVarBaseRegIndex]
+                                                                  : kNASMRegisters [kNASMGlobalVarsStartIndex],
+                                  cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
+                                  kNASMRegisters [kNASMTmpBaseRegIndex],
+                                  cur_pos->instruction.res_index * kNASMQWordSize,
+                                  kNASMRegisters [kNASMUnusedRegisterIndex]);
+
+            return kDoneLang;
+        }
+        case kTmp:
+        {
+            if (cur_pos->instruction.value_1.operand_1_index > cur_pos->max_tmp_counter)
+            {
+                cur_pos->max_tmp_counter = cur_pos->instruction.value_1.operand_1_index;
+            }
+
+            fprintf (output_file, "\tmov %s, qword [%s-%lu]\t ; Push tmp to tmp through the register\n"
+                                  "\tmov qword [%s-%lu], %s\n\n",
+                                  kNASMRegisters [kNASMUnusedRegisterIndex],
+                                  kNASMRegisters [kNASMTmpBaseRegIndex],
+                                  cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
+                                  kNASMRegisters [kNASMTmpBaseRegIndex],
+                                  cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
+                                  kNASMRegisters [kNASMUnusedRegisterIndex]);
+
+            return kDoneLang;
+        }
+        default:
+            return kInvalidAssigning;
     }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (isdigit (*(cur_pos->buffer + cur_pos->read_letters)))
-    {
-        double number = 0;
-        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lg", &number);
-        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-        {
-            return kNoBracketsIR;
-        }
-        cur_pos->read_letters++;
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        fprintf (output_file, "\tmov %s, 0x%016lx\n"
-                              "\tmov qword [%s+%lu], %s\t ; Push the number %g to tmp through the stack\n",
-                              kNASMRegisters [kNASMUnusedRegisterIndex],
-                               *((unsigned long int*) (&number)),
-                              kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize,
-                              kNASMRegisters [kNASMUnusedRegisterIndex],
-                              number);
-
-        return kDoneLang;
-    }
-
-    char prefix_name [kNASMPrefixLen] = "";
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%3s", prefix_name);
-    cur_pos->read_letters += kNASMPrefixLen - 1;
-
-    if (strcmp (prefix_name, VAR_PREFIX) == 0)
-    {
-        long long var_index = 0;
-        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lld", &var_index);
-        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-        {
-            return kNoBracketsIR;
-        }
-        cur_pos->read_letters++;
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        if (var_index >= 0)
-        {
-            fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push variable to tmp through the stack\n"
-                                  "\tpop qword [%s+%lu]\n\n",
-                                  kNASMRegisters [kNASMVarBaseRegIndex], ((size_t) var_index) * kNASMQWordSize,
-                                  kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize);
-        }
-        else
-        {
-            fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push variable to tmp through the stack\n"
-                                  "\tpop qword [%s+%lu]\n\n",
-                                  kNASMStartRamName,
-                                  (cur_pos->global_vars_cnt + 1 - (size_t) (-var_index)) * kNASMQWordSize,
-                                  kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize);
-        }
-
-        return kDoneLang;
-    }
-
-    if (strcmp (prefix_name, TMP_PREFIX) == 0)
-    {
-        size_t src_tmp_index = 0;
-        sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &src_tmp_index);
-        SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        if (src_tmp_index > cur_pos->max_tmp_counter)
-        {
-            cur_pos->max_tmp_counter = src_tmp_index;
-        }
-
-        if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-        {
-            return kNoBracketsIR;
-        }
-        cur_pos->read_letters++;
-        cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-        fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push tmp to tmp through the stack\n"
-                              "\tpop qword [%s+%lu]\n\n",
-                              kNASMRegisters [kNASMTmpBaseRegIndex], src_tmp_index * kNASMQWordSize,
-                              kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize);
-
-        return kDoneLang;
-    }
-
-    return kInvalidAssigning;
 }
 
 static enum LangError AssignArgNASM (current_position_t* const cur_pos, FILE* const output_file)
@@ -644,45 +442,62 @@ static enum LangError AssignArgNASM (current_position_t* const cur_pos, FILE* co
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "Assigning to arg started analyzing\n");
 
-    size_t result_arg_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &result_arg_index);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
+    if (cur_pos->instruction.value_1.operand_1_index > cur_pos->max_tmp_counter)
     {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    size_t src_tmp_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &src_tmp_index);
-    cur_pos->read_letters += strlen (TMP_PREFIX);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (src_tmp_index > cur_pos->max_tmp_counter)
-    {
-        cur_pos->max_tmp_counter = src_tmp_index;
+        cur_pos->max_tmp_counter = cur_pos->instruction.value_1.operand_1_index;
     }
 
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-    {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    fprintf (output_file, "\tpush qword [%s+%lu]\t ; Push tmp %lu to argument %lu through the stack\n",
-                          kNASMRegisters [kNASMTmpBaseRegIndex], src_tmp_index * kNASMQWordSize,
-                          src_tmp_index, result_arg_index);
+    fprintf (output_file, "\tmov %s, qword [%s-%lu]\n"
+                          "\tmov qword [%s-%lu], %s\t ; Push tmp %lu to argument %lu through the register\n",
+                          kNASMRegisters [kNASMUnusedRegisterIndex],
+                          kNASMRegisters [kNASMTmpBaseRegIndex],
+                          cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
+                          kNASMRegisters [kNASMTmpBaseRegIndex],
+                          (MaxTmpIndexBeforeCall (cur_pos) + cur_pos->instruction.res_index + 1) * kNASMQWordSize,
+                          kNASMRegisters [kNASMUnusedRegisterIndex],
+                          cur_pos->instruction.value_1.operand_1_index,
+                          cur_pos->instruction.res_index);
 
     return kDoneLang;
+}
+
+static size_t MaxTmpIndexBeforeCall (const current_position_t* const cur_pos)
+{
+    ASSERT(cur_pos != NULL, "Invalid argument cur_pos\n");
+
+    size_t max_tmp_counter = cur_pos->max_tmp_counter;
+    size_t index = cur_pos->index;
+    IRInstruction_t instruction = {};
+
+    if (index == 0)
+    {
+        return max_tmp_counter;
+    }
+
+    ListElemValLoad (cur_pos->list, index, &instruction);
+    while ((index != 0) && (instruction.type != IR_FUNCTION_CALL_INDEX)
+                        && (instruction.type != IR_SYSTEM_FUNCTION_CALL_INDEX))
+    {
+        if ((instruction.res_type == kTmp) && (instruction.res_index > max_tmp_counter))
+        {
+            max_tmp_counter = instruction.res_index;
+        }
+        if ((instruction.type_1 == kTmp) && (instruction.value_1.operand_1_index > max_tmp_counter))
+        {
+            max_tmp_counter = instruction.value_1.operand_1_index;
+        }
+        if ((instruction.type_2 == kTmp) && (instruction.value_2.operand_2_index > max_tmp_counter))
+        {
+            max_tmp_counter = instruction.value_2.operand_2_index;
+        }
+
+        index = NextIndex (cur_pos->list, index);
+        ListElemValLoad (cur_pos->list, index, &instruction);
+    }
+
+    return max_tmp_counter;
 }
 
 static enum LangError OperationNASM (current_position_t* const cur_pos, FILE* const output_file)
@@ -690,109 +505,62 @@ static enum LangError OperationNASM (current_position_t* const cur_pos, FILE* co
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "Operation started analyzing\n");
 
-    size_t result_tmp_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &result_tmp_index);
-    cur_pos->read_letters += strlen (TMP_PREFIX);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (result_tmp_index > cur_pos->max_tmp_counter)
+    if (cur_pos->instruction.res_index > cur_pos->max_tmp_counter)
     {
-        cur_pos->max_tmp_counter = result_tmp_index;
+        cur_pos->max_tmp_counter = cur_pos->instruction.res_index;
     }
 
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
+    if (cur_pos->instruction.value_1.operand_1_index > cur_pos->max_tmp_counter)
     {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    unsigned int operation_enum = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%u", &operation_enum);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
-    {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    size_t first_operand_tmp_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &first_operand_tmp_index);
-    cur_pos->read_letters += strlen (TMP_PREFIX);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (first_operand_tmp_index > cur_pos->max_tmp_counter)
-    {
-        cur_pos->max_tmp_counter = first_operand_tmp_index;
+        cur_pos->max_tmp_counter = cur_pos->instruction.value_1.operand_1_index;
     }
 
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
+    if (cur_pos->instruction.value_2.operand_2_index > cur_pos->max_tmp_counter)
     {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    size_t second_operand_tmp_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &second_operand_tmp_index);
-    cur_pos->read_letters += strlen (TMP_PREFIX);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (second_operand_tmp_index > cur_pos->max_tmp_counter)
-    {
-        cur_pos->max_tmp_counter = second_operand_tmp_index;
+        cur_pos->max_tmp_counter = cur_pos->instruction.value_2.operand_2_index;
     }
 
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
+    if (((size_t) cur_pos->instruction.operation) < kNASMIRArithmOperationsNum)
     {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (operation_enum < kNASMIRArithmOperationsNum)
-    {
-        fprintf (output_file, "\tmovq %s, qword [%s+%lu]\t ; Push first operand\n"
-                              "\tmovq %s, qword [%s+%lu]\t ; Push second operand\n"
+        fprintf (output_file, "\tmovq %s, qword [%s-%lu]\t ; Push first operand\n"
+                              "\tmovq %s, qword [%s-%lu]\t ; Push second operand\n"
                               "\t%s %s, %s\n"
-                              "\tmovq qword [%s+%lu], %s\t ; Move the result to the tmp var\n\n",
+                              "\tmovq qword [%s-%lu], %s\t ; Move the result to the tmp var\n\n",
                               kNASMRegisters [kNASMFirstOpRegIndex],
-                              kNASMRegisters [kNASMTmpBaseRegIndex], first_operand_tmp_index * kNASMQWordSize,
+                              kNASMRegisters [kNASMTmpBaseRegIndex],
+                              cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
                               kNASMRegisters [kNASMSecondOpRegIndex],
-                              kNASMRegisters [kNASMTmpBaseRegIndex], second_operand_tmp_index * kNASMQWordSize,
-                              kInstructionsArithmNASM [operation_enum - 1], // Енамы нумеруются с 1, а элементы массива с 0
+                              kNASMRegisters [kNASMTmpBaseRegIndex],
+                              cur_pos->instruction.value_2.operand_2_index * kNASMQWordSize,
+                              kInstructionsArithmNASM [cur_pos->instruction.operation - 1], // Енамы нумеруются с 1, а элементы массива с 0
                               kNASMRegisters [kNASMFirstOpRegIndex],
                               kNASMRegisters [kNASMSecondOpRegIndex],
-                              kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize, kNASMRegisters [kNASMFirstOpRegIndex]);
+                              kNASMRegisters [kNASMTmpBaseRegIndex],
+                              cur_pos->instruction.res_index * kNASMQWordSize, kNASMRegisters [kNASMFirstOpRegIndex]);
     }
     else
     {
-        fprintf (output_file, "\tmovq %s, qword [%s+%lu]\t ; Push first operand\n"
-                              "\tmovq %s, qword [%s+%lu]\t ; Push second operand\n"
+        fprintf (output_file, "\tmovq %s, qword [%s-%lu]\t ; Push first operand\n"
+                              "\tmovq %s, qword [%s-%lu]\t ; Push second operand\n"
                               "\t%s %s, %s\t ; Comparison\n"
                               "\tmovq %s, %s\t ; Move the result of comparison to the unused reg\n"
                               "\tshr %s, %lu\t ; Make the result 1 or 0\n"
-                              "\tmov qword [%s+%lu], %s\t ; Move the result to the tmp var\n\n",
+                              "\tmov qword [%s-%lu], %s\t ; Move the result to the tmp var\n\n",
                               kNASMRegisters [kNASMFirstOpRegIndex],
-                              kNASMRegisters [kNASMTmpBaseRegIndex], first_operand_tmp_index * kNASMQWordSize,
+                              kNASMRegisters [kNASMTmpBaseRegIndex],
+                              cur_pos->instruction.value_1.operand_1_index * kNASMQWordSize,
                               kNASMRegisters [kNASMSecondOpRegIndex],
-                              kNASMRegisters [kNASMTmpBaseRegIndex], second_operand_tmp_index * kNASMQWordSize,
-                              kInstructionsLogicNASM [operation_enum - kNASMIRArithmOperationsNum - 1],
+                              kNASMRegisters [kNASMTmpBaseRegIndex],
+                              cur_pos->instruction.value_2.operand_2_index * kNASMQWordSize,
+                              kInstructionsLogicNASM [cur_pos->instruction.operation - kNASMIRArithmOperationsNum - 1],
                               kNASMRegisters [kNASMFirstOpRegIndex],
                               kNASMRegisters [kNASMSecondOpRegIndex],
                               kNASMRegisters [kNASMUnusedRegisterIndex], kNASMRegisters [kNASMFirstOpRegIndex],
                               kNASMRegisters [kNASMUnusedRegisterIndex], kRegisterSize - 1,
-                              kNASMRegisters [kNASMTmpBaseRegIndex], result_tmp_index * kNASMQWordSize, kNASMRegisters [kNASMUnusedRegisterIndex]);
+                              kNASMRegisters [kNASMTmpBaseRegIndex],
+                              cur_pos->instruction.res_index * kNASMQWordSize, kNASMRegisters [kNASMUnusedRegisterIndex]);
     }
 
     return kDoneLang;
@@ -803,25 +571,11 @@ static enum LangError LabelNASM (current_position_t* const cur_pos, FILE* const 
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "Label started analyzing\n");
 
-    char label_name [kNASMFuncMaxNameLenIR] = "";
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^,^ ^\n^\t^\r^)]", label_name);
-    cur_pos->read_letters += strlen (label_name);
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
+    LOG (kDebug, "Label \"%s\" was analyzed\n", cur_pos->instruction.label);
 
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-    {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    LOG (kDebug, "Label \"%s\" was analyzed\n", label_name);
-
-    fprintf (output_file, "%s_%s:\t ; Label in function\n", cur_pos->func_name, label_name);
+    fprintf (output_file, "%s:\t ; Label in function\n", cur_pos->instruction.label);
 
     return kDoneLang;
 }
@@ -831,37 +585,24 @@ static enum LangError ReturnNASM (current_position_t* const cur_pos, FILE* const
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "Return started analyzing\n");
 
-    size_t ret_val_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    cur_pos->read_letters += strlen (TMP_PREFIX);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (ret_val_index > cur_pos->max_tmp_counter)
+    if (cur_pos->instruction.res_index > cur_pos->max_tmp_counter)
     {
-        cur_pos->max_tmp_counter = ret_val_index;
+        cur_pos->max_tmp_counter = cur_pos->instruction.res_index;
     }
 
-    const char* end_args = strchr (cur_pos->buffer + cur_pos->read_letters, kNASMBracketClose);
-    if (end_args == NULL)
-    {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters = end_args - cur_pos->buffer;
-    cur_pos->read_letters++;
-
-    fprintf (output_file, "\n\tpush qword [%s+%lu]\n"
-                          "\tpop %s\t ; Save return value to the rax\n"
+    fprintf (output_file, "\n\tmov %s, qword [%s-%lu]\t ; Save return value to the rax\n"
+                          "\tadd %s, %lu\t ; Get back RSP\n"
                           "\tpop %s\t ; Get RBP value back\n"
                           "\tpop %s\t ; Get tmp register value back\n"
                           "\tpop %s\t ; Get var register value back\n"
                           "ret\n",
-                          kNASMRegisters [kNASMTmpBaseRegIndex], ret_val_index * kNASMQWordSize,
                           kNASMRegisters [kNASMRetValRegIndex],
+                          kNASMRegisters [kNASMTmpBaseRegIndex],
+                          cur_pos->instruction.res_index * kNASMQWordSize,
+                          kNASMRegisters [kNASMRSPRegIndex],
+                          (cur_pos->cnt_loc_vars + 1) * kNASMQWordSize,
                           kNASMRegisters [kNASMRBPRegIndex],
                           kNASMRegisters [kNASMTmpBaseRegIndex],
                           kNASMRegisters [kNASMVarBaseRegIndex]);
@@ -874,56 +615,46 @@ static enum LangError SysCallNASM (current_position_t* const cur_pos, FILE* cons
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
+    LOG (kDebug, "SysCall started analyzing\n");
 
-    size_t ret_val_index = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, TMP_PREFIX "%lu", &ret_val_index);
-    cur_pos->read_letters += strlen (TMP_PREFIX);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
+    size_t syscall_index = IndexSysCall (cur_pos->instruction.label);
+    fprintf (output_file, "\tsub %s, %lu\t ; Shift RSP\n"
+                          "call %s_syscall\t ; Calling function\n"
+                          "\tadd %s, %lu\t ; Shift back RSP\n",
+                          kNASMRegisters [kNASMRSPRegIndex],
+                          (cur_pos->max_tmp_counter + kIR_SYS_CALL_ARRAY [syscall_index].NumberOfArguments) * kNASMQWordSize,
+                          cur_pos->instruction.label,
+                          kNASMRegisters [kNASMRSPRegIndex],
+                          (cur_pos->max_tmp_counter + kIR_SYS_CALL_ARRAY [syscall_index].NumberOfArguments) * kNASMQWordSize);
 
-    if (ret_val_index > cur_pos->max_tmp_counter)
+    if (kIR_SYS_CALL_ARRAY [syscall_index].HaveRetVal)
     {
-        cur_pos->max_tmp_counter = ret_val_index;
-    }
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMSepSym)
-    {
-        return kNoSeparateSymbol;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    char sys_func_name [kNASMFuncMaxNameLenIR] = "";
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%[^)^ ^\n^\t^\r^,]", sys_func_name);
-    cur_pos->read_letters += strlen (sys_func_name);
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    const char* end_args = strchr (cur_pos->buffer + cur_pos->read_letters, kNASMBracketClose);
-    if (end_args == NULL)
-    {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters = end_args - cur_pos->buffer;
-    cur_pos->read_letters++;
-
-    fprintf (output_file, "call %s_syscall\t ; System call\n", sys_func_name);
-
-    if (strcmp (sys_func_name, kIR_SYS_CALL_ARRAY [SYSCALL_OUT_INDEX].Name) != 0)
-    {
-        fprintf (output_file, "\tmov qword [%s+%lu], %s\t ; Save return value to tmp\n",
-                              kNASMRegisters [kNASMTmpBaseRegIndex], ret_val_index * kNASMQWordSize,
+        fprintf (output_file, "\tmov qword [%s-%lu], %s\t ; Save return value to tmp\n",
+                              kNASMRegisters [kNASMTmpBaseRegIndex],
+                              cur_pos->instruction.res_index * kNASMQWordSize,
                               kNASMRegisters [kNASMRetValRegIndex]);
     }
 
-    if (strcmp (sys_func_name, kIR_SYS_CALL_ARRAY [SYSCALL_IN_INDEX].Name) == 0)
+    if (cur_pos->instruction.res_index > cur_pos->max_tmp_counter)
     {
-        fprintf (output_file, "\tpop %s\t ; Pop argument out of stack\n\n", kNASMRegisters [kNASMUnusedRegisterIndex]);
+        cur_pos->max_tmp_counter = cur_pos->instruction.res_index;
     }
 
     return kDoneLang;
+}
+
+static size_t IndexSysCall (const char* const syscall_name)
+{
+    ASSERT(syscall_name != NULL, "Invalid argument syscall_name\n");
+
+    for (size_t syscall_index = 0; syscall_index < kIR_SYS_CALL_NUMBER; syscall_index++)
+    {
+        if (strcmp (kIR_SYS_CALL_ARRAY [syscall_index].Name, syscall_name) == 0)
+        {
+            return syscall_index;
+        }
+    }
+    return ULLONG_MAX;
 }
 
 static enum LangError GlobalVarsNumNASM  (current_position_t* const cur_pos, FILE* const output_file)
@@ -931,63 +662,22 @@ static enum LangError GlobalVarsNumNASM  (current_position_t* const cur_pos, FIL
     ASSERT (cur_pos     != NULL, "Invalid argument cur_pos\n");
     ASSERT (output_file != NULL, "Invalid argument output_file\n");
 
-    LOG (kDebug, "Current symbol       = {%c}\n"
-                 "Already read letters = %lu\n",
-                 *(cur_pos->buffer + cur_pos->read_letters), cur_pos->read_letters);
-
-    size_t cnt_glob_vars = 0;
-    sscanf (cur_pos->buffer + cur_pos->read_letters, "%lu", &cnt_glob_vars);
-    SkipNumber (cur_pos->buffer, &(cur_pos->read_letters));
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
-
-    if (*(cur_pos->buffer + cur_pos->read_letters) != kNASMBracketClose)
-    {
-        return kNoBracketsIR;
-    }
-    cur_pos->read_letters++;
-    cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
+    LOG (kDebug, "GlobalVarsNum started analyzing\n");
 
     fprintf (output_file, "\n%s:\n"
+                          "\tmov %s, %s\t ; Set label to variables counter register\n"
                           "\tmov %s, %s\t ; Set label to global variables counter register\n"
                           "\tmov %s, %s\n"
-                          "\tadd %s, %lu\t ; Set value to tmp variables counter register\n\n",
+                          "\tsub %s, %lu\t ; Set value to tmp variables counter register\n"
+                          "\tsub %s, %lu\t ; Set value to RSP\n\n",
                           kNASMStartLabelName,
-                          kNASMRegisters [kNASMVarBaseRegIndex], kNASMStartRamName,
-                          kNASMRegisters [kNASMTmpBaseRegIndex], kNASMStartRamName,
-                          kNASMRegisters [kNASMTmpBaseRegIndex], cnt_glob_vars);
+                          kNASMRegisters [kNASMVarBaseRegIndex], kNASMRegisters [kNASMRSPRegIndex],
+                          kNASMRegisters [kNASMGlobalVarsStartIndex], kNASMRegisters [kNASMRSPRegIndex],
+                          kNASMRegisters [kNASMTmpBaseRegIndex], kNASMRegisters [kNASMRSPRegIndex],
+                          kNASMRegisters [kNASMTmpBaseRegIndex], cur_pos->instruction.value_1.number_size_t,
+                          kNASMRegisters [kNASMRSPRegIndex], cur_pos->instruction.value_1.number_size_t);
 
-    cur_pos->global_vars_cnt = cnt_glob_vars;
+    cur_pos->global_vars_cnt = cur_pos->instruction.value_1.number_size_t;
 
     return kDoneLang;
-}
-
-static void SkipNumber (const char* const input_buf, size_t* const offset)
-{
-    ASSERT (input_buf != NULL, "Invalid argument input_buf = %p\n", input_buf);
-    ASSERT (offset    != NULL, "Invalid argument offset = %p\n",    offset);
-
-    LOG (kDebug, "Input buffer    = %p\n"
-                 "Offset          = %lu\n"
-                 "Run time symbol = {%c}\n",
-                 input_buf, *offset, input_buf [*offset]);
-
-    if (input_buf [*offset] == '-')
-    {
-        (*offset)++;
-    }
-
-    while (isdigit (input_buf [*offset]))
-    {
-        (*offset)++;
-    }
-
-    if (input_buf [*offset] == '.')
-    {
-        (*offset)++;
-    }
-
-    while (isdigit (input_buf [*offset]))
-    {
-        (*offset)++;
-    }
 }

@@ -5,11 +5,9 @@
 #include <string.h>
 
 #include "MyLib/Assert/my_assert.h"
-#include "MyLib/My_stdio/my_stdio.h"
 #include "MyLib/helpful.h"
 
 static void PrintHelp (void);
-static enum ModeType StrToModeType (const char* const string);
 
 void ParseFlags (const int argc, char* const argv[], settings_of_program_t* const set)
 {
@@ -70,17 +68,6 @@ void ParseFlags (const int argc, char* const argv[], settings_of_program_t* cons
                     mode = -1;
                     set->stop_program = true;
                     fprintf (stderr, "There is no files with name %s\n", optarg);
-                }
-                count_iterate++;
-                break;
-            }
-            case 'm':
-            {
-                set->mode = StrToModeType (optarg);
-                if (set->mode == kInvalidModeType)
-                {
-                    set->stop_program = true;
-                    mode = -1;
                 }
                 count_iterate++;
                 break;
@@ -164,16 +151,7 @@ static void PrintHelp (void)
                      "|                                    by writing the name of file for output after that.  |\n"
                      "| \"--log-file\" or \"-l\"             : You can change the stream of logging information    |\n"
                      "|                                    by writing the name of file for output after that.  |\n"
-                     "| \"--mode\" or \"-m\"                 : You can choose the mode of solving your expression  |\n"
-                     "|                                    There is only one mode:                             |\n"
-                     "|                                    \"diff\" (differencing your expression)               |\n"
                      "| \"--help\" or \"-h\"                 : Write information about flags of that program.      |\n"
                      "------------------------------------------------------------------------------------------\n");
 }
 
-static enum ModeType StrToModeType (const char* const string)
-{
-    ASSERT (string != NULL, "Invalid argument: string = %p\n", string);
-
-    return kInvalidModeType;
-}
