@@ -10,3 +10,6 @@
 [submodule "libs/PYAM_IR"]
 	path = libs/PYAM_IR
 	url = https://github.com/kzueirf12345/PYAM_IR
+[submodule "middleend/List"]
+	path = middleend/List
+	url = https://github.com/Dinichthys/List.git

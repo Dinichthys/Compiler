@@ -113,12 +113,6 @@ const char* EnumErrorToStr (const enum LangError error)
         CASE (kInvalidArgNum);
         CASE (kNoCommandEnd);
 
-        CASE (kNoBracketsIR);
-        CASE (kInvalidSyscall);
-        CASE (kInvalidOperation);
-        CASE (kNoSeparateSymbol);
-        CASE (kInvalidPrefixIR);
-
         default:
             return "Invalid enum element";
     }

@@ -54,15 +54,13 @@ enum LangError
     kInvalidArgNum              = 36,
     kNoCommandEnd               = 37,
 
-    kNoBracketsIR               = 38,
+    kInvalidOperation           = 38,
     kInvalidSyscall             = 39,
-    kInvalidOperation           = 40,
-    kNoSeparateSymbol           = 41,
-    kInvalidPrefixIR            = 42,
 
-    kCantCreateList             = 43,
-    kCantPushListElemIR         = 44,
-    kInvalidKeyWordIR           = 45,
+    kInvalidPrefix              = 40,
+    kInvalidKeyWord             = 41,
+    kNoBrackets                 = 42,
+    kNoSeparateSymbol           = 43,
 };
 
 enum OpType

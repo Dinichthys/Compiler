@@ -1,6 +1,6 @@
-add_subdirectory (PYAM_IR)
+add_subdirectory(PYAM_IR)
 
-add_library (all_libs
+add_library(all_libs
     STATIC
 
     flags/source/parse_flags_lang.cpp
@@ -11,16 +11,10 @@ add_library (all_libs
     List/source/list_pop.cpp
     List/source/list_push.cpp
 
-    MyLib/Logger/logging.cpp
-    MyLib/Assert/print_error.cpp
-    MyLib/My_stdio/my_stdio.cpp
-
     tree/source/connect_tree_lang.cpp
     tree/source/dump_lang.cpp
     tree/source/write_tree_lang.cpp
     tree/source/struct_lang.cpp
-
-    IR/source/read_ir.cpp
 )
 
 target_link_libraries(all_libs
@@ -37,14 +31,7 @@ target_include_directories(all_libs
 
         ./List/include
 
-        ./MyLib
-        ./MyLib/My_stdio
-        ./MyLib/Logger
-        ./MyLib/Assert
-
         ./tree/include
-
-        ./IR/include
 )
 
 # cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++

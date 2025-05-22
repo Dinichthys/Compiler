@@ -134,7 +134,7 @@ static enum LangError GenerateAsmSPU (const char* const buffer, FILE* const outp
         cur_pos.read_letters += skip_space_symbols (buffer + cur_pos.read_letters);
         if (*(buffer + cur_pos.read_letters) != kBracketOpen)
         {
-            return kNoBracketsIR;
+            return kNoBrackets;
         }
         cur_pos.read_letters++;
 
@@ -189,7 +189,7 @@ static enum LangError CallFuncSPU (current_position_t* const cur_pos, FILE* cons
 
     if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters++;
     cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -271,7 +271,7 @@ static enum LangError FuncBodySPU (current_position_t* const cur_pos, FILE* cons
 
     if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters++;
     cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -344,7 +344,7 @@ static enum LangError CondJumpSPU (current_position_t* const cur_pos, FILE* cons
 
     if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters++;
     cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -393,7 +393,7 @@ static enum LangError AssignSPU (current_position_t* const cur_pos, FILE* const 
         return AssignArgSPU (cur_pos, output_file);
     }
 
-    return kInvalidPrefixIR;
+    return kInvalidPrefix;
 }
 
 static enum LangError AssignVarSPU (current_position_t* const cur_pos, FILE* const output_file)
@@ -435,7 +435,7 @@ static enum LangError AssignVarSPU (current_position_t* const cur_pos, FILE* con
 
         if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
-            return kNoBracketsIR;
+            return kNoBrackets;
         }
         cur_pos->read_letters++;
         cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -467,7 +467,7 @@ static enum LangError AssignVarSPU (current_position_t* const cur_pos, FILE* con
 
         if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
-            return kNoBracketsIR;
+            return kNoBrackets;
         }
         cur_pos->read_letters++;
         cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -512,7 +512,7 @@ static enum LangError AssignVarSPU (current_position_t* const cur_pos, FILE* con
         return kDoneLang;
     }
 
-    return kInvalidPrefixIR;
+    return kInvalidPrefix;
 }
 
 static enum LangError AssignTmpSPU (current_position_t* const cur_pos, FILE* const output_file)
@@ -550,7 +550,7 @@ static enum LangError AssignTmpSPU (current_position_t* const cur_pos, FILE* con
 
         if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
-            return kNoBracketsIR;
+            return kNoBrackets;
         }
         cur_pos->read_letters++;
         cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -576,7 +576,7 @@ static enum LangError AssignTmpSPU (current_position_t* const cur_pos, FILE* con
 
         if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
-            return kNoBracketsIR;
+            return kNoBrackets;
         }
         cur_pos->read_letters++;
         cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -613,7 +613,7 @@ static enum LangError AssignTmpSPU (current_position_t* const cur_pos, FILE* con
 
         if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
         {
-            return kNoBracketsIR;
+            return kNoBrackets;
         }
         cur_pos->read_letters++;
         cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -663,7 +663,7 @@ static enum LangError AssignArgSPU (current_position_t* const cur_pos, FILE* con
 
     if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters++;
     cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -745,7 +745,7 @@ static enum LangError OperationSPU (current_position_t* const cur_pos, FILE* con
 
     if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters++;
     cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -778,7 +778,7 @@ static enum LangError LabelSPU (current_position_t* const cur_pos, FILE* const o
 
     if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters++;
     cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);
@@ -813,7 +813,7 @@ static enum LangError ReturnSPU (current_position_t* const cur_pos, FILE* const 
     const char* end_args = strchr (cur_pos->buffer + cur_pos->read_letters, kBracketClose);
     if (end_args == NULL)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters = end_args - cur_pos->buffer;
     cur_pos->read_letters++;
@@ -868,7 +868,7 @@ static enum LangError SysCallSPU (current_position_t* const cur_pos, FILE* const
     const char* end_args = strchr (cur_pos->buffer + cur_pos->read_letters, kBracketClose);
     if (end_args == NULL)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters = end_args - cur_pos->buffer;
     cur_pos->read_letters++;
@@ -905,7 +905,7 @@ static enum LangError GlobalVarsNumSPU (current_position_t* const cur_pos, FILE*
 
     if (*(cur_pos->buffer + cur_pos->read_letters) != kBracketClose)
     {
-        return kNoBracketsIR;
+        return kNoBrackets;
     }
     cur_pos->read_letters++;
     cur_pos->read_letters += skip_space_symbols (cur_pos->buffer + cur_pos->read_letters);

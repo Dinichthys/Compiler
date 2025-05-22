@@ -64,15 +64,15 @@ enum LangError GenerateAsmNASMFromIR (FILE* const ir_file, FILE* const output_fi
     }
 
     list_t list = {};
-    enum LangError result = ReadIR (buffer, &list);
+    enum IRError result_ir = ReadIR (buffer, &list);
     FREE_AND_NULL (buffer);
-    if (result != kDoneLang)
+    if (result_ir != kDoneIR)
     {
         ListDtor (&list);
-        return result;
+        return kCantReadDataBase;
     }
 
-    result = GenerateAsmNASM (&list, output_file);
+    enum LangError result = GenerateAsmNASM (&list, output_file);
     ListDtor (&list);
     return result;
 }
@@ -151,7 +151,7 @@ static enum LangError GenerateAsmNASM (const list_t* const list, FILE* const out
             case IR_INVALID_KEY_WORD:
             default:
             {
-                return kInvalidKeyWordIR;
+                return kInvalidKeyWord;
             }
             if (result != kDoneLang)
             {
@@ -313,7 +313,7 @@ static enum LangError AssignNASM (current_position_t* const cur_pos, FILE* const
         case kVar: return AssignVarNASM (cur_pos, output_file);
         case kTmp: return AssignTmpNASM (cur_pos, output_file);
         case kArg: return AssignArgNASM (cur_pos, output_file);
-        default:   return kInvalidPrefixIR;
+        default:   return kInvalidPrefix;
     }
 }
 
@@ -367,7 +367,7 @@ static enum LangError AssignVarNASM (current_position_t* const cur_pos, FILE* co
             return kDoneLang;
         }
         default:
-            return kInvalidPrefixIR;
+            return kInvalidPrefix;
     }
 
 }
@@ -399,6 +399,7 @@ static enum LangError AssignTmpNASM (current_position_t* const cur_pos, FILE* co
 
             return kDoneLang;
         }
+        case kGlobalVar:
         case kVar:
         {
             fprintf (output_file, "\tmov %s, qword [%s-%lu]\t ; Push variable to tmp through the register\n"
