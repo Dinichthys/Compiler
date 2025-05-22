@@ -9,6 +9,8 @@
 #include "struct_lang.h"
 #include "connect_tree_lang.h"
 
+#include "simplify_diff.h"
+
 #include "list.h"
 #include "list_construction.h"
 #include "list_src.h"
@@ -576,7 +578,7 @@ static enum LangError GetAssign (const token_t* const tokens, size_t* const toke
     SHIFT_TOKEN;
 
     enum LangError result = GetAddSub (tokens, token_index, &((*node)->right), list, variables);
-
+    (*node)->right = Simplify ((*node)->right);
     SHIFT_TOKEN;
 
     ConnectTree (*node);

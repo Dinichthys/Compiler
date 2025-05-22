@@ -5,6 +5,7 @@ add_executable (frontend
     source/write_ir.cpp
     source/lexer.cpp
     source/parser.cpp
+    source/simplify_diff.cpp
 
     include/Stack/stack.cpp
     include/Stack/hash.cpp

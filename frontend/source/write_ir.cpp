@@ -256,6 +256,18 @@ static enum LangError WriteExpression (const node_t* const root, FILE* const IR_
 
     if ((root->type == kArithm) || (root->type == kComp))
     {
+        if (root->value.operation == kPow)
+        {
+            IR_GIVE_ARG_ (0LU, first_operand);
+            IR_GIVE_ARG_ (1LU, second_operand);
+
+            IR_SYSCALL_ (*tmp_var_counter,
+                         kIR_SYS_CALL_ARRAY [SYSCALL_POW_INDEX].Name,
+                         kIR_SYS_CALL_ARRAY [SYSCALL_POW_INDEX].NumberOfArguments);
+
+            (*tmp_var_counter)++;
+            return kDoneLang;
+        }
         enum IrOpType index = IdentifyOperation (root);
         if (index == IR_OP_TYPE_INVALID_OPERATION)
         {
@@ -678,6 +690,8 @@ static enum IR_SysCall_Indexes IdentifySysCall (const node_t* const node)
     {
         case (kIn):  return SYSCALL_IN_INDEX;
         case (kOut): return SYSCALL_OUT_INDEX;
+        case (kPow): return SYSCALL_POW_INDEX;
+        case (kSqrt):return SYSCALL_SQRT_INDEX;
         default:     return INVALID_SYSCALL;
     }
 }

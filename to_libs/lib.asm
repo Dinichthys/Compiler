@@ -35,6 +35,8 @@ global hlt_syscall
 global in_syscall
 global out_syscall
 global pow_syscall
+global sqrt_syscall
+
 global StartRam
 
 extern MyPrintf
@@ -202,4 +204,7 @@ pow_syscall:
     pop rcx
     pop rbx
     xor rax, rax
+    ret
+
+sqrt_syscall:
     ret
